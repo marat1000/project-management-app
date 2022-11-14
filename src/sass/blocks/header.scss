@@ -1,0 +1,26 @@
+.header {
+  position: relative;
+
+  &__bottom-block {
+    position: relative;
+  }
+
+  &__bottom-wrapper {
+    width: 100%;
+
+    @include vp--2559 {
+      grid-template-columns: 263px calc(50vw + 346px) auto;
+      column-gap: 36px;
+      padding: 18px 30px 15px 30px;
+    }
+  }
+
+  &__bottom-wrapper::before {
+    position: absolute;
+
+    @include vp--2559 {
+      height: 5px;
+      bottom: -5px;
+    }
+  }
+}

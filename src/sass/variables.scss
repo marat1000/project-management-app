@@ -1,0 +1,49 @@
+// Colors
+//---------------------------------
+// https://www.htmlcsscolor.com/hex/334482
+
+// Default
+
+$color-default-black:             #000000;
+$color-default-white:             #ffffff;
+$color-transparent:               rgba(255, 255, 255, 0);
+
+// Base
+
+$light-sea-green:                 #19aeb2;
+$summer-sky:                      #30c4d2;
+$summer-sky-2:                    #2598d9;
+$turquoise:                       #32deee;
+$morning-glory:                   #91d1cf;
+$riptide:                         #84ddda;
+
+// Gradient
+
+$black-to-right:                    linear-gradient(90deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 75%);
+
+// Typography
+//---------------------------------
+
+//$font-family--main:                 "Gilroy", "Arial", sans-serif;
+//$font-family--secondary:            "Avenirnextcyr", "Arial", sans-serif;
+
+// Animation
+//---------------------------------
+
+$trans--300:                        0.3s ease;
+$trans--600:                        0.6s cubic-bezier(0.55, 0, 0.1, 1);
+
+// Viewports
+//---------------------------------
+
+$vp--320:                           320px;
+$vp--428:                           428px;
+$vp--1920:                          1920px;
+$vp--2400:                          2400px;
+$vp--2560:                          2560px;
+
+// Retina
+//---------------------------------
+
+$retina-dpi:                        144dpi;
+$retina-dppx:                       1.5dppx;

@@ -1,0 +1,13 @@
+.about {
+  @include vp--2559 {
+    padding-top: 70px;
+  }
+
+  @include vp--1023 {
+    padding-top: 0;
+  }
+
+  @include vp--639 {
+    padding: 0;
+  }
+}
