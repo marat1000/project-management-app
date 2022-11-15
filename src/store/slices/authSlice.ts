@@ -3,6 +3,7 @@ import { AuthService } from 'api/services/auth';
 import jwtDecode from 'jwt-decode';
 import { RootState } from 'store';
 import { ELSKeys } from 'ts/enums';
+import { loadUserData } from './userSlice';
 
 export interface IAuthState {
   isAuth: boolean;
@@ -129,7 +130,7 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const checkAuth = createAsyncThunk('auth/check', async () => {
+export const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
   // just try to fetch some data;
   // token will be will be taken from LS and placed to headers
   // if response will ok it means token works
