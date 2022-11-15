@@ -1,15 +1,20 @@
-import { useInput } from 'hooks/hooks';
+import { useInputWithCb } from 'hooks/hooks';
 import React from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { registerSelector, signUp } from 'store/slices/authSlice';
+import { clearRegistrationError, registerSelector, signUp } from 'store/slices/authSlice';
 
 export const TEST__Registration = memo(() => {
-  const login = useInput();
-  const password = useInput();
-  const name = useInput();
-  const { error, isLoading } = useAppSelector(registerSelector);
   const dispatch = useAppDispatch();
+  const { error, isLoading } = useAppSelector(registerSelector);
+
+  const clearError = () => {
+    dispatch(clearRegistrationError());
+  };
+
+  const login = useInputWithCb(clearError);
+  const password = useInputWithCb(clearError);
+  const name = useInputWithCb(clearError);
 
   const submit = () => {
     dispatch(signUp({ name: name.value, login: login.value, password: password.value }));

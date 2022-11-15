@@ -3,7 +3,6 @@ import { AuthService } from 'api/services/auth';
 import jwtDecode from 'jwt-decode';
 import { RootState } from 'store';
 import { ELSKeys } from 'ts/enums';
-import { loadUserData } from './userSlice';
 
 export interface IAuthState {
   isAuth: boolean;
@@ -31,10 +30,17 @@ const initialState: IAuthState = {
   },
 };
 
-const userSlice = createSlice({
+const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    clearLoginError: (state) => {
+      state.login.error = '';
+    },
+    clearRegistrationError: (state) => {
+      state.registration.error = '';
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(checkAuth.rejected, (state) => {
       state.isChecking = false;
@@ -84,11 +90,16 @@ const userSlice = createSlice({
   },
 });
 
-export default userSlice.reducer;
+export default authSlice.reducer;
+
+// Selectors
 export const registerSelector = (state: RootState) => state.auth.registration;
 export const loginSelector = (state: RootState) => state.auth.login;
 export const authSelector = (state: RootState) => state.auth.isAuth;
 export const authCheckingSelector = (state: RootState) => state.auth.isChecking;
+
+// Actions
+export const { clearLoginError, clearRegistrationError } = authSlice.actions;
 
 type TRegisterProps = {
   name: string;
@@ -130,7 +141,7 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const checkAuth = createAsyncThunk('auth/check', async (_, thunkAPI) => {
+export const checkAuth = createAsyncThunk('auth/check', async () => {
   // just try to fetch some data;
   // token will be will be taken from LS and placed to headers
   // if response will ok it means token works
