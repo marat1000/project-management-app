@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthService } from 'api/services/auth';
+import jwtDecode from 'jwt-decode';
 import { RootState } from 'store';
 import { ELSKeys } from 'ts/enums';
 
 export interface IAuthState {
   isAuth: boolean;
-  userLogin: string;
+  isChecking: boolean;
   registration: {
     error: string;
     isLoading: boolean;
@@ -18,7 +19,7 @@ export interface IAuthState {
 
 const initialState: IAuthState = {
   isAuth: false,
-  userLogin: '',
+  isChecking: true,
   registration: {
     isLoading: false,
     error: '',
@@ -34,14 +35,28 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(checkAuth.rejected, (state) => {
+      state.isChecking = false;
+    });
+
+    builder.addCase(checkAuth.fulfilled, (state) => {
+      state.isAuth = true;
+      state.isChecking = false;
+    });
+
+    builder.addCase(checkAuth.pending, (state) => {
+      state.isChecking = true;
+    });
+
     builder.addCase(signIn.pending, (state) => {
       state.login.isLoading = true;
       state.login.error = '';
     });
 
-    builder.addCase(signIn.fulfilled, (state, action) => {
+    builder.addCase(signIn.fulfilled, (state) => {
       state.isAuth = true;
-      state.userLogin = action.payload;
+      state.login.isLoading = false;
+      state.login.error = '';
     });
 
     builder.addCase(signIn.rejected, (state, action) => {
@@ -61,6 +76,10 @@ const userSlice = createSlice({
       state.registration.error = action.error.message || 'Unknown error';
       state.registration.isLoading = false;
     });
+
+    builder.addCase(logOut.fulfilled, (state) => {
+      state.isAuth = false;
+    });
   },
 });
 
@@ -68,7 +87,7 @@ export default userSlice.reducer;
 export const registerSelector = (state: RootState) => state.auth.registration;
 export const loginSelector = (state: RootState) => state.auth.login;
 export const authSelector = (state: RootState) => state.auth.isAuth;
-export const userLoginSelector = (state: RootState) => state.auth.userLogin;
+export const authCheckingSelector = (state: RootState) => state.auth.isChecking;
 
 type TRegisterProps = {
   name: string;
@@ -81,12 +100,23 @@ type TLoginProps = {
   password: string;
 };
 
+type TDecodedJWT = {
+  id: string;
+  login: string;
+  iat: number;
+  exp: number;
+};
+
 export const signIn = createAsyncThunk('auth/login', async ({ login, password }: TLoginProps) => {
   const response = await AuthService.signIn(login, password);
   if (response) {
-    localStorage.setItem(ELSKeys.token, response.data.token);
+    const { token } = response.data;
+    localStorage.setItem(ELSKeys.token, token);
+    const { id, login } = jwtDecode<TDecodedJWT>(token);
+    return { id, login };
   }
-  return login;
+
+  return response;
 });
 
 export const signUp = createAsyncThunk(
@@ -98,3 +128,20 @@ export const signUp = createAsyncThunk(
     }
   }
 );
+
+export const checkAuth = createAsyncThunk('auth/check', async () => {
+  // just try to fetch some data;
+  // token will be will be taken from LS and placed to headers
+  // if response will ok it means token works
+  // if not user have to auth
+  const response = await AuthService.checkAuth();
+  if (response) {
+    const token = localStorage.getItem(ELSKeys.token)!;
+    return jwtDecode<TDecodedJWT>(token);
+  }
+  return response;
+});
+
+export const logOut = createAsyncThunk('auth/logout', async () => {
+  localStorage.removeItem(ELSKeys.token);
+});

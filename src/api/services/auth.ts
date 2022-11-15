@@ -37,4 +37,17 @@ export class AuthService {
       }
     }
   }
+
+  static async checkAuth() {
+    try {
+      const response = await $api.get('/boards');
+      return response;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error('Unauthorized');
+      } else {
+        throw error;
+      }
+    }
+  }
 }
