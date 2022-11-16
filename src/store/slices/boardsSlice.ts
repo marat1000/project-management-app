@@ -55,6 +55,10 @@ const boardsSlice = createSlice({
       state.fetching.isLoading = false;
       state.fetching.error = action.error.message || 'Unknown error';
     });
+
+    builder.addCase(deleteBoard.fulfilled, (state, action) => {
+      boardsAdapter.removeOne(state, action.payload);
+    });
   },
 });
 
@@ -93,4 +97,9 @@ export const fetchUserBoards = createAsyncThunk<
   const { id } = getState().user;
   const response = await BoardService.loadUserBoards(id);
   return response;
+});
+
+export const deleteBoard = createAsyncThunk('boards/delete', async (boardID: string) => {
+  await BoardService.deleteBoard(boardID);
+  return boardID;
 });
