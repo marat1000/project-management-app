@@ -43,6 +43,7 @@ const userSlice = createSlice({
     builder.addCase(logOut.fulfilled, (state) => {
       state.id = '';
       state.login = '';
+      state.name.username = '';
     });
 
     builder.addCase(loadUserData.pending, (state) => {
@@ -71,8 +72,5 @@ export const userNameSelector = (state: RootState) => state.user.name;
 
 export const loadUserData = createAsyncThunk('user/dataFetch', async (id: string) => {
   const response = await UserService.getUser(id);
-  if (response) {
-    return response.data.name;
-  }
-  return response;
+  return response.data.name;
 });

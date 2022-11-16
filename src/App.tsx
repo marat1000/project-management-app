@@ -4,7 +4,8 @@ import { TEST__Registration } from 'components/TEST__Registration';
 import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { authCheckingSelector, authSelector } from 'store/slices/authSlice';
 import { TEST__Login } from 'components/TEST__Login';
-import { TEST__Main } from 'components/TEST__Main';
+
+import { TEST__Boards } from 'components/TEST__Boards/TEST__Boards';
 
 function App() {
   const isAuth = useAppSelector(authSelector);
@@ -16,7 +17,7 @@ function App() {
   }
 
   if (isAuth) {
-    return <TEST__Main />;
+    return <TEST__Boards />;
   }
 
   return (
