@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
-import { TEST__Registration } from './TEST__Registration';
-import { TEST__Login } from './TEST__Login';
-import { TEST__Main } from './TEST__Main';
+import { TEST__Registration } from '../components/TEST__Registration';
+import { TEST__Login } from '../components/TEST__Login';
+import { TEST__Main } from '../components/TEST__Main';
 import { useAppSelector } from '../store/hooks';
 import { authSelector } from '../store/slices/authSlice';
 

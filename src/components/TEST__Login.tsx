@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearLoginError, loginSelector, signIn } from 'store/slices/authSlice';
+import { ROUTES } from '../common/constants';
 
 export const TEST__Login = memo(() => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ export const TEST__Login = memo(() => {
       .unwrap()
       .then(() => {
         // navigate('куда-то');
+        navigate(`/${ROUTES.main}`);
       });
   };
 

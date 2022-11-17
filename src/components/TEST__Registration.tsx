@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearRegistrationError, registerSelector, signUp } from 'store/slices/authSlice';
+import { ROUTES } from '../common/constants';
 
 export const TEST__Registration = memo(() => {
   const dispatch = useAppDispatch();
@@ -22,12 +23,13 @@ export const TEST__Registration = memo(() => {
     dispatch(signUp({ name: name.value, login: login.value, password: password.value }))
       .unwrap()
       .then(() => {
-        /* 
-         посмотри куда там должно редиректить после успешного signup 
+        /*
+         посмотри куда там должно редиректить после успешного signup
          я сделал так, чтобы оно автоматически делало signin после signup
-         так что тут такой же редирект как и у singin 
+         так что тут такой же редирект как и у singin
          */
         // navigate('куда-то');
+        navigate(`/${ROUTES.main}`);
       });
   };
 
