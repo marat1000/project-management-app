@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Main = () => {
-  return <p className="error-404">Main.</p>;
-};
-
-export { Main };
+export const Main = memo(() => {
+  return <p>Main.</p>;
+});

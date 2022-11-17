@@ -1,5 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export default function Header() {
+export const Header = memo(() => {
   return <header className="header">Хедер</header>;
-}
+});

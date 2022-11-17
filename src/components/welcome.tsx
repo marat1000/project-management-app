@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { TEST__Registration } from './TEST__Registration';
 import { TEST__Login } from './TEST__Login';
 import { TEST__Main } from './TEST__Main';
 import { useAppSelector } from '../store/hooks';
 import { authSelector } from '../store/slices/authSlice';
 
-export default function Welcome() {
+export const Welcome = memo(() => {
   const isAuth = useAppSelector(authSelector);
   if (isAuth) {
     return <TEST__Main />;
@@ -17,4 +17,4 @@ export default function Welcome() {
       <TEST__Login />
     </>
   );
-}
+});

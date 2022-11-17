@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './header';
-import Footer from './footer';
+import { Header } from './header';
+import { Footer } from './footer';
 
-export default function AppCentral() {
+export const AppCentral = memo(() => {
   return (
     <div className="container">
       <Header />
@@ -13,4 +13,4 @@ export default function AppCentral() {
       <Footer />
     </div>
   );
-}
+});

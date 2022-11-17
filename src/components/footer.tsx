@@ -1,5 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export default function Footer() {
+export const Footer = memo(() => {
   return <footer className="footer">Футер</footer>;
-}
+});
