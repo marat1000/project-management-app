@@ -2,33 +2,14 @@ import './App.css';
 import React, { memo } from 'react';
 import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { authCheckingSelector, authSelector } from 'store/slices/authSlice';
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { AppCentral } from './components/AppCentral';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome';
 import { Page404 } from './pages/Page404';
 import { Main } from './pages/Main';
-import { ROUTES } from './common/constants';
 import { ERoutes } from 'ts/enums';
 import { SignIn } from 'pages/SignIn';
 import { SignUp } from 'pages/SignUp';
 import { Layout } from 'components/Layout';
-
-const ProtectedRoute = memo(
-  ({
-    redirectPath = ROUTES.welcome,
-    children,
-  }: {
-    redirectPath?: typeof ROUTES[keyof typeof ROUTES];
-    children?: React.ReactNode;
-  }) => {
-    const isAuth = useAppSelector(authSelector);
-    if (!isAuth) {
-      return <Navigate to={redirectPath} replace />;
-    }
-
-    return <>{children ? children : <Outlet />}</>;
-  }
-);
 
 const AuthRoutes = memo(() => {
   return (
