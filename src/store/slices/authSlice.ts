@@ -136,7 +136,7 @@ export const signUp = createAsyncThunk(
   async ({ name, login, password }: TRegisterProps, thunkAPI) => {
     const response = await AuthService.signUp(name, login, password);
     if (response.status === 200) {
-      thunkAPI.dispatch(signIn({ login, password }));
+      return thunkAPI.dispatch(signIn({ login, password }));
     }
   }
 );
