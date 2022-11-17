@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { logOut } from 'store/slices/authSlice';
 import { userLoginSelector, userNameSelector } from 'store/slices/userSlice';
+import { TEST__Boards } from './TEST__Boards/TEST__Boards';
 
 export const TEST__Main = memo(() => {
   const userLogin = useAppSelector(userLoginSelector);
@@ -25,6 +26,7 @@ export const TEST__Main = memo(() => {
     <div>
       <div>authorized as {userLogin}</div>
       <div>Name: {isLoading ? 'Loading...' : username}</div>
+      <TEST__Boards />
       <button onClick={logout}> logout</button>
     </div>
   );

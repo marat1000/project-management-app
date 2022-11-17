@@ -11,6 +11,10 @@ export interface IBoard {
   users: string[];
 }
 
+export interface IBoardExtended extends IBoard {
+  isProcessed: boolean;
+}
+
 export interface IColumn {
   _id: string;
   title: string;
