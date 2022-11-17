@@ -9,7 +9,6 @@ export const clearSession: Middleware =
     switch (action.type) {
       case 'auth/logout/fulfilled':
         dispatch(removeAllBoards());
-        dispatch(removeAllBoards());
     }
     next(action);
   };
