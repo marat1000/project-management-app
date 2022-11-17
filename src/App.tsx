@@ -2,12 +2,16 @@ import './App.css';
 import React, { memo } from 'react';
 import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { authCheckingSelector, authSelector } from 'store/slices/authSlice';
-import { BrowserRouter, Navigate, NavLink, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { AppCentral } from './components/AppCentral';
 import { Welcome } from './pages/Welcome';
 import { Page404 } from './pages/Page404';
 import { Main } from './pages/Main';
 import { ROUTES } from './common/constants';
+import { ERoutes } from 'ts/enums';
+import { SignIn } from 'pages/SignIn';
+import { SignUp } from 'pages/SignUp';
+import { Layout } from 'components/Layout';
 
 const ProtectedRoute = memo(
   ({
@@ -26,8 +30,37 @@ const ProtectedRoute = memo(
   }
 );
 
+const AuthRoutes = memo(() => {
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path={ERoutes.main} element={<Navigate to={'/'} />} />
+      <Route path={ERoutes.welcome} element={<Welcome />} />
+
+      {/* redirect because user logged  */}
+      <Route path={ERoutes.singIn} element={<Navigate to={'/'} />} />
+      <Route path={ERoutes.singUp} element={<Navigate to={'/'} />} />
+    </Routes>
+  );
+});
+
+const NonAuthRoutes = memo(() => {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={ERoutes.welcome} />} />
+      <Route path={ERoutes.main} element={<Navigate to={ERoutes.welcome} />} />
+      <Route path={ERoutes.welcome} element={<Welcome />} />
+      <Route path={ERoutes.singIn} element={<SignIn />} />
+      <Route path={ERoutes.singUp} element={<SignUp />} />
+      <Route path="*" element={<Page404 />} />
+    </Routes>
+  );
+});
+
 function App() {
   const isChecking = useAppSelector(authCheckingSelector);
+  const isAuth = useAppSelector(authSelector);
+
   useFirstCheckAuth();
 
   if (isChecking) {
@@ -36,17 +69,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AppCentral />}>
-          <Route path="/" element={<Navigate to={ROUTES.welcome} />} />
-          <Route path={ROUTES.welcome} element={<Welcome />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path={ROUTES.main} element={<Main />} />
-          </Route>
-          <Route path={ROUTES.page404} element={<Page404 />} />
-          <Route path="*" element={<Navigate replace to={ROUTES.page404} />} />
-        </Route>
-      </Routes>
+      <Layout> {isAuth ? <AuthRoutes /> : <NonAuthRoutes />}</Layout>
     </BrowserRouter>
   );
 }
