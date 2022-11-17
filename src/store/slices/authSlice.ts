@@ -136,7 +136,7 @@ export const signUp = createAsyncThunk(
   async ({ name, login, password }: TRegisterProps, thunkAPI) => {
     const response = await AuthService.signUp(name, login, password);
     if (response.status === 200) {
-      thunkAPI.dispatch(signIn({ login, password }));
+      return thunkAPI.dispatch(signIn({ login, password }));
     }
   }
 );
@@ -146,6 +146,12 @@ export const checkAuth = createAsyncThunk('auth/check', async () => {
   // token will be will be taken from LS and placed to headers
   // if response will ok it means token works
   // if not user have to auth
+
+  // if no saved token
+  if (!localStorage.getItem(ELSKeys.token)) {
+    throw new Error();
+  }
+  // if is check token
   const response = await AuthService.checkAuth();
   if (response) {
     const token = localStorage.getItem(ELSKeys.token)!;
