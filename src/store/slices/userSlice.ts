@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserService } from 'api/services/user';
 import { RootState } from 'store';
+import { IEditUserParams, IUser } from 'ts/interfaces';
 import { checkAuth, logOut, signIn } from './authSlice';
 
 type IUserState = {
@@ -61,6 +62,22 @@ const userSlice = createSlice({
       state.name.isLoading = false;
       state.name.error = action.error.message || 'Unknown error';
     });
+    builder.addCase(editUser.pending, (state) => {
+      state.name.error = '';
+      state.name.isLoading = true;
+    });
+
+    builder.addCase(editUser.fulfilled, (state, action) => {
+      state.name.isLoading = false;
+      state.name.error = '';
+      state.name.username = action.payload.name;
+      state.login = action.payload.login;
+    });
+
+    builder.addCase(editUser.rejected, (state, action) => {
+      state.name.isLoading = false;
+      state.name.error = action.error.message || 'Unknown error';
+    });
   },
 });
 
@@ -74,3 +91,12 @@ export const loadUserData = createAsyncThunk('user/dataFetch', async (id: string
   const response = await UserService.getUser(id);
   return response.data.name;
 });
+
+export const editUser = createAsyncThunk<IUser, IEditUserParams, { state: RootState }>(
+  'user/editUser',
+  async (body, thunkAPI) => {
+    const id = thunkAPI.getState().user.id;
+    const response = await UserService.editUser(id, body);
+    return response;
+  }
+);

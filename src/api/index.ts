@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ELSKeys } from 'ts/enums';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://localhost:3000';
 export const $api = axios.create({
   baseURL: BASE_URL,
 });
