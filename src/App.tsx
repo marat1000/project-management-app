@@ -10,7 +10,7 @@ import { ERoutes } from 'ts/enums';
 import { SignIn } from 'pages/SignIn';
 import { SignUp } from 'pages/SignUp';
 import { Layout } from 'components/Layout';
-import { EditUserPage } from 'pages/EditUser';
+import { Profile } from 'pages/Profile';
 
 const AuthRoutes = memo(() => {
   return (
@@ -18,7 +18,7 @@ const AuthRoutes = memo(() => {
       <Route path="/" element={<Main />} />
       <Route path={ERoutes.main} element={<Navigate to={'/'} />} />
       <Route path={ERoutes.welcome} element={<Welcome />} />
-      <Route path={ERoutes.profile} element={<EditUserPage />} />
+      <Route path={ERoutes.profile} element={<Profile />} />
 
       {/* redirect because user logged  */}
       <Route path={ERoutes.singIn} element={<Navigate to={'/'} />} />

@@ -62,6 +62,7 @@ const userSlice = createSlice({
       state.name.isLoading = false;
       state.name.error = action.error.message || 'Unknown error';
     });
+
     builder.addCase(editUser.pending, (state) => {
       state.name.error = '';
       state.name.isLoading = true;
@@ -75,6 +76,24 @@ const userSlice = createSlice({
     });
 
     builder.addCase(editUser.rejected, (state, action) => {
+      state.name.isLoading = false;
+      state.name.error = action.error.message || 'Unknown error';
+    });
+
+    builder.addCase(deleteUser.pending, (state) => {
+      state.name.error = '';
+      state.name.isLoading = true;
+    });
+
+    builder.addCase(deleteUser.fulfilled, (state) => {
+      state.name.isLoading = false;
+      state.name.error = '';
+      state.id = '';
+      state.login = '';
+      state.name.username = '';
+    });
+
+    builder.addCase(deleteUser.rejected, (state, action) => {
       state.name.isLoading = false;
       state.name.error = action.error.message || 'Unknown error';
     });
@@ -100,3 +119,8 @@ export const editUser = createAsyncThunk<IUser, IEditUserParams, { state: RootSt
     return response;
   }
 );
+
+export const deleteUser = createAsyncThunk('user/delete', async (id: string) => {
+  const status = await UserService.deleteUser(id);
+  return status;
+});

@@ -31,4 +31,17 @@ export class UserService {
       }
     }
   }
+
+  static async deleteUser(id: string) {
+    try {
+      const response = await $api.delete<IUser>(`users/${id}`);
+      return response.status;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error('Something gone wrong');
+      } else {
+        throw error;
+      }
+    }
+  }
 }
