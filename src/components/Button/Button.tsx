@@ -11,7 +11,6 @@ interface IButtonProps {
 export const Button = memo<IButtonProps>(({ to, children, color = 'main', onClick }) => {
   const styles = ['button'];
   color === 'main' ? styles.push('button_main') : styles.push('button_add');
-  console.log(styles);
   const button = (
     <button onClick={onClick} className={styles.join(' ')}>
       {children}

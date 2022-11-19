@@ -1,0 +1,38 @@
+.auth {
+    &__container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__image {
+        width: 438px;
+        height: 481px;
+        background-image: url('../../../public/auth.png');
+        background-size: cover;
+        overflow: hidden;
+        border-radius: 28px;
+    }
+
+
+    &__form {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        & :last-child {
+            margin-top: 30px;
+        }
+    }
+
+    &__title{
+        font-family: 'Audi Type Ext';
+        margin: 0;
+        font-size: 20px;
+        line-height: 24px;
+    }
+}

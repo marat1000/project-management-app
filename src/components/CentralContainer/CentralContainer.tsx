@@ -7,7 +7,7 @@ interface ICentralContainerProps {
 }
 
 export const CentralContainer = memo<ICentralContainerProps>(({ children, className }) => {
-  const style = ['block_transparent'];
+  const style = ['block_transparent central-container'];
   if (className) {
     style.push(className);
   }

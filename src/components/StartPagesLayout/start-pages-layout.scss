@@ -1,0 +1,20 @@
+.spl{
+    &__container{
+        font-family: 'Audi Type';
+        display: flex;
+        flex-direction: column;
+        
+        & header{
+            color: $color-main;
+            font-family: 'Prompt', sans-serif;
+            font-size: 25px;
+            text-align: center;
+            padding-top: 18px;
+
+            & a {
+                color: $color-main;
+                text-decoration: none;
+            }
+        }
+    }
+}

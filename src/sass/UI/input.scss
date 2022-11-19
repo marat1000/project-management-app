@@ -1,12 +1,12 @@
 .input {
     width: 290px;
     height: 50px;
-    margin-bottom: 20px;
     background-color: transparent;
     border: 1px solid #797979;
     border-radius: 15px;
+    padding: 15px 0 15px 20px;
+
     &::placeholder {
-        padding: 15px 0 15px 20px;
         font-size: 16px;
         line-height: 20px;
         text-transform: capitalize;
