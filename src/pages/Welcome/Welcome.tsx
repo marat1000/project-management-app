@@ -1,5 +1,4 @@
 import { Button } from 'components/Button/Button';
-import { CentralContainer } from 'components/CentralContainer/CentralContainer';
 import { StartPagesLayout } from 'components/StartPagesLayout/StartPagesLayout';
 import React, { memo } from 'react';
 import { ERoutes } from 'ts/enums';

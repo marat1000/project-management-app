@@ -17,4 +17,13 @@
             }
         }
     }
+
+    &__central-container{
+        width: 930px;
+        height: 529px;
+        margin: auto;
+        margin-top: 200px;
+        padding: 27px 32px;
+        display: flex;
+    }
 }
