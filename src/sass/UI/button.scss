@@ -1,0 +1,25 @@
+.button {
+    width: 290px;
+    height: 50px;
+    margin-bottom: 20px;
+    background-color: #F9AF48;
+    border-radius: 15px;
+    border: none;
+    text-transform: capitalize;
+    font-family: 'Audi Type';
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.5s linear;
+    // font: 'Audi Type' bold 16px/1.2;
+    &:hover {
+        background-color:#E38F1B;
+    }
+    &:disabled{
+        background-color:#C9C9C9;
+    }
+}
+
+
+// подумать как с цветами сделать и раскрутить на ховер
