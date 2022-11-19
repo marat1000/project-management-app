@@ -4,6 +4,7 @@ import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/authSlice';
 import boardsSlice from './slices/boardsSlice';
+import settingSlice from './slices/settingSlice';
 import userSlice from './slices/userSlice';
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     auth: authSlice,
     user: userSlice,
     boards: boardsSlice,
+    settings: settingSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(userDataFetching, userBoardsFetching, clearSession),
