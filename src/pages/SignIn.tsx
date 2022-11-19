@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 export const SignIn = memo(() => {
   return (
     <div>
-      <p>Sign In</p>
+      {/* <p>Sign In</p> */}
       <TEST__Login />
     </div>
   );

@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearLoginError, loginSelector, signIn } from 'store/slices/authSlice';
-import { ROUTES } from '../common/constants';
+import { ERoutes } from 'ts/enums';
 
 export const TEST__Login = memo(() => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,7 @@ export const TEST__Login = memo(() => {
       .unwrap()
       .then(() => {
         // navigate('куда-то');
-        navigate(`/${ROUTES.main}`);
+        navigate(`/${ERoutes.main}`);
       });
   };
 
@@ -32,10 +32,20 @@ export const TEST__Login = memo(() => {
   }
 
   return (
-    <div>
-      <input placeholder="login" {...login} />
-      <input placeholder="password" {...password} type="password" />
-      <button onClick={submit}>login</button>
+    <div className="sign-in-container">
+      <div className="window-container">
+        <div className="form__sign-up-container">
+          <h2 className="h2-hehe">Welcome</h2>
+          <input className="input" placeholder="login" {...login} />
+          <input className="input" placeholder="password" {...password} type="password" />
+          <button className="button" onClick={submit}>
+            login
+          </button>
+        </div>
+        <div className="beatiful-picture-container">
+          <div className="picture"></div>
+        </div>
+      </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

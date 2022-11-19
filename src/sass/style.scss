@@ -30,3 +30,17 @@
     color: red;
   }
 } */
+
+// Fonts
+
+@import './fonts.scss';
+
+// UI
+
+@import './UI/button.scss';
+@import './UI/input.scss';
+
+
+// Pages
+
+@import '../pages/SignIn.scss';
