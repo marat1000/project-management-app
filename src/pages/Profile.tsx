@@ -2,7 +2,6 @@ import { useInput } from 'hooks/hooks';
 import React from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { logOut } from 'store/slices/authSlice';
 import { editUser, deleteUser, userIdSelector, userNameSelector } from 'store/slices/userSlice';
 
 export const Profile = memo(() => {
@@ -18,14 +17,7 @@ export const Profile = memo(() => {
   };
 
   const deleteUserHandler = () => {
-    dispatch(deleteUser(userID))
-      .unwrap()
-      .then((status) => {
-        // а нужна ли проверка эта?
-        if (status === 200) {
-          dispatch(logOut());
-        }
-      });
+    dispatch(deleteUser(userID));
   };
 
   return (

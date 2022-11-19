@@ -42,10 +42,6 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(checkAuth.rejected, (state) => {
-      state.isChecking = false;
-    });
-
     builder.addCase(checkAuth.fulfilled, (state) => {
       state.isAuth = true;
       state.isChecking = false;
@@ -53,6 +49,10 @@ const authSlice = createSlice({
 
     builder.addCase(checkAuth.pending, (state) => {
       state.isChecking = true;
+    });
+
+    builder.addCase(checkAuth.rejected, (state) => {
+      state.isChecking = false;
     });
 
     builder.addCase(signIn.pending, (state) => {

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { clearSession } from './middleware/clearSession';
+import { clearSession, logOutWhenDelete } from './middleware/clearSession';
 import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/authSlice';
@@ -15,7 +15,12 @@ export const store = configureStore({
     settings: settingSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userDataFetching, userBoardsFetching, clearSession),
+    getDefaultMiddleware().concat(
+      userDataFetching,
+      userBoardsFetching,
+      clearSession,
+      logOutWhenDelete
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

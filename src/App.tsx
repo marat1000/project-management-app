@@ -32,6 +32,8 @@ const NonAuthRoutes = memo(() => {
     <Routes>
       <Route path="/" element={<Navigate to={ERoutes.welcome} />} />
       <Route path={ERoutes.main} element={<Navigate to={ERoutes.welcome} />} />
+      <Route path={ERoutes.profile} element={<Navigate to={ERoutes.welcome} />} />
+
       <Route path={ERoutes.welcome} element={<Welcome />} />
       <Route path={ERoutes.singIn} element={<SignIn />} />
       <Route path={ERoutes.singUp} element={<SignUp />} />
