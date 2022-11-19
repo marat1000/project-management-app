@@ -10,6 +10,7 @@ import { ERoutes } from 'ts/enums';
 import { SignIn } from 'pages/SignIn';
 import { SignUp } from 'pages/SignUp';
 import { Layout } from 'components/Layout';
+import { Profile } from 'pages/Profile';
 
 const AuthRoutes = memo(() => {
   return (
@@ -17,6 +18,7 @@ const AuthRoutes = memo(() => {
       <Route path="/" element={<Main />} />
       <Route path={ERoutes.main} element={<Navigate to={'/'} />} />
       <Route path={ERoutes.welcome} element={<Welcome />} />
+      <Route path={ERoutes.profile} element={<Profile />} />
 
       {/* redirect because user logged  */}
       <Route path={ERoutes.singIn} element={<Navigate to={'/'} />} />
@@ -30,6 +32,8 @@ const NonAuthRoutes = memo(() => {
     <Routes>
       <Route path="/" element={<Navigate to={ERoutes.welcome} />} />
       <Route path={ERoutes.main} element={<Navigate to={ERoutes.welcome} />} />
+      <Route path={ERoutes.profile} element={<Navigate to={ERoutes.welcome} />} />
+
       <Route path={ERoutes.welcome} element={<Welcome />} />
       <Route path={ERoutes.singIn} element={<SignIn />} />
       <Route path={ERoutes.singUp} element={<SignUp />} />

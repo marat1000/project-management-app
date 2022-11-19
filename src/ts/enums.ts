@@ -7,4 +7,5 @@ export enum ERoutes {
   singUp = '/signup',
   main = '/main',
   welcome = '/welcome',
+  profile = '/profile',
 }
