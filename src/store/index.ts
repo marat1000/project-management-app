@@ -4,7 +4,7 @@ import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/authSlice';
 import boardsSlice from './slices/boardsSlice';
-import settingSlice from './slices/settingSlice';
+import settingSlice from './slices/settingsSlice';
 import userSlice from './slices/userSlice';
 
 export const store = configureStore({
