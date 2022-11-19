@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { authCheckingSelector, authSelector } from 'store/slices/authSlice';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Welcome } from './pages/Welcome';
+import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
 import { Main } from './pages/Main';
 import { ERoutes } from 'ts/enums';

@@ -1,0 +1,7 @@
+.block{
+    &_transparent{
+        background: rgba($color: #fff, $alpha: 0.8);
+        background-color: rgba($color: #fff, $alpha: 0.8);
+        backdrop-filter: blur(10px);
+    }
+}
