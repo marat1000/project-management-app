@@ -18,7 +18,7 @@ export enum EFormErrorMessages {
   password = 'Please enter norm password',
 }
 
-export interface IInput {
+export interface IInputWithErrorMessage {
   type: EInputTypes;
   pattern: EPattern;
   placeholder?: string;
@@ -30,7 +30,7 @@ export interface IInput {
   };
 }
 
-export const InputWithErrorMessage = memo<IInput>(
+export const InputWithErrorMessage = memo<IInputWithErrorMessage>(
   ({ type, className = 'input', placeholder, hook, pattern, errorMessage }) => {
     const validateOnBlur = ({ target }: React.SyntheticEvent<HTMLInputElement>) => {
       const { value } = target as HTMLInputElement;
