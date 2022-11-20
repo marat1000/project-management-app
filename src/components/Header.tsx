@@ -6,6 +6,7 @@ import { ERoutes } from 'ts/enums';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(authSelector);
+  if (!isAuth) return null;
 
   return (
     <header className="header">

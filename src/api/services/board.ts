@@ -1,4 +1,5 @@
 import { $api } from 'api';
+import axios from 'axios';
 import { IBoard, IBoardExtended } from 'ts/interfaces';
 
 export interface INewBoard {
@@ -8,10 +9,12 @@ export interface INewBoard {
 }
 
 // api returns all boards
+export const isUserHaveAccessToBoard = (board: IBoard, userId: string) => {
+  return board.owner === userId || board.users.includes(userId);
+};
+
 const selectUserBoards = (boards: IBoard[], userId: string) => {
-  return boards.filter((board) => {
-    return board.owner === userId || board.users.includes(userId);
-  });
+  return boards.filter((board) => isUserHaveAccessToBoard(board, userId));
 };
 
 const extendBoard = (board: IBoard): IBoardExtended => {
@@ -37,6 +40,20 @@ export default class BoardService {
   static async loadUserBoards(userId: string) {
     const response = await $api.get<IBoard[]>(`boardsSet/${userId}`);
     return boardsAPIMiddleWare(response.data, userId);
+  }
+
+  static async loadBoardData(boardID: string) {
+    try {
+      const response = await $api.get<IBoard>(`boards/${boardID}`);
+      return response.data ? extendBoard(response.data) : null;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        throw new Error(status === 404 ? 'Board not found' : 'Unknown error');
+      } else {
+        throw error;
+      }
+    }
   }
 
   static async delete(boardID: string) {
