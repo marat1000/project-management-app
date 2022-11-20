@@ -8,10 +8,12 @@ export interface INewBoard {
 }
 
 // api returns all boards
+export const isUserHaveAccessToBoard = (board: IBoard, userId: string) => {
+  return board.owner === userId || board.users.includes(userId);
+};
+
 const selectUserBoards = (boards: IBoard[], userId: string) => {
-  return boards.filter((board) => {
-    return board.owner === userId || board.users.includes(userId);
-  });
+  return boards.filter((board) => isUserHaveAccessToBoard(board, userId));
 };
 
 const extendBoard = (board: IBoard): IBoardExtended => {
@@ -37,6 +39,11 @@ export default class BoardService {
   static async loadUserBoards(userId: string) {
     const response = await $api.get<IBoard[]>(`boardsSet/${userId}`);
     return boardsAPIMiddleWare(response.data, userId);
+  }
+
+  static async loadBoardData(boardID: string) {
+    const response = await $api.get<IBoard>(`boards/${boardID}`);
+    return extendBoard(response.data);
   }
 
   static async delete(boardID: string) {

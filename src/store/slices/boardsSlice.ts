@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, EntityId } from '@reduxjs/toolkit';
-import BoardService from 'api/services/board';
+import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
 import { IBoardExtended } from 'ts/interfaces';
 
@@ -88,6 +88,13 @@ const boardsSlice = createSlice({
       const board = action.meta.arg;
       boardsAdapter.updateOne(state, { id: board._id, changes: { ...board, isProcessed: false } });
     });
+
+    builder.addCase(loadBoard.fulfilled, (state, action) => {
+      const board = action.payload;
+      if (board) {
+        boardsAdapter.addOne(state, board);
+      }
+    });
   },
 });
 
@@ -140,3 +147,12 @@ export const updateBoard = createAsyncThunk('boards/update', async (board: IBoar
   const updated = await BoardService.update(board);
   return updated;
 });
+
+export const loadBoard = createAsyncThunk<IBoardExtended | null, string, { state: RootState }>(
+  'boards/load',
+  async (boardID: string, { getState }) => {
+    const userId = getState().user.id;
+    const board = await BoardService.loadBoardData(boardID);
+    return isUserHaveAccessToBoard(board, userId) ? board : null;
+  }
+);
