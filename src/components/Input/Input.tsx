@@ -34,7 +34,7 @@ export const InputWithErrorMessage = memo<IInput>(
   ({ type, className = 'input', placeholder, hook, pattern, errorMessage }) => {
     const validateOnBlur = ({ target }: React.SyntheticEvent<HTMLInputElement>) => {
       const { value } = target as HTMLInputElement;
-      if (value.length < 5) {
+      if (!new RegExp(pattern).test(value)) {
         setError(errorMessage);
       } else {
         setError(null);
@@ -42,9 +42,9 @@ export const InputWithErrorMessage = memo<IInput>(
     };
 
     const onChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-      const { value } = e.target as HTMLInputElement;
       hook.onChange(e);
-      if (value.length > 5) {
+      const { value } = e.target as HTMLInputElement;
+      if (new RegExp(pattern).test(value)) {
         setError(null);
       }
     };
