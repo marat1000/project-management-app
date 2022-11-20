@@ -48,7 +48,10 @@ export const SignInForm = memo(() => {
         type={EInputTypes.password}
         hook={password}
       />
-      <Button onClick={submit}>Sign In</Button>
+      <div style={{ color: 'red' }}>{error}</div>
+      <Button isLoading={isLoading} onClick={submit}>
+        Sign In
+      </Button>
       <Button onClick={() => navigate(`${ERoutes.singUp}`)} color="add">
         Sign Up
       </Button>
