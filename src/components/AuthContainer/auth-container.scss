@@ -25,7 +25,8 @@
         justify-content: center;
         gap: 20px;
         & :last-child {
-            margin-top: 30px;
+            // margin-top: 30px;
+            //что-то он ласта чайлд даже во вложенных контейнерах забирает
         }
     }
 

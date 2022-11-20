@@ -1,4 +1,10 @@
 import { Button } from 'components/Button/Button';
+import {
+  InputWithErrorMessage,
+  EPattern,
+  EInputTypes,
+  EFormErrorMessages,
+} from 'components/Input/Input';
 import { useInputWithCb } from 'hooks/hooks';
 import React, { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +25,7 @@ export const SignInForm = memo(() => {
     dispatch(signIn({ login: login.value, password: password.value }))
       .unwrap()
       .then(() => {
-        navigate(`/${ERoutes.main}`);
+        navigate(ERoutes.main);
       });
   };
 
@@ -28,8 +34,20 @@ export const SignInForm = memo(() => {
 
   return (
     <>
-      <input type="text" {...login} className="input" placeholder="Login" />
-      <input type="password" {...password} className="input" placeholder="Password" />
+      <InputWithErrorMessage
+        pattern={EPattern.login}
+        placeholder="Login"
+        errorMessage={EFormErrorMessages.login}
+        type={EInputTypes.text}
+        hook={login}
+      />
+      <InputWithErrorMessage
+        pattern={EPattern.password}
+        placeholder="Password"
+        errorMessage={EFormErrorMessages.password}
+        type={EInputTypes.password}
+        hook={password}
+      />
       <Button onClick={submit}>Sign In</Button>
       <Button onClick={() => navigate(`${ERoutes.singUp}`)} color="add">
         Sign Up
