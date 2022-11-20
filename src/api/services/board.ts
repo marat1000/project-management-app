@@ -1,4 +1,5 @@
 import { $api } from 'api';
+import axios from 'axios';
 import { IBoard, IBoardExtended } from 'ts/interfaces';
 
 export interface INewBoard {
@@ -42,8 +43,17 @@ export default class BoardService {
   }
 
   static async loadBoardData(boardID: string) {
-    const response = await $api.get<IBoard>(`boards/${boardID}`);
-    return extendBoard(response.data);
+    try {
+      const response = await $api.get<IBoard>(`boards/${boardID}`);
+      return response.data ? extendBoard(response.data) : null;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+        throw new Error(status === 404 ? 'Board not found' : 'Unknown error');
+      } else {
+        throw error;
+      }
+    }
   }
 
   static async delete(boardID: string) {

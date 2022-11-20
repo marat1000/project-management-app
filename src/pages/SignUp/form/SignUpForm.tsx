@@ -7,7 +7,7 @@ import {
 } from 'components/Input/Input';
 import { useInputWithCb } from 'hooks/hooks';
 import React, { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { signUp, clearRegistrationError, registerSelector } from 'store/slices/authSlice';
 import { ERoutes } from 'ts/enums';
@@ -16,6 +16,7 @@ export const SignUpForm = memo(() => {
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector(registerSelector);
   const navigate = useNavigate();
+  const isRedirect = useSearchParams()[0].get('redirect');
 
   const clearError = () => {
     dispatch(clearRegistrationError());
@@ -25,7 +26,8 @@ export const SignUpForm = memo(() => {
     dispatch(signUp({ name: name.value, login: login.value, password: password.value }))
       .unwrap()
       .then(() => {
-        navigate(ERoutes.main);
+        const path = isRedirect ? '/' + isRedirect.split('-').join('/') : ERoutes.main;
+        navigate(path);
       });
   };
 
@@ -33,6 +35,7 @@ export const SignUpForm = memo(() => {
   const password = useInputWithCb(clearError);
   const name = useInputWithCb(clearError);
 
+  const signInUrl = isRedirect ? `${ERoutes.singIn}?redirect=${isRedirect}` : ERoutes.singIn;
   return (
     <>
       <InputWithErrorMessage
@@ -60,7 +63,7 @@ export const SignUpForm = memo(() => {
       <Button isLoading={isLoading} onClick={submit}>
         Sign Up
       </Button>
-      <Button onClick={() => navigate(`${ERoutes.singIn}`)} color="add">
+      <Button onClick={() => navigate(signInUrl)} color="add">
         Sign In
       </Button>
     </>

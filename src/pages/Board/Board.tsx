@@ -4,13 +4,12 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector } from 'store/slices/authSlice';
 import { loadBoard, selectBoardById } from 'store/slices/boardsSlice';
 import { ERoutes } from 'ts/enums';
-import { IBoardExtended } from 'ts/interfaces';
 import { ColumnsList } from './components/ColumnsList';
 
 export const Board = memo(() => {
   const isAuth = useAppSelector(authSelector);
   const { id } = useParams();
-  const [isAccessDenied, setIsAccessDenied] = useState(false);
+  const [isError, setIsError] = useState('');
   const boardData = useAppSelector(selectBoardById(id!));
   const dispatch = useAppDispatch();
 
@@ -22,17 +21,19 @@ export const Board = memo(() => {
     if (!boardData) {
       dispatch(loadBoard(id!))
         .unwrap()
-        // if returns null it means user no access to this board
-        .then((res: IBoardExtended | null) => setIsAccessDenied(!res));
+        .catch((err) => {
+          setIsError(err.message);
+        });
     }
   }, [id]);
 
+  //http://localhost:3000/boards/637a5309e298276acbb19097
   if (!isAuth) {
-    return <Navigate to={ERoutes.singIn} />;
+    return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
   }
 
-  if (isAccessDenied) {
-    return <div>Access is denied</div>;
+  if (isError) {
+    return <div>{isError}</div>;
   }
 
   if (!boardData) {

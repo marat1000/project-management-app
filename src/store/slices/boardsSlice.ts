@@ -153,6 +153,12 @@ export const loadBoard = createAsyncThunk<IBoardExtended | null, string, { state
   async (boardID: string, { getState }) => {
     const userId = getState().user.id;
     const board = await BoardService.loadBoardData(boardID);
-    return isUserHaveAccessToBoard(board, userId) ? board : null;
+    if (!board) {
+      throw new Error('Board not found');
+    }
+    if (!isUserHaveAccessToBoard(board, userId)) {
+      throw new Error('Access is denied');
+    }
+    return board;
   }
 );
