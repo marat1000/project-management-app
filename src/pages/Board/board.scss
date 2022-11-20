@@ -1,0 +1,36 @@
+.board-page{
+    &__container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__header{
+        background-color: #FFFFFF;
+        width: 548px;
+        height: 50px;
+        border-radius: 15px;
+        padding: 15px 30px;
+        display: flex;
+
+        & h3 {
+            margin: 0;
+            width: 250px;
+            font-family: 'Audi Type Ext';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        & button {
+            font-family: 'Audi Type';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: $color-light-text;
+            background-color: transparent;
+            border: none;
+        }
+    }
+}

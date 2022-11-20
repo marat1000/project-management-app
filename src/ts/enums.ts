@@ -8,4 +8,5 @@ export enum ERoutes {
   main = '/main',
   welcome = '/welcome',
   profile = '/profile',
+  boards = '/boards',
 }

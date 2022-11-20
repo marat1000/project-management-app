@@ -2,8 +2,10 @@ import { EntityId } from '@reduxjs/toolkit';
 import { useInputExtended } from 'hooks/hooks';
 import React, { useState } from 'react';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteBoard, selectBoardById, updateBoard } from 'store/slices/boardsSlice';
+import { ERoutes } from 'ts/enums';
 
 interface ITEST__BoardItemProps {
   id: EntityId;
@@ -57,7 +59,9 @@ export const TEST__BoardItem = memo<ITEST__BoardItemProps>(({ id }) => {
 
   return (
     <div style={{ margin: 20 }}>
-      <span>{title}</span>
+      <Link to={`${ERoutes.boards}/${id}`}>
+        <span>{title}</span>
+      </Link>
       <button onClick={deleteHandler}>DELETE</button>
       <button onClick={() => setIsEditing(true)}>EDIT</button>
     </div>
