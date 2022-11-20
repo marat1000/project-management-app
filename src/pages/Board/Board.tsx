@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector } from 'store/slices/authSlice';
 import { loadBoard, selectBoardById } from 'store/slices/boardsSlice';
 import { ERoutes } from 'ts/enums';
+import { IBoardExtended } from 'ts/interfaces';
 
 export const Board = memo(() => {
   const isAuth = useAppSelector(authSelector);
@@ -21,7 +22,7 @@ export const Board = memo(() => {
       dispatch(loadBoard(id!))
         .unwrap()
         // if returns null it means user no access to this board
-        .then((res) => setIsAccessDenied(!res));
+        .then((res: IBoardExtended | null) => setIsAccessDenied(!res));
     }
   }, [id]);
 
