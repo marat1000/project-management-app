@@ -5,6 +5,7 @@ import { authSelector } from 'store/slices/authSlice';
 import { loadBoard, selectBoardById } from 'store/slices/boardsSlice';
 import { ERoutes } from 'ts/enums';
 import { IBoardExtended } from 'ts/interfaces';
+import { ColumnsList } from './components/ColumnsList';
 
 export const Board = memo(() => {
   const isAuth = useAppSelector(authSelector);
@@ -46,6 +47,7 @@ export const Board = memo(() => {
         <h3>Board {title}</h3>
         <button onClick={addColumnHandler}> Add list +</button>
       </div>
+      <ColumnsList></ColumnsList>
     </div>
   );
 });

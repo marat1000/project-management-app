@@ -1,20 +1,23 @@
 .board-page{
     &__container{
-        display: flex;
+        max-width: 100%;
+
+        display: inline-flex;
         flex-direction: column;
+        padding-top: 10px;
     }
 
     &__header{
         background-color: #FFFFFF;
-        width: 548px;
         height: 50px;
         border-radius: 15px;
         padding: 15px 30px;
-        display: flex;
+        display: inline-flex;
+        justify-content: space-between;
+
 
         & h3 {
             margin: 0;
-            width: 250px;
             font-family: 'Audi Type Ext';
             font-style: normal;
             font-weight: 700;
@@ -33,4 +36,14 @@
             border: none;
         }
     }
+
+    &__columns-list{
+        display: inline-flex;
+        max-width: 100%;
+        gap: 10px;
+        padding-top: 10px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
 }
+
