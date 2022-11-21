@@ -1,4 +1,4 @@
-import React, { memo, SyntheticEvent, useEffect, useState } from 'react';
+import React, { memo, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import {
   selectAllUsers,
@@ -20,6 +20,10 @@ export const BoardUsersInput = memo(() => {
     const search = e.currentTarget.value;
     setSearch(search);
   };
+
+  const clearInput = useCallback(() => {
+    setSearch('');
+  }, []);
 
   useEffect(() => {
     if (!search) {
@@ -47,7 +51,7 @@ export const BoardUsersInput = memo(() => {
       {matchedUsers.length ? (
         <div className="board-users__match-list">
           {matchedUsers.map(({ _id, name }) => (
-            <UsersMatchListItem key={_id} id={_id} name={name} />
+            <UsersMatchListItem key={_id} id={_id} name={name} clearInput={clearInput} />
           ))}
         </div>
       ) : null}

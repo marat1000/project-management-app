@@ -6,11 +6,13 @@ import { addUserOnSelectedBoard } from 'store/slices/boardUsersSlice';
 interface IUsersMatchListItemProps {
   id: EntityId;
   name: string;
+  clearInput: () => void;
 }
-export const UsersMatchListItem = memo<IUsersMatchListItemProps>(({ id, name }) => {
+export const UsersMatchListItem = memo<IUsersMatchListItemProps>(({ id, name, clearInput }) => {
   const dispatch = useAppDispatch();
 
   const addUser = () => {
+    clearInput();
     dispatch(addUserOnSelectedBoard(id));
   };
 
