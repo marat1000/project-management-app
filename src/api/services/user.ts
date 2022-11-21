@@ -4,6 +4,11 @@ import axios from 'axios';
 import { IEditUserParams, IUser } from 'ts/interfaces';
 
 export class UserService {
+  static async getAllUsers() {
+    const response = await $api.get<IUser[]>(`users`);
+    return response.data;
+  }
+
   static async getUser(id: string) {
     try {
       const response = await $api.get<IUser>(`users/${id}`);

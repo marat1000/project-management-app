@@ -1,3 +1,4 @@
+import { BoardUsers } from 'components/BoardUsers/BoardUsers';
 import { Button } from 'components/Button/Button';
 import {
   EFormErrorMessages,
@@ -7,10 +8,12 @@ import {
 } from 'components/Input/InputWithErrorMessage';
 import { InputTextArea } from 'components/Input/TextArea';
 import { Modal } from 'components/Modals/Modal/Modal';
-import React, { memo, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
+
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createBoard, creatingBoardFlagsSelector } from 'store/slices/boardsSlice';
 import { selectCreatingBoardModalOpen, toggleCreatingBoardModal } from 'store/slices/modalsSlice';
+import { setOnSelectedBoardUsers } from 'store/slices/boardUsersSlice';
 
 export const CreatingBoardModal = memo(() => {
   const isOpened = useAppSelector(selectCreatingBoardModalOpen);
@@ -23,15 +26,19 @@ export const CreatingBoardModal = memo(() => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    if (isOpened) {
+      dispatch(setOnSelectedBoardUsers([]));
+    }
+  }, [isOpened]);
+
   const submit = () => {
-    console.log('submit start');
     if (!titleRef.current || !descriptionRef.current) return;
     const isGood = titleRef.current.checkValidity();
     if (!isGood) return;
 
     const boardTitle = titleRef.current.value;
     const boardDescription = descriptionRef.current.value;
-    console.log('submit done', boardTitle, boardDescription);
 
     dispatch(
       createBoard({
@@ -76,6 +83,7 @@ export const CreatingBoardModal = memo(() => {
         <Button color="add" onClick={submit}>
           Create
         </Button>
+        <BoardUsers />
       </div>
     </Modal>
   );

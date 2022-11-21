@@ -1,0 +1,52 @@
+import React, { memo, SyntheticEvent, useEffect, useState } from 'react';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
+import {
+  selectAllUsers,
+  fetchAllUsers,
+  selectUsersIdsOnSelectedBoard,
+} from 'store/slices/boardUsersSlice';
+import { IUser } from 'ts/interfaces';
+import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';
+
+export const BoardUsersInput = memo(() => {
+  const usersOnThisBoard = useAppSelector(selectUsersIdsOnSelectedBoard);
+  const users = useAppSelector(selectAllUsers);
+  const dispatch = useAppDispatch();
+  const [matchedUsers, setMatchedUsers] = useState<IUser[]>([]);
+
+  const [search, setSearch] = useState('');
+
+  const searchUsers = (e: SyntheticEvent<HTMLInputElement>) => {
+    const search = e.currentTarget.value;
+    setSearch(search);
+  };
+
+  useEffect(() => {
+    if (!search) {
+      setMatchedUsers([]);
+      return;
+    }
+    const matches = users.filter(
+      (user) =>
+        !usersOnThisBoard.includes(user._id) &&
+        (user.name.includes(search) || user.login.includes(search))
+    );
+    setMatchedUsers(matches);
+  }, [search, usersOnThisBoard, users]);
+
+  return (
+    <div>
+      <input
+        type="text"
+        onFocus={() => dispatch(fetchAllUsers())}
+        value={search}
+        onChange={searchUsers}
+      />
+      <div>
+        {matchedUsers.map(({ _id, name }) => (
+          <UsersMatchListItem key={_id} id={_id} name={name} />
+        ))}
+      </div>
+    </div>
+  );
+});
