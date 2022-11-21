@@ -13,11 +13,15 @@ import React, { memo, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createBoard, creatingBoardFlagsSelector } from 'store/slices/boardsSlice';
 import { selectCreatingBoardModalOpen, toggleCreatingBoardModal } from 'store/slices/modalsSlice';
-import { setOnSelectedBoardUsers } from 'store/slices/boardUsersSlice';
+import {
+  selectUsersIdsOnSelectedBoard,
+  setOnSelectedBoardUsers,
+} from 'store/slices/boardUsersSlice';
 
 export const CreatingBoardModal = memo(() => {
   const isOpened = useAppSelector(selectCreatingBoardModalOpen);
   const { error, isLoading } = useAppSelector(creatingBoardFlagsSelector);
+  const usersAdded = useAppSelector(selectUsersIdsOnSelectedBoard);
   const dispatch = useAppDispatch();
   const toggle = (flag: boolean) => {
     dispatch(toggleCreatingBoardModal(flag));
@@ -30,7 +34,7 @@ export const CreatingBoardModal = memo(() => {
     if (isOpened) {
       dispatch(setOnSelectedBoardUsers([]));
     }
-  }, [isOpened]);
+  }, [isOpened, dispatch]);
 
   const submit = () => {
     if (!titleRef.current || !descriptionRef.current) return;
@@ -43,12 +47,12 @@ export const CreatingBoardModal = memo(() => {
     dispatch(
       createBoard({
         title: `${boardTitle}%${boardDescription}`,
-        users: [],
+        users: usersAdded as string[],
       })
     )
       .unwrap()
       .then(() =>
-        // TODO create middleware
+        // TODO create middleware ?
         toggle(false)
       );
   };

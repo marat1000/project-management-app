@@ -5,11 +5,13 @@ import {
   fetchAllUsers,
   selectUsersIdsOnSelectedBoard,
 } from 'store/slices/boardUsersSlice';
+import { userNameSelector } from 'store/slices/userSlice';
 import { IUser } from 'ts/interfaces';
 import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';
 
 export const BoardUsersInput = memo(() => {
   const usersOnThisBoard = useAppSelector(selectUsersIdsOnSelectedBoard);
+  const { username } = useAppSelector(userNameSelector);
   const users = useAppSelector(selectAllUsers);
   const dispatch = useAppDispatch();
   const [matchedUsers, setMatchedUsers] = useState<IUser[]>([]);
@@ -32,11 +34,12 @@ export const BoardUsersInput = memo(() => {
     }
     const matches = users.filter(
       (user) =>
+        username != user.name &&
         !usersOnThisBoard.includes(user._id) &&
         user.name.toLowerCase().includes(search.toLowerCase())
     );
     setMatchedUsers(matches);
-  }, [search, usersOnThisBoard, users]);
+  }, [search, usersOnThisBoard, users, username]);
 
   return (
     <div>
