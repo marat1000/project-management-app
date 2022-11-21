@@ -1,12 +1,20 @@
 import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector } from 'store/slices/authSlice';
+import { toggleEditProfileModal } from 'store/slices/modalsSlice';
 import { ERoutes } from 'ts/enums';
+import { Button } from './Button/Button';
 
 export const Header = memo(() => {
+  const dispatch = useAppDispatch();
   const isAuth = useAppSelector(authSelector);
   if (!isAuth) return null;
+
+  const openEditProfileModal = () => {
+    console.log('modal');
+    dispatch(toggleEditProfileModal(true));
+  };
 
   return (
     <header className="header">
@@ -14,7 +22,11 @@ export const Header = memo(() => {
       <nav>
         <NavLink to={ERoutes.welcome}>Welcome</NavLink>
         <NavLink to={ERoutes.main}>Main</NavLink>
-        {isAuth && <NavLink to={ERoutes.profile}>Profile</NavLink>}
+        {isAuth && (
+          <Button color="add" onClick={openEditProfileModal}>
+            Profile
+          </Button>
+        )}
       </nav>
     </header>
   );
