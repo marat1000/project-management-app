@@ -1,7 +1,13 @@
 import { Button } from 'components/Button/Button';
+import {
+  EFormErrorMessages,
+  EInputTypes,
+  EPattern,
+  InputWithErrorMessage,
+} from 'components/Input/InputWithErrorMessage';
+import { InputTextArea } from 'components/Input/TextArea';
 import { Modal } from 'components/Modals/Modal/Modal';
-import { useInput, useTextArea } from 'hooks/hooks';
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createBoard, creatingBoardFlagsSelector } from 'store/slices/boardsSlice';
 import { selectCreatingBoardModalOpen, toggleCreatingBoardModal } from 'store/slices/modalsSlice';
@@ -14,14 +20,18 @@ export const CreatingBoardModal = memo(() => {
     dispatch(toggleCreatingBoardModal(flag));
   };
 
-  const title = useInput('');
-  const description = useTextArea('');
+  const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const submit = () => {
-    console.log('submit');
-    const boardTitle = title.value;
-    const boardDescription = description.value;
-    console.log('submit', boardTitle, boardDescription);
+    console.log('submit start');
+    if (!titleRef.current || !descriptionRef.current) return;
+    const isGood = titleRef.current.checkValidity();
+    if (!isGood) return;
+
+    const boardTitle = titleRef.current.value;
+    const boardDescription = descriptionRef.current.value;
+    console.log('submit done', boardTitle, boardDescription);
 
     dispatch(
       createBoard({
@@ -54,11 +64,19 @@ export const CreatingBoardModal = memo(() => {
 
   return (
     <Modal isOpened={isOpened} toggle={toggle} title="Create board">
-      <input placeholder="Board name" {...title}></input>
-      <textarea placeholder="Description" {...description}></textarea>
-      <Button color="add" onClick={submit}>
-        Create
-      </Button>
+      <div className="create-board-container">
+        <InputWithErrorMessage
+          type={EInputTypes.text}
+          pattern={EPattern.name}
+          errorMessage={EFormErrorMessages.name}
+          placeholder="Board name"
+          ref={titleRef}
+        />
+        <InputTextArea ref={descriptionRef} placeholder="Description" />
+        <Button color="add" onClick={submit}>
+          Create
+        </Button>
+      </div>
     </Modal>
   );
 });

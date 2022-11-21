@@ -20,11 +20,12 @@
 
     &__header {
         width: 100%;
-        justify-content: space-between;
+        justify-content: center;
         display: flex;
 
         & h2 {
             margin: 0;
+            text-align: center;
         }
     }
 
@@ -33,6 +34,6 @@
         border: none;
         display: block;
         cursor: pointer;
-        transform: translate(25px, -25px);
+        transform: translate(110px, -35px);
     }
 }
