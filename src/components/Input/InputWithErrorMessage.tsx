@@ -1,5 +1,5 @@
+import { useInputWithCb } from 'hooks/hooks';
 import React, { forwardRef, SyntheticEvent, useState } from 'react';
-import { memo } from 'react';
 
 export enum EInputTypes {
   text = 'text',
@@ -22,27 +22,23 @@ export interface IInputWithErrorMessage {
   type: EInputTypes;
   pattern: EPattern;
   placeholder?: string;
-  className?: string;
   errorMessage: EFormErrorMessages;
-  hook: {
-    value: string;
-    onChange: (e: SyntheticEvent<HTMLInputElement>) => void;
-  };
+  onChangeCb?: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 export const InputWithErrorMessage = forwardRef<HTMLInputElement, IInputWithErrorMessage>(
-  ({ type, className = 'input', placeholder, hook, pattern, errorMessage }, ref) => {
+  ({ type, placeholder, pattern, errorMessage, onChangeCb }, ref) => {
     const [isValid, setIsValid] = useState(true);
+    const bind = useInputWithCb((e) => {
+      onChangeCb && onChangeCb(e);
+      if (!isValid) {
+        setIsValid(e.currentTarget.checkValidity());
+      }
+    });
 
     const onBlur = (e: SyntheticEvent<HTMLInputElement>) => {
       const valid = e.currentTarget.checkValidity();
       setIsValid(valid);
-    };
-
-    const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
-      hook.onChange(e);
-      const valid = e.currentTarget.checkValidity();
-      if (valid) setIsValid(valid);
     };
 
     const onInvalid = () => setIsValid(false);
@@ -53,13 +49,12 @@ export const InputWithErrorMessage = forwardRef<HTMLInputElement, IInputWithErro
           required
           ref={ref}
           className={isValid ? '' : 'input-error'}
-          onChange={onChange}
           onBlur={onBlur}
           type={type}
           placeholder={' '}
-          value={hook.value}
           onInvalid={onInvalid}
           pattern={pattern}
+          {...bind}
         />
         <label className={isValid ? '' : 'label-error'}>
           {isValid ? placeholder : errorMessage}
