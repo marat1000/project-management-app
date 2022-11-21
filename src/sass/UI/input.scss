@@ -2,20 +2,6 @@
     position: relative;
     width: 290px;
 
-    input {
-        background-color: transparent;
-        border: 1px solid #797979;
-        border-radius: 15px;
-        box-sizing: border-box;
-        color: #000;
-        font-size: 16px;
-        line-height: 20px; 
-        height: 50px;
-        outline: 0;
-        padding: 15px 0 15px 20px;
-        width: 100%;
-    }
-
     .input-error {
         border: #F80000 1px solid;
         color: #F80000;
@@ -39,13 +25,27 @@
     .label-error {
         color: #F80000;
     }
-
-    input:focus + label,
-    input:not(:placeholder-shown) + label{
-    top: -18px;
-    left: 10px;
-    font-size: 11px;
-    background-color: transparent;
-    padding: 2px 10px;
 }
+
+input {
+    background-color: transparent;
+    border: 1px solid #797979;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #000;
+    font-size: 16px;
+    line-height: 20px; 
+    height: 50px;
+    outline: 0;
+    padding: 15px 0 15px 20px;
+    width: 100%;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label{
+top: -18px;
+left: 10px;
+font-size: 11px;
+background-color: transparent;
+padding: 2px 10px;
 }

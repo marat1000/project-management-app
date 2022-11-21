@@ -15,9 +15,9 @@ export const UsersMatchListItem = memo<IUsersMatchListItemProps>(({ id, name }) 
   };
 
   return (
-    <div>
+    <div className="board-users__match-item" onClick={addUser}>
       <span> {name} </span>
-      <button onClick={addUser}>+</button>
+      <span>+</span>
     </div>
   );
 });

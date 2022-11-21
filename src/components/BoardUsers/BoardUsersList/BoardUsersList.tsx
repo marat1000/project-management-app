@@ -7,7 +7,7 @@ export const BoardUserList = memo(() => {
   const usersOnThisBoard = useAppSelector(selectUsersIdsOnSelectedBoard);
 
   return (
-    <div>
+    <div className="board-users__list">
       {usersOnThisBoard.map((id) => (
         <BoardUserItem id={id} key={id} />
       ))}

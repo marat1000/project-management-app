@@ -29,7 +29,7 @@ export const BoardUsersInput = memo(() => {
     const matches = users.filter(
       (user) =>
         !usersOnThisBoard.includes(user._id) &&
-        (user.name.includes(search) || user.login.includes(search))
+        user.name.toLowerCase().includes(search.toLowerCase())
     );
     setMatchedUsers(matches);
   }, [search, usersOnThisBoard, users]);
@@ -37,16 +37,20 @@ export const BoardUsersInput = memo(() => {
   return (
     <div>
       <input
+        className="input"
         type="text"
+        placeholder="Add user..."
         onFocus={() => dispatch(fetchAllUsers())}
         value={search}
         onChange={searchUsers}
       />
-      <div>
-        {matchedUsers.map(({ _id, name }) => (
-          <UsersMatchListItem key={_id} id={_id} name={name} />
-        ))}
-      </div>
+      {matchedUsers.length ? (
+        <div className="board-users__match-list">
+          {matchedUsers.map(({ _id, name }) => (
+            <UsersMatchListItem key={_id} id={_id} name={name} />
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 });

@@ -80,10 +80,12 @@ export const CreatingBoardModal = memo(() => {
           ref={titleRef}
         />
         <InputTextArea ref={descriptionRef} placeholder="Description" />
+
+        <BoardUsers />
+
         <Button color="add" onClick={submit}>
           Create
         </Button>
-        <BoardUsers />
       </div>
     </Modal>
   );
