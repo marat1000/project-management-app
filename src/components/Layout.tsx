@@ -12,7 +12,7 @@ export const Layout = memo<ILayoutProps>(({ children }) => {
     <>
       <div className="container">
         <Header />
-        <main className="main">{children}</main>
+        <main className="main-content">{children}</main>
         <Footer />
       </div>
       <Modals />

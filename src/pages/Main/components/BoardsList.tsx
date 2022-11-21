@@ -6,7 +6,7 @@ import { selectBoardsIds } from 'store/slices/boardsSlice';
 export const BoardsList = memo(() => {
   const ids = useAppSelector(selectBoardsIds);
   return (
-    <div>
+    <div className="main__list">
       {ids.map((id) => (
         <BoardsItem id={id} key={id}></BoardsItem>
       ))}
