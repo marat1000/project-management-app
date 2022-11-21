@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, SyntheticEvent, useState } from 'react';
 import { memo } from 'react';
 
 export enum EInputTypes {
@@ -26,42 +26,44 @@ export interface IInputWithErrorMessage {
   errorMessage: EFormErrorMessages;
   hook: {
     value: string;
-    onChange: (e: React.SyntheticEvent<HTMLInputElement>) => void;
+    onChange: (e: SyntheticEvent<HTMLInputElement>) => void;
   };
 }
 
-export const InputWithErrorMessage = memo<IInputWithErrorMessage>(
-  ({ type, className = 'input', placeholder, hook, pattern, errorMessage }) => {
-    const validateOnBlur = ({ target }: React.SyntheticEvent<HTMLInputElement>) => {
-      const { value } = target as HTMLInputElement;
-      if (!new RegExp(pattern).test(value)) {
-        setError(errorMessage);
-      } else {
-        setError(null);
-      }
+export const InputWithErrorMessage = forwardRef<HTMLInputElement, IInputWithErrorMessage>(
+  ({ type, className = 'input', placeholder, hook, pattern, errorMessage }, ref) => {
+    const [isValid, setIsValid] = useState(true);
+
+    const onBlur = (e: SyntheticEvent<HTMLInputElement>) => {
+      const valid = e.currentTarget.checkValidity();
+      setIsValid(valid);
     };
 
-    const onChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
       hook.onChange(e);
-      const { value } = e.target as HTMLInputElement;
-      if (new RegExp(pattern).test(value)) {
-        setError(null);
-      }
+      const valid = e.currentTarget.checkValidity();
+      if (valid) setIsValid(valid);
     };
 
-    const [error, setError] = useState<null | string>(null);
+    const onInvalid = () => setIsValid(false);
 
     return (
       <div className="input-container">
         <input
-          className={error ? 'input-error' : ''}
+          required
+          ref={ref}
+          className={isValid ? '' : 'input-error'}
           onChange={onChange}
-          onBlur={validateOnBlur}
+          onBlur={onBlur}
           type={type}
           placeholder={' '}
           value={hook.value}
+          onInvalid={onInvalid}
+          pattern={pattern}
         />
-        <label className={error ? 'label-error' : ''}>{error || placeholder}</label>
+        <label className={isValid ? '' : 'label-error'}>
+          {isValid ? placeholder : errorMessage}
+        </label>
       </div>
     );
   }

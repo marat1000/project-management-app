@@ -6,7 +6,7 @@ import {
   EFormErrorMessages,
 } from 'components/Input/Input';
 import { useInputWithCb } from 'hooks/hooks';
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { loginSelector, clearLoginError, signIn } from 'store/slices/authSlice';
@@ -22,7 +22,15 @@ export const SignInForm = memo(() => {
     dispatch(clearLoginError());
   };
 
+  const login = useInputWithCb(clearError);
+  const password = useInputWithCb(clearError);
+
+  const loginRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const submit = () => {
+    const isValid = loginRef.current?.checkValidity() && passwordRef.current?.checkValidity();
+    if (!isValid) return;
     dispatch(signIn({ login: login.value, password: password.value }))
       .unwrap()
       .then(() => {
@@ -30,9 +38,6 @@ export const SignInForm = memo(() => {
         navigate(path);
       });
   };
-
-  const login = useInputWithCb(clearError);
-  const password = useInputWithCb(clearError);
 
   const signUpUrl = isRedirect ? `${ERoutes.singUp}?redirect=${isRedirect}` : ERoutes.singUp;
   return (
@@ -43,6 +48,7 @@ export const SignInForm = memo(() => {
         errorMessage={EFormErrorMessages.login}
         type={EInputTypes.text}
         hook={login}
+        ref={loginRef}
       />
       <InputWithErrorMessage
         pattern={EPattern.password}
@@ -50,6 +56,7 @@ export const SignInForm = memo(() => {
         errorMessage={EFormErrorMessages.password}
         type={EInputTypes.password}
         hook={password}
+        ref={passwordRef}
       />
       <div style={{ color: 'red' }}>{error}</div>
       <Button isLoading={isLoading} onClick={submit}>
