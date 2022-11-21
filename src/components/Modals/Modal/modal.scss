@@ -7,11 +7,32 @@
         left: 0;
         background-color: rgba(0,0,0,0.5);
         display: flex;
+        cursor: pointer;
     }
 
     &__container{
+        position: relative;
         padding: 50px;
         margin: auto;
         background-color: #fff;
+        cursor: auto;
+    }
+
+    &__header {
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+
+        & h2 {
+            margin: 0;
+        }
+    }
+
+    &__close {
+        background-color: transparent;
+        border: none;
+        display: block;
+        cursor: pointer;
+        transform: translate(25px, -25px);
     }
 }
