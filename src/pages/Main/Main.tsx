@@ -1,22 +1,21 @@
-import { Modal } from 'components/Modal/Modal';
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
+import { useAppDispatch } from 'store/hooks';
+import { toggleCreatingBoardModal } from 'store/slices/modalsSlice';
 import { BoardsList } from './components/BoardsList';
 
 export const Main = memo(() => {
-  const [modalOpened, setModalOpened] = useState(false);
-  const toggleModal = (flag: boolean) => {
-    setModalOpened(flag);
+  const dispatch = useAppDispatch();
+
+  const openCreatingBoardModal = () => {
+    dispatch(toggleCreatingBoardModal(true));
   };
 
   return (
     <>
       <div className="main__container">
-        <button onClick={() => toggleModal(true)}>Add board</button>
+        <button onClick={openCreatingBoardModal}>Add board</button>
         <BoardsList />
       </div>
-      <Modal isOpened={modalOpened} toggleModal={toggleModal}>
-        <div>hahah</div>
-      </Modal>
     </>
   );
 });
