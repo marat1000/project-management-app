@@ -14,6 +14,20 @@ export const useInput = (initialState = '') => {
   };
 };
 
+export const useTextArea = (initialState = '') => {
+  const [value, setValue] = useState(initialState);
+
+  const onChange = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
+    const { value } = e.currentTarget;
+    setValue(value);
+  };
+
+  return {
+    value,
+    onChange,
+  };
+};
+
 export const useInputExtended = (initialState = '') => {
   const [value, setValue] = useState(initialState);
 

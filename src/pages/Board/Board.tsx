@@ -40,12 +40,12 @@ export const Board = memo(() => {
     return <div>Loading</div>;
   }
 
-  const { title } = boardData;
+  const [title] = boardData.title.split('%');
 
   return (
     <div className="board-page__container">
       <div className="board-page__header">
-        <h3>Board {title}</h3>
+        <h3>{title}</h3>
         <button onClick={addColumnHandler}> Add list +</button>
       </div>
       <ColumnsList></ColumnsList>

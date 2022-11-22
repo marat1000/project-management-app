@@ -1,0 +1,11 @@
+.main{
+    &__container {
+        max-width: 100%;
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px
+    }
+}

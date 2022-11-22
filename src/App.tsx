@@ -5,13 +5,13 @@ import { authCheckingSelector, authSelector } from 'store/slices/authSlice';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
-import { Main } from './pages/Main';
 import { ERoutes } from 'ts/enums';
 import { SignIn } from 'pages/SignIn/SignIn';
 import { SignUp } from 'pages/SignUp/SignUp';
 import { Layout } from 'components/Layout';
-import { Profile } from 'pages/Profile';
+// import { EditProfile } from 'pages/Profile';
 import { Board } from 'pages/Board/Board';
+import { Main } from 'pages/Main/Main';
 
 const AuthRoutes = memo(() => {
   return (
@@ -19,7 +19,7 @@ const AuthRoutes = memo(() => {
       <Route path="/" element={<Main />} />
       <Route path={ERoutes.main} element={<Navigate to={'/'} />} />
       <Route path={ERoutes.welcome} element={<Welcome />} />
-      <Route path={ERoutes.profile} element={<Profile />} />
+      {/* <Route path={ERoutes.profile} element={<EditProfile />} /> */}
       <Route path={`${ERoutes.boards}/:id`} element={<Board />} />
 
       {/* redirect because user logged  */}
@@ -34,7 +34,7 @@ const NonAuthRoutes = memo(() => {
     <Routes>
       <Route path="/" element={<Navigate to={ERoutes.welcome} />} />
       <Route path={ERoutes.main} element={<Navigate to={ERoutes.welcome} />} />
-      <Route path={ERoutes.profile} element={<Navigate to={ERoutes.welcome} />} />
+      {/* <Route path={ERoutes.profile} element={<Navigate to={ERoutes.welcome} />} /> */}
       <Route path={`${ERoutes.boards}/:id`} element={<Board />} />
 
       <Route path={ERoutes.welcome} element={<Welcome />} />

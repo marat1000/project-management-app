@@ -1,0 +1,31 @@
+.board-item{
+    width: 265px;
+    height: 160px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+
+    & header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    &__title{
+        margin: 0;
+        font-family: 'Audi Type Ext';
+        font-size: 18px;
+        line-height: 22px;
+        cursor: pointer;
+        color:#000;
+    }
+
+    &__description{
+        margin: 0;
+        font-family: 'Audi Type';
+        font-size: 12px;
+        line-height: 15px;
+        color: $color-light-text;
+        text-overflow: ellipsis;
+    }
+}
