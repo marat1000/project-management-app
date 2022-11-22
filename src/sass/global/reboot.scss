@@ -71,4 +71,15 @@ select {
   height: 100%;
   background-image: url('../../../public/bg.png');
   background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+
+  //@include vp--2559 {
+  //  padding: 0 40px;
+  //}
+
+  .footer {
+    margin-top: auto;
+  }
 }

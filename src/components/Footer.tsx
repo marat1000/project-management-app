@@ -3,30 +3,34 @@ import React, { memo } from 'react';
 export const Footer = memo(() => {
   return (
     <footer className="footer">
-      <div className="footer__info">
-        <span className="footer__copyright">© 2022</span>
-        <a href="https://github.com/Wsko-12" target="_blank" rel="noreferrer">
-          <GithubSVG />
-          <span>Wsko-12</span>
-        </a>
-        <a href="https://github.com/Aleg3000" target="_blank" rel="noreferrer">
-          <GithubSVG />
-          <span>Aleg3000</span>
-        </a>
-        <a href="https://github.com/marat1000" target="_blank" rel="noreferrer">
-          <GithubSVG />
-          <span>marat1000</span>
-        </a>
-      </div>
-      <div className="footer__rss">
-        <a
-          className="footer__rss-link"
-          href="https://rs.school/react/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <RSSsvg />
-        </a>
+      <div className={`container`}>
+        <div className={`footer__wrapper`}>
+          <div className="footer__info">
+            <span className="footer__copyright">© 2022</span>
+            <a href="https://github.com/Wsko-12" target="_blank" rel="noreferrer">
+              <GithubSVG />
+              <span>Wsko-12</span>
+            </a>
+            <a href="https://github.com/Aleg3000" target="_blank" rel="noreferrer">
+              <GithubSVG />
+              <span>Aleg3000</span>
+            </a>
+            <a href="https://github.com/marat1000" target="_blank" rel="noreferrer">
+              <GithubSVG />
+              <span>marat1000</span>
+            </a>
+          </div>
+          <div className="footer__rss">
+            <a
+              className="footer__rss-link"
+              href="https://rs.school/react/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <RSSsvg />
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );

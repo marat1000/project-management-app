@@ -10,7 +10,6 @@ import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export const Header = memo(() => {
-  const dispatch = useAppDispatch();
   const isAuth = useAppSelector(authSelector);
   const [value, setValue] = useState(false);
   const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });
@@ -18,7 +17,7 @@ export const Header = memo(() => {
 
   // handle scroll event
   const handleScroll = (elTopOffset: number, elHeight: number) => {
-    const main = document.querySelector(`.main`) as HTMLElement;
+    const main = document.querySelector(`.main-content`) as HTMLElement;
     if (window.scrollY > elTopOffset) {
       setSticky({ isSticky: true, offset: elHeight });
       main.style.marginTop = `${elHeight}px`;
@@ -48,10 +47,6 @@ export const Header = memo(() => {
   }, []);
 
   if (!isAuth) return null;
-
-  const openEditProfileModal = () => {
-    dispatch(toggleEditProfileModal(true));
-  };
 
   return (
     <header className={`header${sticky.isSticky ? ' header_sticky' : ''}`} ref={headerRef}>

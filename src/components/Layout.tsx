@@ -11,10 +11,10 @@ export const Layout = memo<ILayoutProps>(({ children }) => {
   return (
     <>
       <Header />
-      <div className={`container`}>
-        <main className="main-content">{children}</main>
-        <Footer />
-      </div>
+      <main className="main-content">
+        <div className={`container`}>{children}</div>
+      </main>
+      <Footer />
       <Modals />
     </>
   );

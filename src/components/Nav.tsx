@@ -1,12 +1,19 @@
 import React from 'react';
 import { memo } from 'react';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector } from 'store/slices/authSlice';
 import { NavLink } from 'react-router-dom';
 import { ERoutes } from '../ts/enums';
+import { toggleEditProfileModal } from '../store/slices/modalsSlice';
+import { Button } from './Button/Button';
 
 export const Nav = memo(() => {
   const isAuth = useAppSelector(authSelector);
+
+  const dispatch = useAppDispatch();
+  const openEditProfileModal = () => {
+    dispatch(toggleEditProfileModal(true));
+  };
 
   return (
     <nav className={`nav`}>
@@ -18,7 +25,9 @@ export const Nav = memo(() => {
         <SignOutSVG />
         <span>Sign Out</span>
       </NavLink>
-      <button type={`button`}>Create new board</button>
+      <Button color="add" onClick={openEditProfileModal}>
+        Create new board
+      </Button>
     </nav>
   );
 });
