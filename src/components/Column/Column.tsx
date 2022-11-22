@@ -1,6 +1,6 @@
 import React from 'react';
 import { memo } from 'react';
-import dots from './dots.svg';
+import dots from '../Svg/dots.svg';
 
 export const Column = memo(() => {
   return (
@@ -9,7 +9,7 @@ export const Column = memo(() => {
       <footer>
         <button>Add +</button>
         <button>
-          <img src={dots} className="App-logo" alt="logo" />
+          <img src={dots} />
         </button>
       </footer>
     </div>

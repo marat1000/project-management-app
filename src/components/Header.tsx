@@ -1,13 +1,16 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector } from 'store/slices/authSlice';
+import { toggleEditProfileModal } from 'store/slices/modalsSlice';
 import { ERoutes } from 'ts/enums';
+import { Button } from './Button/Button';
 import { Nav } from './Nav';
 import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export const Header = memo(() => {
+  const dispatch = useAppDispatch();
   const isAuth = useAppSelector(authSelector);
   const [value, setValue] = useState(false);
   const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });
@@ -45,6 +48,10 @@ export const Header = memo(() => {
   }, []);
 
   if (!isAuth) return null;
+
+  const openEditProfileModal = () => {
+    dispatch(toggleEditProfileModal(true));
+  };
 
   return (
     <header className={`header${sticky.isSticky ? ' header_sticky' : ''}`} ref={headerRef}>

@@ -4,15 +4,19 @@ import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/authSlice';
 import boardsSlice from './slices/boardsSlice';
+import modalsSlice from './slices/modalsSlice';
 import settingSlice from './slices/settingsSlice';
 import userSlice from './slices/userSlice';
+import editBoardSlice from './slices/editBoardSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
     user: userSlice,
+    editBoard: editBoardSlice,
     boards: boardsSlice,
     settings: settingSlice,
+    modals: modalsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

@@ -15,6 +15,10 @@ export interface IAuthState {
     error: string;
     isLoading: boolean;
   };
+  editProfile: {
+    error: string;
+    isLoading: boolean;
+  };
 }
 
 const initialState: IAuthState = {
@@ -28,6 +32,10 @@ const initialState: IAuthState = {
     isLoading: false,
     error: '',
   },
+  editProfile: {
+    isLoading: false,
+    error: '',
+  },
 };
 
 const authSlice = createSlice({
@@ -38,6 +46,9 @@ const authSlice = createSlice({
       state.login.error = '';
     },
     clearRegistrationError: (state) => {
+      state.registration.error = '';
+    },
+    clearEditProfileError: (state) => {
       state.registration.error = '';
     },
   },
@@ -97,9 +108,10 @@ export const registerSelector = (state: RootState) => state.auth.registration;
 export const loginSelector = (state: RootState) => state.auth.login;
 export const authSelector = (state: RootState) => state.auth.isAuth;
 export const authCheckingSelector = (state: RootState) => state.auth.isChecking;
+export const editProfileSelector = (state: RootState) => state.auth.editProfile;
 
 // Actions
-export const { clearLoginError, clearRegistrationError } = authSlice.actions;
+export const { clearLoginError, clearRegistrationError, clearEditProfileError } = authSlice.actions;
 
 type TRegisterProps = {
   name: string;

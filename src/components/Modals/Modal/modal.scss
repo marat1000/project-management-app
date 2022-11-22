@@ -1,0 +1,39 @@
+.modal{
+    &__overlay {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background-color: rgba(0,0,0,0.5);
+        display: flex;
+        cursor: pointer;
+    }
+
+    &__container{
+        position: relative;
+        padding: 50px;
+        margin: auto;
+        background-color: #fff;
+        cursor: auto;
+    }
+
+    &__header {
+        width: 100%;
+        justify-content: center;
+        display: flex;
+
+        & h2 {
+            margin: 0;
+            text-align: center;
+        }
+    }
+
+    &__close {
+        background-color: transparent;
+        border: none;
+        display: block;
+        cursor: pointer;
+        transform: translate(110px, -35px);
+    }
+}
