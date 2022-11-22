@@ -23,10 +23,10 @@
 @import "../components/Column/column.scss";
 @import "../components/StartPagesLayout/start-pages-layout.scss";
 @import "../components/BoardItem/board-item.scss";
-@import "../components/BoardUsers/board-users.scss";
+@import "../components/Modals/EditBoardModal/BoardUsers/board-users.scss";
 @import "../components/Modals/Modal/modal.scss";
-@import "../components/Modals/CreatingBoardModal/creating-board-model.scss";
-@import "../components/Modals/EditBoardModal/edit-profile-modal.scss";
+@import "../components/Modals/EditBoardModal/edit-board-model.scss";
+@import "../components/Modals/EditProfileModal/edit-profile-modal.scss";
 @import "blocks/block";
 
 // используйте это для отключения ховеров на тач устройствах

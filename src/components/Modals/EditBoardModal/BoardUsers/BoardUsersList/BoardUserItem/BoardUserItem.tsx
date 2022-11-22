@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { removeBoardUser, selectUserById } from 'store/slices/editBoardSlice';
+import { removeEditedBoardUser, selectUserById } from 'store/slices/editBoardSlice';
 interface IBoardUsersProps {
   id: EntityId;
 }
@@ -10,7 +10,7 @@ export const BoardUserItem = memo<IBoardUsersProps>(({ id }) => {
   const dispatch = useAppDispatch();
 
   const deleteUser = () => {
-    dispatch(removeBoardUser(id));
+    dispatch(removeEditedBoardUser(id));
   };
   return (
     <div className="board-users__item">

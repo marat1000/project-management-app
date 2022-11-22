@@ -3,8 +3,7 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectBoardById } from 'store/slices/boardsSlice';
-import { setCurrentBoardID } from 'store/slices/editBoardSlice';
-import { toggleEditBoardModal } from 'store/slices/modalsSlice';
+import { startEditingBoard } from 'store/slices/editBoardSlice';
 import { ERoutes } from 'ts/enums';
 import dots from '../Svg/dots-dark.svg';
 
@@ -18,8 +17,7 @@ export const BoardsItem = memo<IBoardsItem>(({ id }) => {
   const dispatch = useAppDispatch();
 
   const editBoard = () => {
-    dispatch(setCurrentBoardID(id));
-    dispatch(toggleEditBoardModal(true));
+    dispatch(startEditingBoard(id));
   };
 
   // TODO fix it

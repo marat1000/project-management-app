@@ -45,13 +45,13 @@ export const useInputExtended = (initialState = '') => {
   };
 };
 
-export const useInputWithCb = (
-  cb: (e: React.SyntheticEvent<HTMLInputElement>) => void,
+export const useInputWithCb = <T extends HTMLInputElement | HTMLTextAreaElement = HTMLInputElement>(
+  cb: (e: React.SyntheticEvent<T>) => void,
   initialState = ''
 ) => {
   const [value, setValue] = useState(initialState);
 
-  const onChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
+  const onChange = (e: React.SyntheticEvent<T>) => {
     cb(e);
     const { value } = e.currentTarget;
     setValue(value);

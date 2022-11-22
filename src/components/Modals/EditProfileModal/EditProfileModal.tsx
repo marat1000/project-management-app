@@ -9,7 +9,7 @@ import { Modal } from 'components/Modals/Modal/Modal';
 import React, { useRef, memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearEditProfileError, editProfileSelector } from 'store/slices/authSlice';
-import { selectEditProfileModalOpen, toggleEditProfileModal } from 'store/slices/modalsSlice';
+import { toggleEditProfileModal } from 'store/slices/modalsSlice';
 import {
   editUser,
   deleteUser,
@@ -20,9 +20,8 @@ import {
 
 export const EditProfileModal = memo(() => {
   const dispatch = useAppDispatch();
-  const isOpened = useAppSelector(selectEditProfileModalOpen);
-  const toggle = (flag: boolean) => {
-    dispatch(toggleEditProfileModal(flag));
+  const closeModal = () => {
+    dispatch(toggleEditProfileModal(false));
   };
 
   const userName = useAppSelector(userNameSelector);
@@ -58,7 +57,7 @@ export const EditProfileModal = memo(() => {
 
   if (isLoading) {
     return (
-      <Modal isOpened={isOpened} toggle={toggle} title="Edit Profile">
+      <Modal close={closeModal} title="Edit Profile">
         Loading
       </Modal>
     );
@@ -66,14 +65,14 @@ export const EditProfileModal = memo(() => {
 
   if (error) {
     return (
-      <Modal isOpened={isOpened} toggle={toggle} title="Edit Profile">
+      <Modal close={closeModal} title="Edit Profile">
         {error}
       </Modal>
     );
   }
 
   return (
-    <Modal isOpened={isOpened} toggle={toggle} title="Edit Profile">
+    <Modal close={closeModal} title="Edit Profile">
       <div className="create-board-container">
         <InputWithErrorMessage
           initialValue={userName.username}

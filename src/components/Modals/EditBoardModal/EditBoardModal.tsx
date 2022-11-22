@@ -1,4 +1,4 @@
-import { BoardUsers } from 'components/BoardUsers/BoardUsers';
+import { BoardUsers } from 'components/Modals/EditBoardModal/BoardUsers/BoardUsers';
 import { Button } from 'components/Button/Button';
 import {
   EFormErrorMessages,
@@ -8,79 +8,57 @@ import {
 } from 'components/Input/InputWithErrorMessage';
 import { InputTextArea } from 'components/Input/TextArea';
 import { Modal } from 'components/Modals/Modal/Modal';
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { toggleEditBoardModal } from 'store/slices/modalsSlice';
 import {
-  deleteBoard,
-  editingBoardFlagsSelector,
-  selectBoardById,
-  updateBoard,
-} from 'store/slices/boardsSlice';
-import { selectEditBoardModalOpen, toggleEditBoardModal } from 'store/slices/modalsSlice';
-import { selectBoardUsers, selectCurrentBoardID, setBoardUsers } from 'store/slices/editBoardSlice';
-import { useSelector } from 'react-redux';
+  endEditingBoard,
+  selectEditedBoardFlags,
+  selectEditedBoardId,
+  useEditBoardDescriptionOnChange,
+  useEditBoardTitleOnChange,
+} from 'store/slices/editBoardSlice';
+import { deleteBoard, selectBoardById } from 'store/slices/boardsSlice';
 
 export const EditBoardModal = memo(() => {
-  const isOpened = useAppSelector(selectEditBoardModalOpen);
-  const { error, isLoading } = useAppSelector(editingBoardFlagsSelector);
-  const usersAdded = useAppSelector(selectBoardUsers);
-  //зачем если это есть в дате
+  const { error, isLoading } = useAppSelector(selectEditedBoardFlags);
+  const boardId = useAppSelector(selectEditedBoardId);
+  const rowBoardData = useAppSelector(selectBoardById(boardId));
   const dispatch = useAppDispatch();
-  const toggle = (flag: boolean) => {
-    dispatch(toggleEditBoardModal(flag));
-  };
 
-  const ID = useSelector(selectCurrentBoardID);
-  const data = useSelector(selectBoardById(ID));
-  const users = data?.users;
-  const [title, description] = data?.title.split('%') || ['', ''];
+  const closeModal = useCallback(() => {
+    dispatch(toggleEditBoardModal(false));
+  }, [dispatch]);
+
+  const submit = useCallback(() => {
+    if (!titleRef.current || !titleRef.current.checkValidity()) {
+      return;
+    }
+
+    dispatch(endEditingBoard());
+  }, [dispatch]);
+
+  const deleteThisBoard = useCallback(() => {
+    if (boardId) {
+      dispatch(deleteBoard(boardId as string));
+    }
+  }, [dispatch, boardId]);
+
+  const onTitleChange = useEditBoardTitleOnChange();
+  const onDescriptionChange = useEditBoardDescriptionOnChange();
 
   const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  useEffect(() => {
-    if (isOpened) {
-      dispatch(setBoardUsers(users || []));
-    }
-  }, [isOpened, dispatch]);
 
-  const deleteThisBoard = () => {
-    if (data) {
-      dispatch(deleteBoard(data._id))
-        .unwrap()
-        .then(() => toggle(false));
-    }
-  };
+  const modalTitle = boardId ? 'Edit board' : 'Create board';
+  const buttonTitle = boardId ? 'Edit' : 'Create';
 
-  const submit = () => {
-    if (!titleRef.current || !descriptionRef.current) return;
-    const isGood = titleRef.current.checkValidity();
-    if (!isGood) return;
-
-    const boardTitle = titleRef.current.value;
-    const boardDescription = descriptionRef.current.value;
-
-    if (!data) return;
-    // плюс наверн врубить ошибку
-    dispatch(
-      updateBoard({
-        title: `${boardTitle}%${boardDescription}`,
-        users: data.users,
-        isProcessed: false,
-        _id: data?._id,
-        owner: data?.owner,
-      })
-    )
-      .unwrap()
-      .then(() =>
-        // TODO create middleware ?
-        toggle(false)
-      );
-  };
+  // eslint-disable-next-line prettier/prettier
+  const [initialBoardTitle, ...initialBoardDescription] = rowBoardData?.title.split('%') || ['', ''];
 
   if (isLoading) {
     return (
-      <Modal isOpened={isOpened} toggle={toggle} title="Edit board">
+      <Modal close={closeModal} title={modalTitle}>
         Loading
       </Modal>
     );
@@ -88,33 +66,41 @@ export const EditBoardModal = memo(() => {
 
   if (error) {
     return (
-      <Modal isOpened={isOpened} toggle={toggle} title="Edit board">
+      <Modal close={closeModal} title={modalTitle}>
         {error}
       </Modal>
     );
   }
 
   return (
-    <Modal isOpened={isOpened} toggle={toggle} title="Edit board">
-      <div className="edit-board-container">
+    <Modal close={closeModal} title={modalTitle}>
+      <div className="create-board-container">
         <InputWithErrorMessage
           type={EInputTypes.text}
           pattern={EPattern.name}
           errorMessage={EFormErrorMessages.name}
           placeholder="Board name"
+          onChangeCb={onTitleChange}
           ref={titleRef}
-          initialValue={title}
+          initialValue={initialBoardTitle}
         />
-        <InputTextArea initialValue={description} ref={descriptionRef} placeholder="Description" />
+        <InputTextArea
+          placeholder="Description"
+          onChangeCb={onDescriptionChange}
+          initialValue={initialBoardDescription.join('')}
+        />
 
         <BoardUsers />
 
-        <Button color="main" onClick={submit}>
-          Change
+        <Button color="add" onClick={submit}>
+          {buttonTitle}
         </Button>
-        <Button color="add" onClick={deleteThisBoard}>
-          Delete
-        </Button>
+
+        {boardId && (
+          <Button color="add" onClick={deleteThisBoard}>
+            Delete
+          </Button>
+        )}
       </div>
     </Modal>
   );
