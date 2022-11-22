@@ -19,7 +19,6 @@ const modalsSlice = createSlice({
       state.creatingBoard = action.payload;
     },
     toggleEditProfileModal: (state, action: PayloadAction<boolean>) => {
-      console.log('dispatch modal');
       state.editProfile = action.payload;
     },
   },

@@ -24,17 +24,18 @@ export interface IInputWithErrorMessage {
   placeholder?: string;
   errorMessage: EFormErrorMessages;
   onChangeCb?: (e: SyntheticEvent<HTMLInputElement>) => void;
+  initialValue?: string;
 }
 
 export const InputWithErrorMessage = forwardRef<HTMLInputElement, IInputWithErrorMessage>(
-  ({ type, placeholder, pattern, errorMessage, onChangeCb }, ref) => {
+  ({ type, placeholder, pattern, errorMessage, onChangeCb, initialValue }, ref) => {
     const [isValid, setIsValid] = useState(true);
     const bind = useInputWithCb((e) => {
       onChangeCb && onChangeCb(e);
       if (!isValid) {
         setIsValid(e.currentTarget.checkValidity());
       }
-    });
+    }, initialValue);
 
     const onBlur = (e: SyntheticEvent<HTMLInputElement>) => {
       const valid = e.currentTarget.checkValidity();

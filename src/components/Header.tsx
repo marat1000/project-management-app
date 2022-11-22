@@ -12,7 +12,6 @@ export const Header = memo(() => {
   if (!isAuth) return null;
 
   const openEditProfileModal = () => {
-    console.log('modal');
     dispatch(toggleEditProfileModal(true));
   };
 

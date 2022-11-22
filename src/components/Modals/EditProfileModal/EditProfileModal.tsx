@@ -8,11 +8,17 @@ import {
 import { Modal } from 'components/Modals/Modal/Modal';
 import React, { useRef, memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { clearRegistrationError, registerSelector } from 'store/slices/authSlice';
+import { clearEditProfileError, editProfileSelector } from 'store/slices/authSlice';
 import { selectEditProfileModalOpen, toggleEditProfileModal } from 'store/slices/modalsSlice';
-import { editUser, deleteUser, userIdSelector, userNameSelector } from 'store/slices/userSlice';
+import {
+  editUser,
+  deleteUser,
+  userIdSelector,
+  userNameSelector,
+  userLoginSelector,
+} from 'store/slices/userSlice';
 
-export const EditProfile = memo(() => {
+export const EditProfileModal = memo(() => {
   const dispatch = useAppDispatch();
   const isOpened = useAppSelector(selectEditProfileModalOpen);
   const toggle = (flag: boolean) => {
@@ -21,17 +27,17 @@ export const EditProfile = memo(() => {
 
   const userName = useAppSelector(userNameSelector);
   const userID = useAppSelector(userIdSelector);
+  const userLogin = useAppSelector(userLoginSelector);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const loginRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const { isLoading, error } = useAppSelector(registerSelector);
+  const { isLoading, error } = useAppSelector(editProfileSelector);
 
   const clearError = () => {
-    dispatch(clearRegistrationError());
+    dispatch(clearEditProfileError());
   };
-  // need to check does it fit
 
   const changeUserHandler = () => {
     if (!nameRef.current || !loginRef.current || !passwordRef.current) return;
@@ -50,10 +56,27 @@ export const EditProfile = memo(() => {
     dispatch(toggleEditProfileModal(false));
   };
 
+  if (isLoading) {
+    return (
+      <Modal isOpened={isOpened} toggle={toggle} title="Edit Profile">
+        Loading
+      </Modal>
+    );
+  }
+
+  if (error) {
+    return (
+      <Modal isOpened={isOpened} toggle={toggle} title="Edit Profile">
+        {error}
+      </Modal>
+    );
+  }
+
   return (
     <Modal isOpened={isOpened} toggle={toggle} title="Edit Profile">
       <div className="create-board-container">
         <InputWithErrorMessage
+          initialValue={userName.username}
           pattern={EPattern.name}
           placeholder="Name"
           errorMessage={EFormErrorMessages.name}
@@ -62,6 +85,7 @@ export const EditProfile = memo(() => {
           ref={nameRef}
         />
         <InputWithErrorMessage
+          initialValue={userLogin}
           pattern={EPattern.login}
           placeholder="Login"
           errorMessage={EFormErrorMessages.login}
@@ -81,7 +105,7 @@ export const EditProfile = memo(() => {
           Change
         </Button>
         <Button color="add" onClick={deleteUserHandler}>
-          Delete
+          Delete user
         </Button>
       </div>
     </Modal>
