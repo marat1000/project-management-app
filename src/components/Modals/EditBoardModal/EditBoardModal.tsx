@@ -24,7 +24,6 @@ import { useSelector } from 'react-redux';
 export const EditBoardModal = memo(() => {
   const isOpened = useAppSelector(selectEditBoardModalOpen);
   const { error, isLoading } = useAppSelector(editingBoardFlagsSelector);
-  // think bout it
   const usersAdded = useAppSelector(selectBoardUsers);
   //зачем если это есть в дате
   const dispatch = useAppDispatch();
@@ -32,7 +31,6 @@ export const EditBoardModal = memo(() => {
     dispatch(toggleEditBoardModal(flag));
   };
 
-  // searching for data
   const ID = useSelector(selectCurrentBoardID);
   const data = useSelector(selectBoardById(ID));
   const users = data?.users;
