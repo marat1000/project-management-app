@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
 import { useAppDispatch } from 'store/hooks';
-import { addUserOnSelectedBoard } from 'store/slices/boardUsersSlice';
+import { addBoardUser } from 'store/slices/editBoardSlice';
 
 interface IUsersMatchListItemProps {
   id: EntityId;
@@ -13,7 +13,7 @@ export const UsersMatchListItem = memo<IUsersMatchListItemProps>(({ id, name, cl
 
   const addUser = () => {
     clearInput();
-    dispatch(addUserOnSelectedBoard(id));
+    dispatch(addBoardUser(id));
   };
 
   return (

@@ -13,15 +13,12 @@ import React, { memo, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createBoard, creatingBoardFlagsSelector } from 'store/slices/boardsSlice';
 import { selectCreatingBoardModalOpen, toggleCreatingBoardModal } from 'store/slices/modalsSlice';
-import {
-  selectUsersIdsOnSelectedBoard,
-  setOnSelectedBoardUsers,
-} from 'store/slices/boardUsersSlice';
+import { selectBoardUsers, setBoardUsers } from 'store/slices/editBoardSlice';
 
 export const CreatingBoardModal = memo(() => {
   const isOpened = useAppSelector(selectCreatingBoardModalOpen);
   const { error, isLoading } = useAppSelector(creatingBoardFlagsSelector);
-  const usersAdded = useAppSelector(selectUsersIdsOnSelectedBoard);
+  const usersAdded = useAppSelector(selectBoardUsers);
   const dispatch = useAppDispatch();
   const toggle = (flag: boolean) => {
     dispatch(toggleCreatingBoardModal(flag));
@@ -32,7 +29,7 @@ export const CreatingBoardModal = memo(() => {
 
   useEffect(() => {
     if (isOpened) {
-      dispatch(setOnSelectedBoardUsers([]));
+      dispatch(setBoardUsers([]));
     }
   }, [isOpened, dispatch]);
 
