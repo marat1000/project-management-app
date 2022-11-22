@@ -8,10 +8,12 @@ interface ILayoutProps {
 }
 export const Layout = memo<ILayoutProps>(({ children }) => {
   return (
-    <div className="container">
+    <>
       <Header />
-      <main className="main">{children}</main>
-      <Footer />
-    </div>
+      <div className="container">
+        <main className="main">{children}</main>
+        <Footer />
+      </div>
+    </>
   );
 });

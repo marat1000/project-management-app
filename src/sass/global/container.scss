@@ -1,17 +1,15 @@
 .container {
   margin: 0 auto;
   height: 100%;
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
-  background-image: url('../../../public/bg.png');
-  background-size: cover;
 
-  @include vp--2559 {
-    padding: 0 40px;
-  }
+  //@include vp--2559 {
+  //  padding: 0 40px;
+  //}
 
   .footer {
-    padding-bottom: 20px;
     margin-top: auto;
   }
 }

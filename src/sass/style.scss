@@ -19,6 +19,10 @@
 //---------------------------------
 
 @import "blocks/header";
+@import "blocks/footer";
+@import "blocks/logo";
+@import "blocks/nav";
+@import "blocks/theme-switcher";
 @import "../components/AuthContainer/auth-container.scss";
 @import "../components/Column/column.scss";
 @import "../components/StartPagesLayout/start-pages-layout.scss";
