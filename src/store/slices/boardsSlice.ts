@@ -19,6 +19,10 @@ const boardsSlice = createSlice({
       isLoading: false,
       error: '',
     },
+    editing: {
+      isLoading: false,
+      error: '',
+    },
   }),
   reducers: {
     removeAllBoards: boardsAdapter.removeAll,
@@ -75,16 +79,22 @@ const boardsSlice = createSlice({
 
     /* *** Update *** */
     builder.addCase(updateBoard.pending, (state, action) => {
+      state.editing.isLoading = true;
+      state.editing.error = '';
       const board = action.meta.arg;
       boardsAdapter.updateOne(state, { id: board._id, changes: { isProcessed: true } });
     });
 
     builder.addCase(updateBoard.fulfilled, (state, action) => {
+      state.editing.isLoading = false;
+      state.editing.error = '';
       const board = action.meta.arg;
       boardsAdapter.updateOne(state, { id: board._id, changes: { ...board, isProcessed: false } });
     });
 
     builder.addCase(updateBoard.rejected, (state, action) => {
+      state.editing.isLoading = true;
+      state.editing.error = action.error.message || 'unknown error';
       const board = action.meta.arg;
       boardsAdapter.updateOne(state, { id: board._id, changes: { ...board, isProcessed: false } });
     });
@@ -107,6 +117,7 @@ export const selectBoardById = (id: EntityId) => (state: RootState) => {
   return boardsSelectors.selectById(state, id);
 };
 export const creatingBoardFlagsSelector = (state: RootState) => state.boards.creating;
+export const editingBoardFlagsSelector = (state: RootState) => state.boards.editing;
 
 export default boardsSlice.reducer;
 

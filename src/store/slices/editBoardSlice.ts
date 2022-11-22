@@ -15,10 +15,18 @@ const boardUsersAdapter = createEntityAdapter<IUser>({
 
 const editBoardSlice = createSlice({
   name: 'editBoard',
-  initialState: boardUsersAdapter.getInitialState<{ boardUsers: EntityId[] }>({
+  initialState: boardUsersAdapter.getInitialState<{
+    boardUsers: EntityId[];
+    currentBoardID: EntityId;
+  }>({
     boardUsers: [],
+    currentBoardID: 0,
   }),
   reducers: {
+    setCurrentBoardID: (state, action: PayloadAction<EntityId>) => {
+      state.currentBoardID = action.payload;
+    },
+
     setBoardUsers: (state, action: PayloadAction<EntityId[]>) => {
       state.boardUsers = action.payload;
     },
@@ -43,7 +51,8 @@ const editBoardSlice = createSlice({
 export default editBoardSlice.reducer;
 
 //Actions
-export const { setBoardUsers, addBoardUser, removeBoardUser } = editBoardSlice.actions;
+export const { setBoardUsers, addBoardUser, removeBoardUser, setCurrentBoardID } =
+  editBoardSlice.actions;
 
 // Selectors
 const usersSelectors = boardUsersAdapter.getSelectors<RootState>((state) => state.editBoard);
@@ -51,6 +60,7 @@ export const selectUserById = (id: EntityId) => (state: RootState) =>
   usersSelectors.selectById(state, id);
 
 export const selectBoardUsers = (state: RootState) => state.editBoard.boardUsers;
+export const selectCurrentBoardID = (state: RootState) => state.editBoard.currentBoardID;
 export const selectAllUsers = usersSelectors.selectAll;
 
 // Thunks
