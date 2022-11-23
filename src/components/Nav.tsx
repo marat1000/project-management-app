@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector, logOut } from 'store/slices/authSlice';
 import { NavLink } from 'react-router-dom';
 import { ERoutes } from '../ts/enums';
-import { toggleCreatingBoardModal, toggleEditProfileModal } from '../store/slices/modalsSlice';
+import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/modalsSlice';
 import { Button } from './Button/Button';
 
 export const Nav = memo(() => {
@@ -14,7 +14,7 @@ export const Nav = memo(() => {
     dispatch(toggleEditProfileModal(true));
   };
   const openCreatingBoardModal = () => {
-    dispatch(toggleCreatingBoardModal(true));
+    dispatch(toggleEditBoardModal(true));
   };
   const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

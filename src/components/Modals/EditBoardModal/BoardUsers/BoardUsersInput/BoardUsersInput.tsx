@@ -38,7 +38,7 @@ export const BoardUsersInput = memo(() => {
   }, [search, usersOnThisBoard, users, username]);
 
   return (
-    <div>
+    <div className="input-container">
       <input
         className="input"
         type="text"

@@ -18,8 +18,8 @@ export const Main = memo(() => {
   return (
     <>
       <div className="main__container">
-        <button onClick={logout}>Log Out</button>
-        <button onClick={openCreatingBoardModal}>Add board</button>
+        {/* <button onClick={logout}>Log Out</button> */}
+        {/* <button onClick={openCreatingBoardModal}>Add board</button> */}
         <BoardsList />
         <p>
           Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
