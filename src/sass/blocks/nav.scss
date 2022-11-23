@@ -9,7 +9,7 @@
   a {
     display: flex;
     align-items: center;
-    margin-right: 14%;
+    margin-left: 14%;
     white-space: nowrap;
   }
 
@@ -19,6 +19,8 @@
   }
 
   button {
+    height: 40px;
+    width: 180px;
     padding: 10px 15px;
     white-space: nowrap;
     border: none;

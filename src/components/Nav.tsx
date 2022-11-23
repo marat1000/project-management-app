@@ -23,6 +23,9 @@ export const Nav = memo(() => {
 
   return (
     <nav className={`nav`}>
+      <Button color="add" onClick={openCreatingBoardModal}>
+        + Create new board
+      </Button>
       <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
         <ProfileSVG />
         <span>Profile</span>
@@ -31,9 +34,6 @@ export const Nav = memo(() => {
         <SignOutSVG />
         <span>Sign Out</span>
       </NavLink>
-      <Button color="add" onClick={openCreatingBoardModal}>
-        Create new board
-      </Button>
     </nav>
   );
 });
