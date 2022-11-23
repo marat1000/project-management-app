@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { selectAuthorizationFlag } from 'store/slices/authSlice';
+import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { loadBoard, selectBoardById } from 'store/slices/boardsSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { clearSession, logOutWhenDelete } from './middleware/clearSession';
 import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
-import authSlice from './slices/authSlice';
+import authSlice from './slices/auth/authSlice';
 import boardsSlice from './slices/boardsSlice';
 import modalsSlice from './slices/modalsSlice';
 import settingSlice from './slices/settingsSlice';

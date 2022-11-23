@@ -2,7 +2,7 @@ import { Button } from 'components/Button/Button';
 import { StartPagesLayout } from 'components/StartPagesLayout/StartPagesLayout';
 import React, { memo } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectAuthorizationFlag } from 'store/slices/authSlice';
+import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { ERoutes } from 'ts/enums';
 export const Welcome = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);

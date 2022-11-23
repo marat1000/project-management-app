@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
-import { selectAuthorizationFlag } from 'store/slices/authSlice';
 import { ERoutes } from 'ts/enums';
 import { Nav } from './Nav';
 import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
+import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);

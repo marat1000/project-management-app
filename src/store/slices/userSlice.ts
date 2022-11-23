@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserService } from 'api/services/user';
 import { RootState } from 'store';
 import { IEditUserParams, IUser } from 'ts/interfaces';
-import { checkAuth, logOut, signIn } from './authSlice';
+import { checkAuth, logOut, signIn } from './auth/authThunks';
 import { toggleEditProfileModal } from './modalsSlice';
 
 type IUserState = {

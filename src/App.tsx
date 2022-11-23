@@ -1,7 +1,6 @@
 import './App.css';
 import React, { memo } from 'react';
 import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
-import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/authSlice';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
@@ -12,6 +11,7 @@ import { Layout } from 'components/Layout';
 // import { EditProfile } from 'pages/Profile';
 import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
+import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 
 const AuthRoutes = memo(() => {
   return (
