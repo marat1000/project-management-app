@@ -28,11 +28,15 @@ const editBoardSlice = createSlice({
   name: 'editBoard',
   initialState: boardUsersAdapter.getInitialState<{
     data: IEditingBoardData;
-    isLoading: boolean;
-    error: string;
+    flags: {
+      isLoading: boolean;
+      error: string;
+    };
   }>({
-    isLoading: false,
-    error: '',
+    flags: {
+      isLoading: false,
+      error: '',
+    },
     data: {
       id: null,
       users: [],
@@ -60,43 +64,43 @@ const editBoardSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(startEditingBoard.pending, (state) => {
-      state.isLoading = true;
+      state.flags.isLoading = true;
     });
     builder.addCase(startEditingBoard.fulfilled, (state, action) => {
-      state.isLoading = false;
+      state.flags.isLoading = false;
       const { users, boardData } = action.payload;
       boardUsersAdapter.setAll(state, users);
       state.data = boardData;
     });
     builder.addCase(startEditingBoard.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message || 'Unknown error';
+      state.flags.isLoading = false;
+      state.flags.error = action.error.message || 'Unknown error';
     });
 
     builder.addCase(endEditingBoard.pending, (state) => {
-      state.isLoading = true;
+      state.flags.isLoading = true;
     });
 
     builder.addCase(endEditingBoard.fulfilled, (state) => {
-      state.isLoading = false;
+      state.flags.isLoading = false;
     });
 
     builder.addCase(endEditingBoard.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message || 'Unknown error';
+      state.flags.isLoading = false;
+      state.flags.error = action.error.message || 'Unknown error';
     });
 
     builder.addCase(deleteBoard.pending, (state) => {
-      state.isLoading = true;
+      state.flags.isLoading = true;
     });
 
     builder.addCase(deleteBoard.fulfilled, (state) => {
-      state.isLoading = false;
+      state.flags.isLoading = false;
     });
 
     builder.addCase(deleteBoard.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message || 'Unknown error';
+      state.flags.isLoading = false;
+      state.flags.error = action.error.message || 'Unknown error';
     });
   },
 });
@@ -145,10 +149,7 @@ const usersSelectors = boardUsersAdapter.getSelectors<RootState>((state) => stat
 export const selectUserById = (id: EntityId) => (state: RootState) =>
   usersSelectors.selectById(state, id);
 
-export const selectEditedBoardFlags = (state: RootState) => ({
-  error: state.editBoard.error,
-  isLoading: state.editBoard.isLoading,
-});
+export const selectEditedBoardFlags = (state: RootState) => state.editBoard.flags;
 
 export const selectEditedBoardId = (state: RootState) => state.editBoard.data.id;
 
