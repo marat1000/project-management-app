@@ -1,0 +1,28 @@
+.nav {
+  display: flex;
+  font-family: 'Audi Type';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+
+  a {
+    display: flex;
+    align-items: center;
+    margin-right: 14%;
+    white-space: nowrap;
+  }
+
+  svg {
+    flex-shrink: 0;
+    margin-right: 15%;
+  }
+
+  button {
+    padding: 10px 15px;
+    white-space: nowrap;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+}

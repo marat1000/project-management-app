@@ -1,32 +1,75 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { authSelector } from 'store/slices/authSlice';
 import { toggleEditProfileModal } from 'store/slices/modalsSlice';
 import { ERoutes } from 'ts/enums';
 import { Button } from './Button/Button';
+import { Nav } from './Nav';
+import { LangSelect } from './LangSelect';
+import ThemeSwitcher from './ThemeSwitcher';
 
 export const Header = memo(() => {
-  const dispatch = useAppDispatch();
   const isAuth = useAppSelector(authSelector);
-  if (!isAuth) return null;
+  const [value, setValue] = useState(false);
+  const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });
+  const headerRef = useRef<HTMLElement>(null);
 
-  const openEditProfileModal = () => {
-    dispatch(toggleEditProfileModal(true));
+  // handle scroll event
+  const handleScroll = (elTopOffset: number, elHeight: number) => {
+    const main = document.querySelector(`.main-content`) as HTMLElement;
+    if (window.scrollY > elTopOffset) {
+      setSticky({ isSticky: true, offset: elHeight });
+      main.style.marginTop = `${elHeight}px`;
+    } else {
+      setSticky({ isSticky: false, offset: 0 });
+      main.style.marginTop = `0px`;
+    }
   };
 
+  // add/remove scroll event listener
+  useEffect(() => {
+    let handleScrollEvent: {
+      (): void;
+      (this: Window, ev: Event): unknown;
+      (this: Window, ev: Event): unknown;
+    };
+    if (isAuth) {
+      const header = headerRef.current?.getBoundingClientRect();
+      handleScrollEvent = () => {
+        handleScroll(header?.top as number, header?.height as number);
+      };
+      window.addEventListener('scroll', handleScrollEvent);
+    }
+    return () => {
+      window.removeEventListener('scroll', handleScrollEvent);
+    };
+  }, []);
+
   return (
-    <header className="header">
-      {' '}
-      <nav>
-        <NavLink to={ERoutes.welcome}>Welcome</NavLink>
-        <NavLink to={ERoutes.main}>Main</NavLink>
-        {isAuth && (
-          <Button color="add" onClick={openEditProfileModal}>
-            Profile
-          </Button>
-        )}
-      </nav>
+    <header className={`header${sticky.isSticky ? ' header_sticky' : ''}`} ref={headerRef}>
+      <div className="container">
+        <div className={`header__wrapper`}>
+          <NavLink className={`header__logo logo`} to={ERoutes.welcome}>
+            <Logo />
+            <span>Boardello</span>
+          </NavLink>
+          {isAuth && <Nav />}
+          <LangSelect />
+          <ThemeSwitcher isOn={value} handleToggle={() => setValue(!value)} onColor="#EF476F" />
+        </div>{' '}
+      </div>
     </header>
+  );
+});
+
+export const Logo = memo(() => {
+  return (
+    <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M2.5 22.5C1.8125 22.5 1.22375 22.2554 0.73375 21.7663C0.244583 21.2763 0 20.6875 0 20V2.5C0 1.8125 0.244583 1.22375 0.73375 0.73375C1.22375 0.244583 1.8125 0 2.5 0H20C20.6875 0 21.2763 0.244583 21.7663 0.73375C22.2554 1.22375 22.5 1.8125 22.5 2.5V20C22.5 20.6875 22.2554 21.2763 21.7663 21.7663C21.2763 22.2554 20.6875 22.5 20 22.5H2.5ZM2.5 20H10V2.5H2.5V20ZM12.5 20H20V11.25H12.5V20ZM12.5 8.75H20V2.5H12.5V8.75Z"
+        fill="#1C1B1F"
+      />
+    </svg>
   );
 });

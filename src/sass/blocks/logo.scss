@@ -1,0 +1,16 @@
+.logo {
+    display: flex;
+    align-items: center;
+    color: $color-default-black;
+    font-family: 'Roboto Condensed';
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 33px;
+
+    svg {
+        flex-shrink: 0;
+        width: 25px;
+        height: auto;
+        margin-right: 7px;
+    }
+}
