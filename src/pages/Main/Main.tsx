@@ -1,14 +1,14 @@
 import React, { memo } from 'react';
 import { useAppDispatch } from 'store/hooks';
 import { logOut } from 'store/slices/authSlice';
-import { toggleCreatingBoardModal } from 'store/slices/modalsSlice';
+import { startEditingBoard } from 'store/slices/editBoardSlice';
 import { BoardsList } from './components/BoardsList';
 
 export const Main = memo(() => {
   const dispatch = useAppDispatch();
 
   const openCreatingBoardModal = () => {
-    dispatch(toggleCreatingBoardModal(true));
+    dispatch(startEditingBoard());
   };
 
   const logout = () => {

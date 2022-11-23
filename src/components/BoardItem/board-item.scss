@@ -4,6 +4,7 @@
     background-color: #fff;
     border-radius: 15px;
     padding: 20px;
+    box-shadow: 4px 4px 18px rgba(0, 0, 0, 0.15);
 
     & header {
         display: flex;
@@ -28,4 +29,18 @@
         color: $color-light-text;
         text-overflow: ellipsis;
     }
+
+    &__edit {
+        cursor: pointer;
+        padding: 10px 3px 3px 10px;
+    }
+
+    &__plus {
+        line-height: 120px;
+        text-align: center;
+        font-size: 30px;
+        cursor: pointer;
+        // font-weight: bold;
+    }
+
 }

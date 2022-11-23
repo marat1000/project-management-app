@@ -3,17 +3,14 @@ import { createPortal } from 'react-dom';
 import { SmoothCorners } from 'react-smooth-corners';
 
 interface IModalProps {
-  isOpened: boolean;
-  toggle: (flag: boolean) => void;
+  close: () => void;
   children: ReactNode;
   title: string;
 }
 
-export const Modal = memo<IModalProps>(({ title, children, isOpened, toggle }) => {
-  if (!isOpened) return null;
-
+export const Modal = memo<IModalProps>(({ title, children, close }) => {
   const element = (
-    <div className="modal__overlay" onClick={() => toggle(false)}>
+    <div className="modal__overlay" onClick={close}>
       <SmoothCorners
         corners="22, 16"
         borderRadius="25px"
@@ -23,7 +20,7 @@ export const Modal = memo<IModalProps>(({ title, children, isOpened, toggle }) =
       >
         <div className="modal__header">
           <h2>{title}</h2>
-          <button onClick={() => toggle(false)} className="modal__close">
+          <button onClick={close} className="modal__close">
             ✖
           </button>
         </div>

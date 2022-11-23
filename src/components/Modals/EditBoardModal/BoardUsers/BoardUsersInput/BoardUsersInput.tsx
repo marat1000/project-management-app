@@ -1,6 +1,6 @@
 import React, { memo, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
-import { selectAllUsers, fetchAllUsers, selectBoardUsers } from 'store/slices/editBoardSlice';
+import { selectAllUsers, selectBoardUsers } from 'store/slices/editBoardSlice';
 import { userNameSelector } from 'store/slices/userSlice';
 import { IUser } from 'ts/interfaces';
 import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';
@@ -43,7 +43,6 @@ export const BoardUsersInput = memo(() => {
         className="input"
         type="text"
         placeholder="Add user..."
-        onFocus={() => dispatch(fetchAllUsers())}
         value={search}
         onChange={searchUsers}
       />

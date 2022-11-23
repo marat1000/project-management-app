@@ -1,9 +1,10 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, EntityId } from '@reduxjs/toolkit';
 import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
-import { IBoardExtended } from 'ts/interfaces';
+import { IBoard, IBoardExtended } from 'ts/interfaces';
+import { toggleEditBoardModal } from './modalsSlice';
 
-const boardsAdapter = createEntityAdapter<IBoardExtended>({
+export const boardsAdapter = createEntityAdapter<IBoardExtended>({
   selectId: (book) => book._id,
   sortComparer: (a, b) => a.title.localeCompare(b.title),
 });
@@ -11,10 +12,6 @@ const boardsAdapter = createEntityAdapter<IBoardExtended>({
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: boardsAdapter.getInitialState({
-    creating: {
-      isLoading: false,
-      error: '',
-    },
     fetching: {
       isLoading: false,
       error: '',
@@ -41,50 +38,18 @@ const boardsSlice = createSlice({
       state.fetching.error = action.error.message || 'Unknown error';
     });
 
-    /* *** Creating *** */
-    builder.addCase(createBoard.pending, (state) => {
-      state.creating.isLoading = true;
-      state.creating.error = '';
-    });
-
+    // /* *** Creating *** */
     builder.addCase(createBoard.fulfilled, (state, action) => {
       boardsAdapter.addOne(state, action.payload);
-      state.creating.isLoading = false;
-      state.creating.error = '';
-    });
-
-    builder.addCase(createBoard.rejected, (state, action) => {
-      state.creating.isLoading = false;
-      state.creating.error = action.error.message || 'Unknown error';
     });
 
     /* *** Delete *** */
-    builder.addCase(deleteBoard.pending, (state, action) => {
-      const id = action.meta.arg;
-      boardsAdapter.updateOne(state, { id, changes: { isProcessed: true } });
-    });
-
     builder.addCase(deleteBoard.fulfilled, (state, action) => {
       boardsAdapter.removeOne(state, action.payload);
     });
 
-    builder.addCase(deleteBoard.rejected, (state, action) => {
-      const id = action.meta.arg;
-      boardsAdapter.updateOne(state, { id, changes: { isProcessed: false } });
-    });
-
-    /* *** Update *** */
-    builder.addCase(updateBoard.pending, (state, action) => {
-      const board = action.meta.arg;
-      boardsAdapter.updateOne(state, { id: board._id, changes: { isProcessed: true } });
-    });
-
+    // /* *** Update *** */
     builder.addCase(updateBoard.fulfilled, (state, action) => {
-      const board = action.meta.arg;
-      boardsAdapter.updateOne(state, { id: board._id, changes: { ...board, isProcessed: false } });
-    });
-
-    builder.addCase(updateBoard.rejected, (state, action) => {
       const board = action.meta.arg;
       boardsAdapter.updateOne(state, { id: board._id, changes: { ...board, isProcessed: false } });
     });
@@ -100,13 +65,13 @@ const boardsSlice = createSlice({
 
 export const { removeAllBoards } = boardsSlice.actions;
 
-const boardsSelectors = boardsAdapter.getSelectors<RootState>((state) => state.boards);
+export const boardsSelectors = boardsAdapter.getSelectors<RootState>((state) => state.boards);
 
 export const { selectIds: selectBoardsIds } = boardsSelectors;
-export const selectBoardById = (id: EntityId) => (state: RootState) => {
+export const selectBoardById = (id: EntityId | null) => (state: RootState) => {
+  if (!id) return null;
   return boardsSelectors.selectById(state, id);
 };
-export const creatingBoardFlagsSelector = (state: RootState) => state.boards.creating;
 
 export default boardsSlice.reducer;
 
@@ -120,9 +85,10 @@ export const createBoard = createAsyncThunk<
   {
     state: RootState;
   }
->('boards/createBoard', async (data, { getState }) => {
+>('boards/createBoard', async (data, { getState, dispatch }) => {
   const owner = getState().user.id;
   const response = await BoardService.createBoard({ ...data, owner });
+  dispatch(toggleEditBoardModal(false));
   return response;
 });
 
@@ -138,15 +104,23 @@ export const fetchUserBoards = createAsyncThunk<
   return response;
 });
 
-export const deleteBoard = createAsyncThunk('boards/delete', async (boardID: string) => {
-  const deleted = await BoardService.delete(boardID);
-  return deleted;
-});
+export const deleteBoard = createAsyncThunk(
+  'boards/delete',
+  async (boardID: string, { dispatch }) => {
+    const deleted = await BoardService.delete(boardID);
+    dispatch(toggleEditBoardModal(false));
+    return deleted;
+  }
+);
 
-export const updateBoard = createAsyncThunk('boards/update', async (board: IBoardExtended) => {
-  const updated = await BoardService.update(board);
-  return updated;
-});
+export const updateBoard = createAsyncThunk(
+  'boards/update',
+  async (board: IBoard, { dispatch }) => {
+    const updated = await BoardService.update(board);
+    dispatch(toggleEditBoardModal(false));
+    return updated;
+  }
+);
 
 export const loadBoard = createAsyncThunk<IBoardExtended | null, string, { state: RootState }>(
   'boards/load',

@@ -61,7 +61,7 @@ export default class BoardService {
     return response.data._id;
   }
 
-  static async update(data: IBoardExtended) {
+  static async update(data: IBoard) {
     const sendData = {
       title: data.title,
       owner: data.owner,
