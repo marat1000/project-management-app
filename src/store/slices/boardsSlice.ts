@@ -67,7 +67,7 @@ export const { removeAllBoards } = boardsSlice.actions;
 
 export const boardsSelectors = boardsAdapter.getSelectors<RootState>((state) => state.boards);
 
-export const { selectIds: selectBoardsIds } = boardsSelectors;
+export const selectBoardsIds = boardsSelectors.selectIds;
 export const selectBoardById = (id: EntityId | null) => (state: RootState) => {
   if (!id) return null;
   return boardsSelectors.selectById(state, id);

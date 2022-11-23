@@ -2,10 +2,10 @@ import { Button } from 'components/Button/Button';
 import { StartPagesLayout } from 'components/StartPagesLayout/StartPagesLayout';
 import React, { memo } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { authSelector } from 'store/slices/authSlice';
+import { selectAuthorizationFlag } from 'store/slices/authSlice';
 import { ERoutes } from 'ts/enums';
 export const Welcome = memo(() => {
-  const isAuth = useAppSelector(authSelector);
+  const isAuth = useAppSelector(selectAuthorizationFlag);
   return (
     <StartPagesLayout>
       <div className="welcome__image">

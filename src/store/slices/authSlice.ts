@@ -15,10 +15,6 @@ export interface IAuthState {
     error: string;
     isLoading: boolean;
   };
-  editProfile: {
-    error: string;
-    isLoading: boolean;
-  };
 }
 
 const initialState: IAuthState = {
@@ -29,10 +25,6 @@ const initialState: IAuthState = {
     error: '',
   },
   login: {
-    isLoading: false,
-    error: '',
-  },
-  editProfile: {
     isLoading: false,
     error: '',
   },
@@ -104,11 +96,10 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 
 // Selectors
-export const registerSelector = (state: RootState) => state.auth.registration;
-export const loginSelector = (state: RootState) => state.auth.login;
-export const authSelector = (state: RootState) => state.auth.isAuth;
-export const authCheckingSelector = (state: RootState) => state.auth.isChecking;
-export const editProfileSelector = (state: RootState) => state.auth.editProfile;
+export const selectRegistrationFlags = (state: RootState) => state.auth.registration;
+export const selectLoginFlags = (state: RootState) => state.auth.login;
+export const selectAuthorizationFlag = (state: RootState) => state.auth.isAuth;
+export const selectAuthCheckingFlag = (state: RootState) => state.auth.isChecking;
 
 // Actions
 export const { clearLoginError, clearRegistrationError, clearEditProfileError } = authSlice.actions;

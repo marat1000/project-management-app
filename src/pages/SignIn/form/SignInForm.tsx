@@ -8,12 +8,12 @@ import {
 import React, { memo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { loginSelector, clearLoginError, signIn } from 'store/slices/authSlice';
+import { selectLoginFlags, clearLoginError, signIn } from 'store/slices/authSlice';
 import { ERoutes } from 'ts/enums';
 
 export const SignInForm = memo(() => {
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector(loginSelector);
+  const { isLoading, error } = useAppSelector(selectLoginFlags);
   const navigate = useNavigate();
   const isRedirect = useSearchParams()[0].get('redirect');
 

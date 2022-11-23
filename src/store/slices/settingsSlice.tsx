@@ -50,7 +50,7 @@ const settingsSlice = createSlice({
   },
 });
 
-export const settingsThemeSelector = (state: RootState) => state.settings.theme;
-export const settingsLangSelector = (state: RootState) => state.settings.lang;
+export const selectTheme = (state: RootState) => state.settings.theme;
+export const selectLanguage = (state: RootState) => state.settings.lang;
 
 export default settingsSlice.reducer;
