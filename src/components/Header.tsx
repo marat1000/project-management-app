@@ -46,8 +46,6 @@ export const Header = memo(() => {
     };
   }, []);
 
-  if (!isAuth) return null;
-
   return (
     <header className={`header${sticky.isSticky ? ' header_sticky' : ''}`} ref={headerRef}>
       <div className="container">
@@ -56,7 +54,7 @@ export const Header = memo(() => {
             <Logo />
             <span>Boardello</span>
           </NavLink>
-          <Nav />
+          {isAuth && <Nav />}
           <LangSelect />
           <ThemeSwitcher isOn={value} handleToggle={() => setValue(!value)} onColor="#EF476F" />
         </div>{' '}

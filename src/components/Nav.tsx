@@ -1,31 +1,37 @@
 import React from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { authSelector } from 'store/slices/authSlice';
+import { authSelector, logOut } from 'store/slices/authSlice';
 import { NavLink } from 'react-router-dom';
 import { ERoutes } from '../ts/enums';
-import { toggleEditProfileModal } from '../store/slices/modalsSlice';
+import { toggleCreatingBoardModal, toggleEditProfileModal } from '../store/slices/modalsSlice';
 import { Button } from './Button/Button';
 
 export const Nav = memo(() => {
-  const isAuth = useAppSelector(authSelector);
-
   const dispatch = useAppDispatch();
-  const openEditProfileModal = () => {
+  const openEditProfileModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     dispatch(toggleEditProfileModal(true));
+  };
+  const openCreatingBoardModal = () => {
+    dispatch(toggleCreatingBoardModal(true));
+  };
+  const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    dispatch(logOut());
   };
 
   return (
     <nav className={`nav`}>
-      <NavLink to={ERoutes.profile}>
+      <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
         <ProfileSVG />
         <span>Profile</span>
       </NavLink>
-      <NavLink to={ERoutes.welcome}>
+      <NavLink to={ERoutes.welcome} onClick={logout}>
         <SignOutSVG />
         <span>Sign Out</span>
       </NavLink>
-      <Button color="add" onClick={openEditProfileModal}>
+      <Button color="add" onClick={openCreatingBoardModal}>
         Create new board
       </Button>
     </nav>

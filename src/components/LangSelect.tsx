@@ -23,13 +23,11 @@ export const LangSelect = memo(() => {
   return (
     <Select
       className={`header__lang`}
+      classNamePrefix="select"
       isRtl={true}
       defaultValue={options[0]}
       options={options}
       components={{ DropdownIndicator, IndicatorSeparator: () => null }}
-      // components={{
-      //   IndicatorSeparator: () => null,
-      // }}
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
