@@ -148,11 +148,8 @@ export const {
 const usersSelectors = boardUsersAdapter.getSelectors<RootState>((state) => state.editBoard);
 export const selectUserById = (id: EntityId) => (state: RootState) =>
   usersSelectors.selectById(state, id);
-
 export const selectEditedBoardFlags = (state: RootState) => state.editBoard.flags;
-
 export const selectEditedBoardId = (state: RootState) => state.editBoard.data.id;
-
 export const selectBoardUsers = (state: RootState) => state.editBoard.data.users;
 export const selectAllUsers = usersSelectors.selectAll;
 

@@ -1,7 +1,7 @@
 import './App.css';
 import React, { memo } from 'react';
 import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
-import { authCheckingSelector, authSelector } from 'store/slices/authSlice';
+import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/authSlice';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
@@ -46,8 +46,8 @@ const NonAuthRoutes = memo(() => {
 });
 
 function App() {
-  const isChecking = useAppSelector(authCheckingSelector);
-  const isAuth = useAppSelector(authSelector);
+  const isChecking = useAppSelector(selectAuthCheckingFlag);
+  const isAuth = useAppSelector(selectAuthorizationFlag);
 
   useFirstCheckAuth();
 

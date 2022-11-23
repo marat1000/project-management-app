@@ -1,7 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { authSelector, logOut } from 'store/slices/authSlice';
+import { useAppDispatch } from 'store/hooks';
+import { logOut } from 'store/slices/authSlice';
 import { NavLink } from 'react-router-dom';
 import { ERoutes } from '../ts/enums';
 import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/modalsSlice';

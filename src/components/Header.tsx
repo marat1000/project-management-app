@@ -1,16 +1,14 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { authSelector } from 'store/slices/authSlice';
-import { toggleEditProfileModal } from 'store/slices/modalsSlice';
+import { useAppSelector } from 'store/hooks';
+import { selectAuthorizationFlag } from 'store/slices/authSlice';
 import { ERoutes } from 'ts/enums';
-import { Button } from './Button/Button';
 import { Nav } from './Nav';
 import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export const Header = memo(() => {
-  const isAuth = useAppSelector(authSelector);
+  const isAuth = useAppSelector(selectAuthorizationFlag);
   const [value, setValue] = useState(false);
   const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });
   const headerRef = useRef<HTMLElement>(null);
@@ -57,7 +55,7 @@ export const Header = memo(() => {
           {isAuth && <Nav />}
           <LangSelect />
           <ThemeSwitcher isOn={value} handleToggle={() => setValue(!value)} onColor="#EF476F" />
-        </div>{' '}
+        </div>
       </div>
     </header>
   );
