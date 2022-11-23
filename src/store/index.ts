@@ -3,7 +3,7 @@ import { clearSession, logOutWhenDelete } from './middleware/clearSession';
 import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/auth/authSlice';
-import boardsSlice from './slices/boardsSlice';
+import boardsSlice from './slices/boards/boardsSlice';
 import modalsSlice from './slices/modalsSlice';
 import settingSlice from './slices/settingsSlice';
 import userSlice from './slices/userSlice';

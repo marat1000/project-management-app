@@ -2,7 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { selectBoardById } from 'store/slices/boardsSlice';
+import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { startEditingBoard } from 'store/slices/editBoardSlice';
 import { ERoutes } from 'ts/enums';
 import dots from '../Svg/dots-dark.svg';

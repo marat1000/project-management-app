@@ -10,7 +10,8 @@ import { SyntheticEvent, useCallback } from 'react';
 import { RootState } from 'store';
 import { useAppDispatch } from 'store/hooks';
 import { IUser } from 'ts/interfaces';
-import { boardsSelectors, createBoard, deleteBoard, updateBoard } from './boardsSlice';
+import { boardsSelectors } from './boards/boardsSelectors';
+import { deleteBoard, updateBoard, createBoard } from './boards/boardsThunks';
 import { toggleEditBoardModal } from './modalsSlice';
 
 const boardUsersAdapter = createEntityAdapter<IUser>({

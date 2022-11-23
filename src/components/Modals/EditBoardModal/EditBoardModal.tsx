@@ -19,7 +19,8 @@ import {
   useEditBoardDescriptionOnChange,
   useEditBoardTitleOnChange,
 } from 'store/slices/editBoardSlice';
-import { deleteBoard, selectBoardById } from 'store/slices/boardsSlice';
+import { selectBoardById } from 'store/slices/boards/boardsSelectors';
+import { deleteBoard } from 'store/slices/boards/boardsThunks';
 
 export const EditBoardModal = memo(() => {
   const { error, isLoading } = useAppSelector(selectEditedBoardFlags);
