@@ -8,14 +8,15 @@ import {
 import { Modal } from 'components/Modals/Modal/Modal';
 import React, { useRef, memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { clearEditProfileError, editProfileSelector } from 'store/slices/authSlice';
+import { clearEditProfileError } from 'store/slices/authSlice';
 import { toggleEditProfileModal } from 'store/slices/modalsSlice';
 import {
   editUser,
   deleteUser,
-  userIdSelector,
-  userNameSelector,
-  userLoginSelector,
+  selectUserName,
+  selectUserId,
+  selectUserLogin,
+  selectUserEditFlags,
 } from 'store/slices/userSlice';
 
 export const EditProfileModal = memo(() => {
@@ -24,15 +25,14 @@ export const EditProfileModal = memo(() => {
     dispatch(toggleEditProfileModal(false));
   };
 
-  const userName = useAppSelector(userNameSelector);
-  const userID = useAppSelector(userIdSelector);
-  const userLogin = useAppSelector(userLoginSelector);
+  const username = useAppSelector(selectUserName);
+  const { error, isLoading } = useAppSelector(selectUserEditFlags);
+  const userID = useAppSelector(selectUserId);
+  const userLogin = useAppSelector(selectUserLogin);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const loginRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-
-  const { isLoading, error } = useAppSelector(editProfileSelector);
 
   const clearError = () => {
     dispatch(clearEditProfileError());
@@ -40,6 +40,13 @@ export const EditProfileModal = memo(() => {
 
   const changeUserHandler = () => {
     if (!nameRef.current || !loginRef.current || !passwordRef.current) return;
+
+    const isNameValid = nameRef.current.checkValidity();
+    const isLoginValid = loginRef.current.checkValidity();
+    const isPasswordValid = passwordRef.current.checkValidity();
+
+    if (!isNameValid || !isLoginValid || !isPasswordValid) return;
+
     dispatch(
       editUser({
         name: nameRef.current.value,
@@ -47,12 +54,10 @@ export const EditProfileModal = memo(() => {
         password: passwordRef.current.value,
       })
     );
-    dispatch(toggleEditProfileModal(false));
   };
 
   const deleteUserHandler = () => {
     dispatch(deleteUser(userID));
-    dispatch(toggleEditProfileModal(false));
   };
 
   if (isLoading) {
@@ -75,7 +80,7 @@ export const EditProfileModal = memo(() => {
     <Modal close={closeModal} title="Edit Profile">
       <div className="create-board-container">
         <InputWithErrorMessage
-          initialValue={userName.username}
+          initialValue={username}
           pattern={EPattern.name}
           placeholder="Name"
           errorMessage={EFormErrorMessages.name}

@@ -3,23 +3,24 @@ import { UserService } from 'api/services/user';
 import { RootState } from 'store';
 import { IEditUserParams, IUser } from 'ts/interfaces';
 import { checkAuth, logOut, signIn } from './authSlice';
+import { toggleEditProfileModal } from './modalsSlice';
 
 type IUserState = {
   id: string;
   login: string;
-  name: {
+  username: string;
+  flags: {
     isLoading: boolean;
-    username: string;
     error: string;
   };
 };
 const initialState: IUserState = {
   id: '',
-  name: {
+  flags: {
     isLoading: false,
-    username: '',
     error: '',
   },
+  username: '',
   login: '',
 };
 
@@ -44,67 +45,68 @@ const userSlice = createSlice({
     builder.addCase(logOut.fulfilled, (state) => {
       state.id = '';
       state.login = '';
-      state.name.username = '';
+      state.username = '';
     });
 
     builder.addCase(loadUserData.pending, (state) => {
-      state.name.error = '';
-      state.name.isLoading = true;
+      state.flags.error = '';
+      state.flags.isLoading = true;
     });
 
     builder.addCase(loadUserData.fulfilled, (state, action) => {
-      state.name.isLoading = false;
-      state.name.error = '';
-      state.name.username = action.payload;
+      state.flags.isLoading = false;
+      state.flags.error = '';
+      state.username = action.payload;
     });
 
     builder.addCase(loadUserData.rejected, (state, action) => {
-      state.name.isLoading = false;
-      state.name.error = action.error.message || 'Unknown error';
+      state.flags.isLoading = false;
+      state.flags.error = action.error.message || 'Unknown error';
     });
 
     builder.addCase(editUser.pending, (state) => {
-      state.name.error = '';
-      state.name.isLoading = true;
+      state.flags.error = '';
+      state.flags.isLoading = true;
     });
 
     builder.addCase(editUser.fulfilled, (state, action) => {
-      state.name.isLoading = false;
-      state.name.error = '';
-      state.name.username = action.payload.name;
+      state.flags.isLoading = false;
+      state.flags.error = '';
+      state.username = action.payload.name;
       state.login = action.payload.login;
     });
 
     builder.addCase(editUser.rejected, (state, action) => {
-      state.name.isLoading = false;
-      state.name.error = action.error.message || 'Unknown error';
+      state.flags.isLoading = false;
+      state.flags.error = action.error.message || 'Unknown error';
     });
 
     builder.addCase(deleteUser.pending, (state) => {
-      state.name.error = '';
-      state.name.isLoading = true;
+      state.flags.error = '';
+      state.flags.isLoading = true;
     });
 
     builder.addCase(deleteUser.fulfilled, (state) => {
-      state.name.isLoading = false;
-      state.name.error = '';
+      state.flags.isLoading = false;
+      state.flags.error = '';
       state.id = '';
       state.login = '';
-      state.name.username = '';
+      state.username = '';
     });
 
     builder.addCase(deleteUser.rejected, (state, action) => {
-      state.name.isLoading = false;
-      state.name.error = action.error.message || 'Unknown error';
+      state.flags.isLoading = false;
+      state.flags.error = action.error.message || 'Unknown error';
     });
   },
 });
 
 export default userSlice.reducer;
 
-export const userLoginSelector = (state: RootState) => state.user.login;
-export const userIdSelector = (state: RootState) => state.user.id;
-export const userNameSelector = (state: RootState) => state.user.name;
+export const selectUserLogin = (state: RootState) => state.user.login;
+export const selectUserId = (state: RootState) => state.user.id;
+export const selectUserEditFlags = (state: RootState) => state.user.flags;
+export const selectUserName = (state: RootState) => state.user.username;
 
 export const loadUserData = createAsyncThunk('user/dataFetch', async (id: string) => {
   const response = await UserService.getUser(id);
@@ -113,14 +115,16 @@ export const loadUserData = createAsyncThunk('user/dataFetch', async (id: string
 
 export const editUser = createAsyncThunk<IUser, IEditUserParams, { state: RootState }>(
   'user/editUser',
-  async (body, thunkAPI) => {
-    const id = thunkAPI.getState().user.id;
+  async (body, { getState, dispatch }) => {
+    const id = getState().user.id;
     const response = await UserService.editUser(id, body);
+    dispatch(toggleEditProfileModal(false));
     return response;
   }
 );
 
-export const deleteUser = createAsyncThunk('user/delete', async (id: string) => {
+export const deleteUser = createAsyncThunk('user/delete', async (id: string, { dispatch }) => {
   const status = await UserService.deleteUser(id);
+  dispatch(toggleEditProfileModal(false));
   return status;
 });
