@@ -12,9 +12,10 @@ export const BoardUserItem = memo<IBoardUsersProps>(({ id }) => {
   const deleteUser = () => {
     dispatch(removeEditedBoardUser(id));
   };
+
   return (
     <div className="board-users__item">
-      <span>{userData?.name}</span>
+      <span>{userData?.name || 'DELETED'}</span>
       <button onClick={deleteUser}>✖</button>
     </div>
   );
