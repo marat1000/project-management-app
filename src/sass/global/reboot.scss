@@ -23,6 +23,9 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
+  background-image: url('../../../public/bg.png');
+  background-size: cover;
+  background-attachment: fixed;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
@@ -69,4 +72,14 @@ select {
 
 #root {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  //@include vp--2559 {
+  //  padding: 0 40px;
+  //}
+
+  .footer {
+    margin-top: auto;
+  }
 }

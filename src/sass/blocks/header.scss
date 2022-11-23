@@ -1,5 +1,42 @@
 .header {
-  position: relative;
+  background-color: $color-default-white;
+  transition: background-color 1s ease;
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.15);
+}
+
+.header_sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #C9C9C9;
+  /* animation: smoothScroll 1s forwards; */
+}
+
+.header__wrapper {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-left: 50px;
+  margin-right: 110px;
+
+  * {
+    color: $color-default-black;
+  }
+
+  .header__logo {
+    margin-right: 9%;
+  }
+
+  .header__lang {
+    margin-left: auto;
+    margin-right: 3%;
+
+    svg {
+      width: 20px;
+      height: auto;
+    }
+  }
 
   &__bottom-block {
     position: relative;
@@ -23,4 +60,8 @@
       bottom: -5px;
     }
   }
+}
+
+.header__lang.header__lang.header__lang .select__input {
+  color: transparent !important;
 }
