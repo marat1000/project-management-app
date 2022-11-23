@@ -1,12 +1,12 @@
 import React, { memo, SyntheticEvent, useCallback, useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from 'store/hooks';
-import { selectAllUsers, selectBoardUsers } from 'store/slices/editBoardSlice';
+import { useAppSelector } from 'store/hooks';
+import { selectAllUsers, selectEditedBoardUsers } from 'store/slices/editBoardSlice';
 import { selectUserName } from 'store/slices/userSlice';
 import { IUser } from 'ts/interfaces';
 import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';
 
 export const BoardUsersInput = memo(() => {
-  const usersOnThisBoard = useAppSelector(selectBoardUsers);
+  const usersOnThisBoard = useAppSelector(selectEditedBoardUsers);
   const username = useAppSelector(selectUserName);
   const users = useAppSelector(selectAllUsers);
   const [matchedUsers, setMatchedUsers] = useState<IUser[]>([]);
