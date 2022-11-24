@@ -11,13 +11,12 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearEditProfileError } from 'store/slices/auth/authSlice';
 import { toggleEditProfileModal } from 'store/slices/modals/modalsSlice';
 import {
-  editUser,
-  deleteUser,
   selectUserName,
+  selectUserEditFlags,
   selectUserId,
   selectUserLogin,
-  selectUserEditFlags,
-} from 'store/slices/userSlice';
+} from 'store/slices/user/userSelectors';
+import { editUser, deleteUser } from 'store/slices/user/userThunks';
 
 export const EditProfileModal = memo(() => {
   const dispatch = useAppDispatch();

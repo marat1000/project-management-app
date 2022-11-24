@@ -6,7 +6,7 @@ import authSlice from './slices/auth/authSlice';
 import boardsSlice from './slices/boards/boardsSlice';
 import modalsSlice from './slices/modals/modalsSlice';
 import settingSlice from './slices/settingsSlice';
-import userSlice from './slices/userSlice';
+import userSlice from './slices/user/userSlice';
 import editBoardSlice from './slices/editBoard/editBoardSlice';
 
 export const store = configureStore({
