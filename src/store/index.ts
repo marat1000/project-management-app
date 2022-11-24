@@ -5,7 +5,7 @@ import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/auth/authSlice';
 import boardsSlice from './slices/boards/boardsSlice';
 import modalsSlice from './slices/modals/modalsSlice';
-import settingSlice from './slices/settingsSlice';
+import settingSlice from './slices/settings/settingsSlice';
 import userSlice from './slices/user/userSlice';
 import editBoardSlice from './slices/editBoard/editBoardSlice';
 
