@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
 import { IBoardExtended, IBoard } from 'ts/interfaces';
-import { toggleEditBoardModal } from '../modalsSlice';
+import { toggleEditBoardModal } from '../modals/modalsSlice';
 
 export interface ICreateBoardProps {
   title: string;

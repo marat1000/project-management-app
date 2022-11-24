@@ -4,7 +4,7 @@ import { RootState } from 'store';
 import { IUser } from 'ts/interfaces';
 import { boardsSelectors } from '../boards/boardsSelectors';
 import { updateBoard, createBoard } from '../boards/boardsThunks';
-import { toggleEditBoardModal } from '../modalsSlice';
+import { toggleEditBoardModal } from '../modals/modalsSlice';
 import { IEditingBoardData } from './editBoardSlice';
 
 interface ICreateOrEditBoardsPayload {

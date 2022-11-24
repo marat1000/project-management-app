@@ -11,7 +11,7 @@ import { Modal } from 'components/Modals/Modal/Modal';
 import React, { memo, useCallback, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { toggleEditBoardModal } from 'store/slices/modalsSlice';
+import { toggleEditBoardModal } from 'store/slices/modals/modalsSlice';
 import {
   useEditBoardDescriptionOnChange,
   useEditBoardTitleOnChange,

@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { useAppDispatch } from 'store/hooks';
 import { NavLink } from 'react-router-dom';
 import { ERoutes } from '../ts/enums';
-import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/modalsSlice';
+import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/modals/modalsSlice';
 import { Button } from './Button/Button';
 import { logOut } from 'store/slices/auth/authThunks';
 

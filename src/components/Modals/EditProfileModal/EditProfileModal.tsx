@@ -9,7 +9,7 @@ import { Modal } from 'components/Modals/Modal/Modal';
 import React, { useRef, memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearEditProfileError } from 'store/slices/auth/authSlice';
-import { toggleEditProfileModal } from 'store/slices/modalsSlice';
+import { toggleEditProfileModal } from 'store/slices/modals/modalsSlice';
 import {
   editUser,
   deleteUser,

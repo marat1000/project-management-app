@@ -3,7 +3,7 @@ import { UserService } from 'api/services/user';
 import { RootState } from 'store';
 import { IEditUserParams, IUser } from 'ts/interfaces';
 import { checkAuth, logOut, signIn } from './auth/authThunks';
-import { toggleEditProfileModal } from './modalsSlice';
+import { toggleEditProfileModal } from './modals/modalsSlice';
 
 type IUserState = {
   id: string;
