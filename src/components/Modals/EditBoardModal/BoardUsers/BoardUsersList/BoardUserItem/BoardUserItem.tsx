@@ -1,7 +1,8 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { removeEditedBoardUser, selectUserById } from 'store/slices/editBoardSlice';
+import { selectUserById } from 'store/slices/editBoard/editBoardSelectors';
+import { removeEditedBoardUser } from 'store/slices/editBoard/editBoardSlice';
 interface IBoardUsersProps {
   id: EntityId;
 }

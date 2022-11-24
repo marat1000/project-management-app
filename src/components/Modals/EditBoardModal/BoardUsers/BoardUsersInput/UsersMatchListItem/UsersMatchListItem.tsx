@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
 import { useAppDispatch } from 'store/hooks';
-import { addEditedBoardUser } from 'store/slices/editBoardSlice';
+import { addEditedBoardUser } from 'store/slices/editBoard/editBoardSlice';
 
 interface IUsersMatchListItemProps {
   id: EntityId;

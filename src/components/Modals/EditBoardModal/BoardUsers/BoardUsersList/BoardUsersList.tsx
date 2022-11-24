@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectEditedBoardUsers } from 'store/slices/editBoardSlice';
+import { selectEditedBoardUsers } from 'store/slices/editBoard/editBoardSelectors';
 import { BoardUserItem } from './BoardUserItem/BoardUserItem';
 
 export const BoardUserList = memo(() => {

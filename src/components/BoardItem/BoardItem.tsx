@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
-import { startEditingBoard } from 'store/slices/editBoardSlice';
+import { startEditingBoard } from 'store/slices/editBoard/editBoardThunks';
 import { ERoutes } from 'ts/enums';
 import dots from '../Svg/dots-dark.svg';
 

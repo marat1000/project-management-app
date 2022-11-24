@@ -1,6 +1,6 @@
 import React, { memo, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectAllUsers, selectEditedBoardUsers } from 'store/slices/editBoardSlice';
+import { selectAllUsers, selectEditedBoardUsers } from 'store/slices/editBoard/editBoardSelectors';
 import { selectUserName } from 'store/slices/userSlice';
 import { IUser } from 'ts/interfaces';
 import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';

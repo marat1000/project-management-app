@@ -7,7 +7,7 @@ import boardsSlice from './slices/boards/boardsSlice';
 import modalsSlice from './slices/modalsSlice';
 import settingSlice from './slices/settingsSlice';
 import userSlice from './slices/userSlice';
-import editBoardSlice from './slices/editBoardSlice';
+import editBoardSlice from './slices/editBoard/editBoardSlice';
 
 export const store = configureStore({
   reducer: {
