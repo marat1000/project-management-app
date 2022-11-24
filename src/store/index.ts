@@ -3,11 +3,12 @@ import { clearSession, logOutWhenDelete } from './middleware/clearSession';
 import { userBoardsFetching } from './middleware/userBoardsFetching';
 import { userDataFetching } from './middleware/userDataFetching';
 import authSlice from './slices/auth/authSlice';
-import boardsSlice from './slices/boards/boardsSlice';
 import editBoardSlice from './slices/editBoard/editBoardSlice';
 import modalsSlice from './slices/modals/modalsSlice';
 import userSlice from './slices/user/userSlice';
 import settingSlice from './slices/settings/settingsSlice';
+import columnSlice from './slices/columns/columnsSlice';
+import boardsSlice from './slices/boards/boardsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     boards: boardsSlice,
     settings: settingSlice,
     modals: modalsSlice,
+    columns: columnSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
