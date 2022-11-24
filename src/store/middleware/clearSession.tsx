@@ -1,7 +1,7 @@
 import { Middleware, MiddlewareAPI, AnyAction } from 'redux';
 import { AppDispatch, RootState } from 'store';
-import { logOut } from 'store/slices/authSlice';
-import { removeAllBoards } from 'store/slices/boardsSlice';
+import { logOut } from 'store/slices/auth/authThunks';
+import { removeAllBoards } from 'store/slices/boards/boardsSlice';
 
 export const clearSession: Middleware =
   ({ /* getState, */ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>

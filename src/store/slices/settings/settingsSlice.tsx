@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from 'store';
 
 export interface ISettingsType {
   theme: EThemes;
@@ -49,8 +48,5 @@ const settingsSlice = createSlice({
     },
   },
 });
-
-export const selectTheme = (state: RootState) => state.settings.theme;
-export const selectLanguage = (state: RootState) => state.settings.lang;
 
 export default settingsSlice.reducer;

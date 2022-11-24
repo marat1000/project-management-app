@@ -8,7 +8,9 @@ import {
 import React, { memo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { signUp, clearRegistrationError, selectRegistrationFlags } from 'store/slices/authSlice';
+import { selectRegistrationFlags } from 'store/slices/auth/authSelectors';
+import { clearRegistrationError } from 'store/slices/auth/authSlice';
+import { signUp } from 'store/slices/auth/authThunks';
 import { ERoutes } from 'ts/enums';
 
 export const SignUpForm = memo(() => {

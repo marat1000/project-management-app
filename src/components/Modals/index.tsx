@@ -1,7 +1,10 @@
 import React from 'react';
 import { memo } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectEditBoardModalOpen, selectEditProfileModalOpen } from 'store/slices/modalsSlice';
+import {
+  selectEditBoardModalOpen,
+  selectEditProfileModalOpen,
+} from 'store/slices/modals/modalsSelectors';
 import { EditBoardModal } from './EditBoardModal/EditBoardModal';
 import { EditProfileModal } from './EditProfileModal/EditProfileModal';
 

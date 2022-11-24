@@ -8,7 +8,9 @@ import {
 import React, { memo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { selectLoginFlags, clearLoginError, signIn } from 'store/slices/authSlice';
+import { selectLoginFlags } from 'store/slices/auth/authSelectors';
+import { clearLoginError } from 'store/slices/auth/authSlice';
+import { signIn } from 'store/slices/auth/authThunks';
 import { ERoutes } from 'ts/enums';
 
 export const SignInForm = memo(() => {

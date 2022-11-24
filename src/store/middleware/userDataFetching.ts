@@ -1,6 +1,6 @@
 import { AnyAction, Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from 'store';
-import { loadUserData } from 'store/slices/userSlice';
+import { loadUserData } from 'store/slices/user/userThunks';
 
 export const userDataFetching: Middleware =
   ({ /* getState, */ dispatch }: MiddlewareAPI<AppDispatch, RootState>) =>

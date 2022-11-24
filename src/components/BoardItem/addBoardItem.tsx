@@ -1,7 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
 import { useAppDispatch } from 'store/hooks';
-import { startEditingBoard } from 'store/slices/editBoardSlice';
+import { startEditingBoard } from 'store/slices/editBoard/editBoardThunks';
 
 export const AddBoardItem = memo(() => {
   const dispatch = useAppDispatch();

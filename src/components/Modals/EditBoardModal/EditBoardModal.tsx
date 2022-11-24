@@ -11,15 +11,18 @@ import { Modal } from 'components/Modals/Modal/Modal';
 import React, { memo, useCallback, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { toggleEditBoardModal } from 'store/slices/modalsSlice';
+import { toggleEditBoardModal } from 'store/slices/modals/modalsSlice';
 import {
-  endEditingBoard,
-  selectEditedBoardFlags,
-  selectEditedBoardId,
   useEditBoardDescriptionOnChange,
   useEditBoardTitleOnChange,
-} from 'store/slices/editBoardSlice';
-import { deleteBoard, selectBoardById } from 'store/slices/boardsSlice';
+} from 'store/slices/editBoard/editBoardSlice';
+import { selectBoardById } from 'store/slices/boards/boardsSelectors';
+import { deleteBoard } from 'store/slices/boards/boardsThunks';
+import { endEditingBoard } from 'store/slices/editBoard/editBoardThunks';
+import {
+  selectEditedBoardFlags,
+  selectEditedBoardId,
+} from 'store/slices/editBoard/editBoardSelectors';
 
 export const EditBoardModal = memo(() => {
   const { error, isLoading } = useAppSelector(selectEditedBoardFlags);

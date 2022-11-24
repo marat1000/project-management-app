@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from 'store';
 
 interface IModalsState {
   editProfile: boolean;
@@ -29,7 +28,3 @@ export default modalsSlice.reducer;
 // Actions
 export const { toggleEditProfileModal } = modalsSlice.actions;
 export const { toggleEditBoardModal } = modalsSlice.actions;
-
-// Selectors
-export const selectEditProfileModalOpen = (state: RootState) => state.modals.editProfile;
-export const selectEditBoardModalOpen = (state: RootState) => state.modals.editBoard;
