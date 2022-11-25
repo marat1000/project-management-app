@@ -5,6 +5,8 @@ import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { loadBoard } from 'store/slices/boards/boardsThunks';
 import { addColumn, getColumns, selectColumns } from 'store/slices/columns/columnsSlice';
+import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
+import { toggleEditColumnModal } from 'store/slices/modals/modalsSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';
 
@@ -18,17 +20,8 @@ export const Board = memo(() => {
   const columns = useAppSelector(selectColumns);
 
   const addColumnHandler = () => {
-    dispatch(
-      addColumn({
-        id: id!,
-        column: {
-          // _id: 'Column id',
-          title: 'Column title',
-          order: 1,
-          // boardId: id!,
-        },
-      })
-    );
+    dispatch(toggleEditColumnModal(true));
+    dispatch(setInitialColumnValues({ boardId: id }));
   };
 
   useEffect(() => {
@@ -45,11 +38,6 @@ export const Board = memo(() => {
         });
     }
   }, [id]);
-
-  // useEffect(() => {
-  //   console.log('changed');
-  //   dispatch(getColumns(id!));
-  // }, [dispatch]);
 
   //http://localhost:3000/boards/637a5309e298276acbb19097
   if (!isAuth) {
