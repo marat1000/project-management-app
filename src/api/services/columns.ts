@@ -13,8 +13,9 @@ export interface IColumnError {
 
 export default class ColumnService {
   static loadAllColumns = async (boardID: string) => {
+    console.log(boardID);
     const response = await $api.get<IColumn[]>(`boards/${boardID}/columns`);
-    if (response.status !== 200) throw new Error('Columns not found');
+    // if (response.status !== 200) throw new Error('Columns not found');
     return response.data;
   };
 

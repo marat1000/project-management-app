@@ -13,12 +13,7 @@ export const ColumnsList = memo(() => {
   const idInState = useAppSelector(selectColumns)[0]?.boardId;
 
   useEffect(() => {
-    if (!columnsIds) {
-      console.log('dont have state');
-      dispatch(getColumns(id!));
-    } else {
-      if (idInState === id) return;
-      console.log('have state but different');
+    if (!columnsIds && idInState !== id) {
       dispatch(getColumns(id!));
     }
   }, [dispatch, id]);
