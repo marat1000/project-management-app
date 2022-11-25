@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 import { addColumn, updateColumn } from '../columns/columnsSlice';
+import { toggleEditColumnModal } from '../modals/modalsSlice';
 
 export const endEditingColumn = createAsyncThunk<boolean, void, { state: RootState }>(
   'editColumn/endEditingColumn',
@@ -15,6 +16,7 @@ export const endEditingColumn = createAsyncThunk<boolean, void, { state: RootSta
         order: 2,
       };
       await dispatch(updateColumn(updatedColumn)).unwrap();
+      dispatch(toggleEditColumnModal(false));
       return true;
     } else if (boardId) {
       const newColumn = {
@@ -22,6 +24,7 @@ export const endEditingColumn = createAsyncThunk<boolean, void, { state: RootSta
         order: 3,
       };
       await dispatch(addColumn({ boardId, column: newColumn })).unwrap();
+      dispatch(toggleEditColumnModal(false));
       return true;
     } else return false;
   }

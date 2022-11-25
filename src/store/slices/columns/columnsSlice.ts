@@ -1,7 +1,9 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice, EntityId } from '@reduxjs/toolkit';
 import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
+import { useAppDispatch } from 'store/hooks';
 import { IColumn } from 'ts/interfaces';
+import { toggleEditColumnModal } from '../modals/modalsSlice';
 
 type Fetching = {
   isLoading: boolean;
@@ -40,7 +42,7 @@ const columnSlice = createSlice({
     });
 
     builder.addCase(getColumns.fulfilled, (state, action) => {
-      columnsAdapter.addMany(state, action.payload);
+      columnsAdapter.setMany(state, action.payload);
       state.fetching.isLoading = false;
       state.fetching.error = '';
     });
@@ -128,8 +130,9 @@ export const addColumn = createAsyncThunk(
 
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumn',
-  async ({ boardId, columnId }: { boardId: string; columnId: string }) => {
+  async ({ boardId, columnId }: { boardId: string; columnId: string }, { dispatch }) => {
     const deletedColumnID = await ColumnService.deleteColumn(boardId, columnId);
+    dispatch(toggleEditColumnModal(false));
     return deletedColumnID;
   }
 );
@@ -157,6 +160,11 @@ export const updateColumn = createAsyncThunk(
 
 const columnSelectors = columnsAdapter.getSelectors<RootState>((state) => state.columns);
 export const selectColumns = columnSelectors.selectAll;
+export const selectColumnIds = columnSelectors.selectIds;
+export const selectColumnById = (id: EntityId | null) => (state: RootState) => {
+  if (!id) return null;
+  return columnSelectors.selectById(state, id);
+};
 
 // export const selectColumns = (state: RootState) => state.columns.columns;
 

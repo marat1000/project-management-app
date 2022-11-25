@@ -30,15 +30,13 @@ export const EditColumnModal = memo(() => {
       return;
     }
     dispatch(endEditingColumn());
-    dispatch(toggleEditColumnModal(false));
   }, [dispatch]);
 
   const deleteThisColumn = useCallback(() => {
     if (columnId && boardId) {
       dispatch(deleteColumn({ columnId, boardId }));
-      dispatch(toggleEditColumnModal(false));
     }
-  }, [dispatch, columnId]);
+  }, [dispatch, columnId, boardId]);
 
   const onTitleChange = useEditColumnTitleOnChange();
 

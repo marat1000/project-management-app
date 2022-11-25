@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { loadBoard } from 'store/slices/boards/boardsThunks';
-import { addColumn, getColumns, selectColumns } from 'store/slices/columns/columnsSlice';
+import { getColumns } from 'store/slices/columns/columnsSlice';
 import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
 import { toggleEditColumnModal } from 'store/slices/modals/modalsSlice';
 import { ERoutes } from 'ts/enums';
@@ -16,8 +16,6 @@ export const Board = memo(() => {
   const [isError, setIsError] = useState('');
   const boardData = useAppSelector(selectBoardById(id!));
   const dispatch = useAppDispatch();
-
-  const columns = useAppSelector(selectColumns);
 
   const addColumnHandler = () => {
     dispatch(toggleEditColumnModal(true));
@@ -31,7 +29,7 @@ export const Board = memo(() => {
       dispatch(loadBoard(id!))
         .unwrap()
         .then(() => {
-          dispatch(getColumns(id!));
+          // dispatch(getColumns(id!));
         })
         .catch((err) => {
           setIsError(err.message);
@@ -60,7 +58,7 @@ export const Board = memo(() => {
         <h3>{title}</h3>
         <button onClick={addColumnHandler}> Add list +</button>
       </div>
-      <ColumnsList columns={columns}></ColumnsList>
+      <ColumnsList></ColumnsList>
     </div>
   );
 });

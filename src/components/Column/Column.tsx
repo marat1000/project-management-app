@@ -1,18 +1,31 @@
+import { EntityId } from '@reduxjs/toolkit';
 import React from 'react';
 import { memo } from 'react';
-import { useAppDispatch } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { selectColumnById } from 'store/slices/columns/columnsSlice';
 import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
 import { toggleEditColumnModal } from 'store/slices/modals/modalsSlice';
-import { IColumn } from 'ts/interfaces';
 import dots from '../Svg/dots.svg';
 
-export const Column = memo(({ column: { title, boardId, _id } }: { column: IColumn }) => {
+export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
+  const columnData = useAppSelector(selectColumnById(id));
+
+  if (!columnData) {
+    return <div>Error</div>;
+  }
+
+  const { title, boardId, _id: columnId, order } = columnData;
 
   const editColumn = () => {
     dispatch(toggleEditColumnModal(true));
-    console.log(boardId);
-    dispatch(setInitialColumnValues({ title, boardId, columnId: _id }));
+    dispatch(
+      setInitialColumnValues({
+        title,
+        boardId,
+        columnId,
+      })
+    );
   };
   return (
     <div className="column">

@@ -39,9 +39,7 @@ const editColumnSlice = createSlice({
       state.data.title = action.payload.title;
     },
     setEditedColumnTitle: (state, action: PayloadAction<string>) => {
-      console.log(state.data.boardId);
       state.data.title = action.payload;
-      console.log(state.data.boardId);
     },
   },
 
