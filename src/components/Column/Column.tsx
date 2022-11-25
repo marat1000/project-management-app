@@ -1,15 +1,18 @@
 import React from 'react';
 import { memo } from 'react';
 import { useAppDispatch } from 'store/hooks';
-import { deleteColumn } from 'store/slices/columns/columnsSlice';
+import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
+import { toggleEditColumnModal } from 'store/slices/modals/modalsSlice';
 import { IColumn } from 'ts/interfaces';
 import dots from '../Svg/dots.svg';
 
 export const Column = memo(({ column: { title, boardId, _id } }: { column: IColumn }) => {
   const dispatch = useAppDispatch();
 
-  const deleteC = () => {
-    dispatch(deleteColumn({ boardID: boardId, columnID: _id }));
+  const editColumn = () => {
+    dispatch(toggleEditColumnModal(true));
+    console.log(boardId);
+    dispatch(setInitialColumnValues({ title, boardId, columnId: _id }));
   };
   return (
     <div className="column">
@@ -17,7 +20,7 @@ export const Column = memo(({ column: { title, boardId, _id } }: { column: IColu
       <footer>
         <button>Add +</button>
         <button>
-          <img src={dots} onClick={deleteC} />
+          <img src={dots} onClick={editColumn} />
         </button>
       </footer>
     </div>

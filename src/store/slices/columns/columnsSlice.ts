@@ -1,20 +1,7 @@
-import {
-  createAsyncThunk,
-  createEntityAdapter,
-  createSlice,
-  SliceCaseReducers,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
 import { IColumn } from 'ts/interfaces';
-import { boardsAdapter } from '../boards/boardsSlice';
-
-// export interface IColumn {
-//   _id: string;
-//   title: string;
-//   order: 1;
-//   boardId: string;
-// }
 
 type Fetching = {
   isLoading: boolean;
@@ -58,8 +45,6 @@ const columnSlice = createSlice({
       state.fetching.error = '';
     });
 
-    // add Column
-
     builder.addCase(addColumn.pending, (state) => {
       state.fetching.isLoading = true;
       state.fetching.error = '';
@@ -102,12 +87,14 @@ const columnSlice = createSlice({
     builder.addCase(updateColumn.rejected, (state, action) => {
       state.fetching.isLoading = false;
       state.fetching.error = 'error';
-      // to watch this
     });
 
     builder.addCase(updateColumn.fulfilled, (state, action) => {
-      columnsAdapter.updateOne(state, action.payload);
-      // watch how update works
+      const column = action.meta.arg;
+      columnsAdapter.updateOne(state, {
+        id: column.columnId,
+        changes: column,
+      });
       state.fetching.isLoading = false;
       state.fetching.error = '';
     });
@@ -130,9 +117,9 @@ export const getColumns = createAsyncThunk(
 
 export const addColumn = createAsyncThunk(
   'columns/addColumn',
-  async ({ id, column }: { id: string; column: IColumnParams }, { rejectWithValue }) => {
+  async ({ boardId, column }: { boardId: string; column: IColumnParams }, { rejectWithValue }) => {
     try {
-      return await ColumnService.addColumn(id, column);
+      return await ColumnService.addColumn(boardId, column);
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -141,8 +128,8 @@ export const addColumn = createAsyncThunk(
 
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumn',
-  async ({ boardID, columnID }: { boardID: string; columnID: string }) => {
-    const deletedColumnID = await ColumnService.deleteColumn(boardID, columnID);
+  async ({ boardId, columnId }: { boardId: string; columnId: string }) => {
+    const deletedColumnID = await ColumnService.deleteColumn(boardId, columnId);
     return deletedColumnID;
   }
 );
@@ -150,18 +137,18 @@ export const deleteColumn = createAsyncThunk(
 export const updateColumn = createAsyncThunk(
   'columns/updateColumn',
   async ({
-    boardID,
-    columnID,
+    boardId,
+    columnId,
     title,
     order,
   }: {
-    boardID: string;
-    columnID: string;
+    boardId: string;
+    columnId: string;
     title: string;
     order: number;
   }) => {
     try {
-      return await ColumnService.updateColumn(boardID, columnID, { title, order });
+      return await ColumnService.updateColumn(boardId, columnId, { title, order });
     } catch (error) {
       // do something
     }
@@ -172,7 +159,5 @@ const columnSelectors = columnsAdapter.getSelectors<RootState>((state) => state.
 export const selectColumns = columnSelectors.selectAll;
 
 // export const selectColumns = (state: RootState) => state.columns.columns;
-
-// export const { } = columnSlice.actions;
 
 export default columnSlice.reducer;
