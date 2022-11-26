@@ -1,0 +1,49 @@
+.edit-input-container {
+    position: relative;
+    width: 100%;
+
+    &__delete {
+        position: absolute;
+        top: 0;
+        width: 60px;
+        height: 24px;
+        top: 4px;
+        right: 5px;
+        border-radius: 13px;
+        border: none;
+        background-color: #C92037;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .edit-title-input {
+        background-color: transparent;
+        border: 1px solid #797979;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: #000;
+        font-size: 16px;
+        line-height: 20px;
+        height: 32px;
+        outline: 0;
+        padding: 15px 0 15px 20px;
+        width: 100%;
+    }
+    
+    .edit-title-input-error {
+        background-color: transparent;
+        border: 1px solid red;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: red;
+        font-size: 16px;
+        line-height: 20px;
+        height: 20px;
+        outline: 0;
+        padding: 15px 0 15px 20px;
+        width: 100%;
+    }
+}
+
+
+
