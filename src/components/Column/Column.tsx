@@ -63,9 +63,11 @@ export const Column = memo(({ id }: { id: EntityId }) => {
 
       <footer>
         <button>Add +</button>
-        <button onClick={editColumn}>
-          <img src={dots} />
-        </button>
+        {!isEditing && (
+          <button onClick={editColumn}>
+            <img src={dots} />
+          </button>
+        )}
       </footer>
     </div>
   );
