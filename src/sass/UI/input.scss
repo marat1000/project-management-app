@@ -28,7 +28,7 @@
     }
 }
 
-.input-container input {
+.input-container input, textarea {
     background-color: transparent;
     border: 1px solid #797979;
     border-radius: 15px;
@@ -42,8 +42,14 @@
     width: 100%;
 }
 
+.input-container textarea {
+    height: auto;
+}
+
 .input-container input:focus + label,
-.input-container input:not(:placeholder-shown) + label{
+.input-container input:not(:placeholder-shown) + label,
+.input-container textarea:focus + label,
+.input-container textarea:not(:placeholder-shown) + label {
 top: -18px;
 left: 10px;
 font-size: 11px;
