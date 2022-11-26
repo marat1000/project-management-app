@@ -18,12 +18,14 @@
         margin-bottom: 10px;
     }
 
-    & footer {
+    & > footer {
         display: flex;
         justify-content: space-between;
-        padding: 0 14px;
+        // padding: 0 14px;
         flex-wrap: wrap;
-        & button {
+        margin-top: 10px;
+        & > button {
+            margin-left: 14px;
             background-color: transparent;
             border: none;
             font-family: 'Audi Type Ext';

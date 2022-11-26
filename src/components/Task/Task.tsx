@@ -5,11 +5,13 @@ import {
   EPattern,
   InputWithErrorMessage,
 } from 'components/Input/InputWithErrorMessage';
-import React, { memo, SyntheticEvent, useState } from 'react';
+import React, { memo, SyntheticEvent, useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { editTask } from 'store/slices/tasks/tasksThunks';
+// import { editTask } from 'store/slices/tasks/tasksThunks';
+import { EditingTask } from './EditingTask/EditingTask';
 
 interface ITaskProps {
   id: EntityId;
@@ -17,51 +19,51 @@ interface ITaskProps {
 const Task = memo<ITaskProps>(({ id }) => {
   const taskData = useAppSelector(selectTaskById(id));
   const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const dispatch = useAppDispatch();
-  const { id: boardId } = useParams();
 
-  const [editedTitle, setEditedTitle] = useState('');
-  const [editedDescription, setEditedDescription] = useState('');
+  const cancelEdit = useCallback(() => {
+    setIsEditing(false);
+  }, []);
 
-  const onTitleChange = (e: SyntheticEvent<HTMLInputElement>) => {
-    setEditedTitle(e.currentTarget.value);
-  };
+  const deleteTask = useCallback(() => {
+    // setIsEditing(false);
+  }, []);
 
-  const onDescriptionChange = (e: SyntheticEvent<HTMLInputElement>) => {
-    setEditedTitle(e.currentTarget.value);
-  };
-
-  const endEditTask = () => {
-    if (!taskData || !boardId) return;
+  const editTaskHandler = useCallback((title: string, description: string, users: EntityId[]) => {
+    if (!taskData) return;
+    setIsUpdating(true);
     dispatch(
       editTask({
-        boardId: boardId,
+        boardId: taskData.boardId,
         columnId: taskData.columnId,
-        taskId: id,
+        taskId: taskData._id,
         taskData: {
-          description: editedDescription,
-          title: editedTitle,
+          title,
+          description,
           order: taskData.order,
-          users: [],
+          users: users,
         },
       })
-    );
-    setIsEditing(false);
-  };
+    )
+      .unwrap()
+      .then(() => {
+        setIsEditing(false);
+      })
+      .finally(() => {
+        setIsUpdating(false);
+      });
+  }, []);
 
   if (isEditing) {
     return (
-      <div>
-        <InputWithErrorMessage
-          pattern={EPattern.login}
-          initialValue={taskData?.title}
-          errorMessage={EFormErrorMessages.login}
-          type={EInputTypes.text}
-          onChangeCb={onTitleChange}
-        />
-        <button onClick={endEditTask}> Accept </button>
-        <button onClick={() => setIsEditing(false)}>Cancel</button>
-      </div>
+      <EditingTask
+        id={id}
+        cancel={cancelEdit}
+        deleteHandler={deleteTask}
+        submit={editTaskHandler}
+        isUpdating={isUpdating}
+      />
     );
   }
   return (

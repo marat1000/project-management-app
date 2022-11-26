@@ -24,7 +24,10 @@ export default class TasksService {
     const body = {
       ...taskData,
       userId,
+      description: taskData.description || '',
     };
+
+    console.log(body);
 
     const url = `boards/${boardId}/columns/${columnId}/tasks`;
 
@@ -43,6 +46,7 @@ export default class TasksService {
       ...taskData,
       userId,
       columnId,
+      description: taskData.description || '',
     };
 
     const url = `boards/${boardId}/columns/${columnId}/tasks/${taskId}`;

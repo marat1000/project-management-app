@@ -64,7 +64,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
 
       <TasksList columnId={columnId} />
       <footer>
-        <AddingTask />
+        <AddingTask columnId={id} />
         {!isEditing && (
           <button onClick={editColumn}>
             <img src={dots} />
