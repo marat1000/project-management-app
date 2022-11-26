@@ -28,7 +28,7 @@ export default class TasksService {
 
     const url = `boards/${boardId}/columns/${columnId}/tasks`;
 
-    const added = await $api.put<ITask>(url, body);
+    const added = await $api.post<ITask>(url, body);
     return added.data;
   }
 }
