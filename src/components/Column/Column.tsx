@@ -6,6 +6,7 @@ import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
 import dots from '../Svg/dots.svg';
+import AddingTask from './AddingTask/AddingTask';
 
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
@@ -61,7 +62,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
       )}
 
       <footer>
-        <button>Add +</button>
+        <AddingTask />
         {!isEditing && (
           <button onClick={editColumn}>
             <img src={dots} />

@@ -1,7 +1,8 @@
 .button {
     font-family: 'Audi Type';
     height: 50px;
-    width: 290px;
+    max-width: 290px;
+    width: 100%;
     border-radius: 15px;
     border: none;
     text-transform: capitalize;

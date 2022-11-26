@@ -1,6 +1,7 @@
 .input-container {
     position: relative;
-    width: 290px;
+    width: 100%;
+    max-width: 290px;
 
     .input-error {
         border: #F80000 1px solid;

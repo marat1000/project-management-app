@@ -10,6 +10,7 @@ import settingSlice from './slices/settings/settingsSlice';
 import columnSlice from './slices/columns/columnsSlice';
 import boardsSlice from './slices/boards/boardsSlice';
 import editColumnSlice from './slices/editColumn/editColumnSlice';
+import tasksSlice from './slices/tasks/tasksSlice';
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     modals: modalsSlice,
     columns: columnSlice,
     editColumn: editColumnSlice,
+    tasks: tasksSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

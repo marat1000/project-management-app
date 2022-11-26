@@ -29,16 +29,12 @@ export const Board = memo(() => {
     if (!boardData) {
       dispatch(loadBoard(id!))
         .unwrap()
-        .then(() => {
-          // dispatch(getColumns(id!));
-        })
         .catch((err) => {
           setIsError(err.message);
         });
     }
   }, [id]);
 
-  //http://localhost:3000/boards/637a5309e298276acbb19097
   if (!isAuth) {
     return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
   }
@@ -72,7 +68,7 @@ export const Board = memo(() => {
           Add list +
         </button>
       </div>
-      <ColumnsList></ColumnsList>
+      <ColumnsList />
     </div>
   );
 });
