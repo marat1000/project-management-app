@@ -35,7 +35,20 @@ export const editTask = createAsyncThunk<ITask, IEditingTaskDataThunk, { state: 
   async ({ boardId, columnId, taskData, taskId }, { getState }) => {
     const userId = getState().user.id;
     const edited = await TasksService.editTask(boardId, columnId, taskId, userId, taskData);
-    console.log('Edited: ', edited);
     return edited;
+  }
+);
+
+interface IDeleteTaskDataThunk {
+  boardId: EntityId;
+  columnId: EntityId;
+  taskId: EntityId;
+}
+
+export const deleteTask = createAsyncThunk<ITask, IDeleteTaskDataThunk, { state: RootState }>(
+  'tasks/deleteTask',
+  async ({ boardId, columnId, taskId }) => {
+    const deleted = await TasksService.deleteTask(boardId, columnId, taskId);
+    return deleted;
   }
 );

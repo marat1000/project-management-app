@@ -54,4 +54,11 @@ export default class TasksService {
     const added = await $api.put<ITask>(url, body);
     return added.data;
   }
+
+  static async deleteTask(boardId: EntityId, columnId: EntityId, taskId: EntityId) {
+    const url = `boards/${boardId}/columns/${columnId}/tasks/${taskId}`;
+
+    const added = await $api.delete<ITask>(url);
+    return added.data;
+  }
 }

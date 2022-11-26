@@ -1,16 +1,8 @@
 import { EntityId } from '@reduxjs/toolkit';
-import {
-  EFormErrorMessages,
-  EInputTypes,
-  EPattern,
-  InputWithErrorMessage,
-} from 'components/Input/InputWithErrorMessage';
-import React, { memo, SyntheticEvent, useCallback, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { memo, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
-import { editTask } from 'store/slices/tasks/tasksThunks';
-// import { editTask } from 'store/slices/tasks/tasksThunks';
+import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
 import { EditingTask } from './EditingTask/EditingTask';
 
 interface ITaskProps {
@@ -26,8 +18,16 @@ const Task = memo<ITaskProps>(({ id }) => {
     setIsEditing(false);
   }, []);
 
-  const deleteTask = useCallback(() => {
-    // setIsEditing(false);
+  const deleteTaskHandler = useCallback(() => {
+    if (!taskData) return;
+    setIsUpdating(true);
+    dispatch(
+      deleteTask({
+        boardId: taskData.boardId,
+        columnId: taskData.columnId,
+        taskId: taskData._id,
+      })
+    );
   }, []);
 
   const editTaskHandler = useCallback((title: string, description: string, users: EntityId[]) => {
@@ -60,7 +60,7 @@ const Task = memo<ITaskProps>(({ id }) => {
       <EditingTask
         id={id}
         cancel={cancelEdit}
-        deleteHandler={deleteTask}
+        deleteHandler={deleteTaskHandler}
         submit={editTaskHandler}
         isUpdating={isUpdating}
       />
