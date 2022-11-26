@@ -10,9 +10,8 @@ interface ITasksListProps {
 
 const TasksList = memo<ITasksListProps>(({ columnId }) => {
   const tasksIds = useAppSelector(selectTaskIdsByColumnId(columnId));
-  console.log('Task list rerender', tasksIds);
   return (
-    <div>
+    <div className="task-list">
       {tasksIds.map((taskId) => (
         <Task id={taskId} key={taskId} />
       ))}

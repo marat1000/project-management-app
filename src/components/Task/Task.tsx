@@ -67,9 +67,14 @@ const Task = memo<ITaskProps>(({ id }) => {
     );
   }
   return (
-    <div>
-      <h4>{taskData?.title}</h4>
-      <button onClick={() => setIsEditing(true)}>Edit</button>
+    <div className="task">
+      <header>
+        {taskData?.title}{' '}
+        <button onClick={() => setIsEditing(true)}>
+          <span className="material-symbols-outlined">more_horiz</span>
+        </button>
+      </header>
+      <p>{taskData?.description}</p>
     </div>
   );
 });
