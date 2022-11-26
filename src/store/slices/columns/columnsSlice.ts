@@ -42,7 +42,6 @@ const columnSlice = createSlice({
     });
 
     builder.addCase(getColumns.fulfilled, (state, action) => {
-      console.log('updated');
       columnsAdapter.setAll(state, action.payload);
       state.fetching.isLoading = false;
       state.fetching.error = '';

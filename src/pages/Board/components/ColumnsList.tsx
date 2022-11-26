@@ -13,7 +13,7 @@ export const ColumnsList = memo(() => {
   const idInState = useAppSelector(selectColumns)[0]?.boardId;
 
   useEffect(() => {
-    if (!columnsIds && idInState !== id) {
+    if (!columnsIds || idInState !== id) {
       dispatch(getColumns(id!));
     }
   }, [dispatch, id]);
