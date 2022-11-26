@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { EditTitleInput } from 'components/Input/editTitleInput';
-import { EInputTypes, EPattern } from 'components/Input/InputWithErrorMessage';
-import React, { SyntheticEvent, useState } from 'react';
+import { EPattern } from 'components/Input/InputWithErrorMessage';
+import React, { useCallback, useState } from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
@@ -12,51 +12,50 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   const columnData = useAppSelector(selectColumnById(id));
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditPending, setIsEditPending] = useState(false);
+  const { title, boardId, _id: columnId, order } = columnData!;
 
-  if (!columnData) {
-    return <div>Error</div>;
-  }
+  const updateTitle = useCallback((value: string) => {
+    setIsEditPending(true);
+    dispatch(updateColumn({ title: value, columnId, boardId, order }))
+      .unwrap()
+      .then(() => setIsEditing(false))
+      .finally(() => {
+        setIsEditPending(false);
+      });
+  }, []);
 
-  const { title: initialTitle, boardId, _id: columnId, order } = columnData;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [title, setTitle] = useState(initialTitle);
-
-  const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
-    const newTitle = e.currentTarget.value;
-    setTitle(newTitle);
-  };
-
-  const onSubmit = () => {
-    console.log('updating...');
-    dispatch(updateColumn({ title, columnId, boardId, order }));
+  const cancelEdit = useCallback(() => {
     setIsEditing(false);
-  };
+  }, []);
 
-  const editColumn = () => {
+  const editColumn = useCallback(() => {
     setIsEditing(true);
-  };
+  }, []);
+
   const deleteColumnHandler = () => {
-    console.log('deleting...');
-    dispatch(deleteColumn({ boardId, columnId }));
-    setIsEditing(false);
+    setIsEditPending(true);
+    dispatch(deleteColumn({ boardId, columnId }))
+      .unwrap()
+      .then(() => {
+        setIsEditing(false);
+      })
+      .finally(() => {
+        setIsEditPending(false);
+      });
   };
 
   return (
     <div className="column">
       {isEditing ? (
-        <>
-          <EditTitleInput
-            onSubmit={onSubmit}
-            deleteHandler={deleteColumnHandler}
-            onChangeCb={onChange}
-            type={EInputTypes.text}
-            pattern={EPattern.name}
-            initialValue={title}
-            value={title}
-            setValue={setTitle}
-          />
-        </>
+        <EditTitleInput
+          submitHandler={updateTitle}
+          cancelHandler={cancelEdit}
+          deleteHandler={deleteColumnHandler}
+          pattern={EPattern.name}
+          initialValue={title}
+          isLoading={isEditPending}
+        />
       ) : (
         <header>{title}</header>
       )}
