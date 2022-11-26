@@ -33,7 +33,7 @@ const AddingTask = memo<IAddingTaskProps>(({ columnId }) => {
 
   const addTaskHandler = () => {
     const taskData = {
-      description,
+      description: description || '',
       title,
       users: [] as EntityId[],
       order: 0,

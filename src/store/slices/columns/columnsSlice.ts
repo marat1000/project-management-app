@@ -4,6 +4,7 @@ import { RootState } from 'store';
 import { useAppDispatch } from 'store/hooks';
 import { IColumn } from 'ts/interfaces';
 import { toggleEditColumnModal } from '../modals/modalsSlice';
+import { fetchAllTasksOnBoard } from '../tasks/tasksThunks';
 
 type Fetching = {
   isLoading: boolean;
@@ -105,8 +106,9 @@ const columnSlice = createSlice({
 
 export const getColumns = createAsyncThunk(
   'columns/getColumns',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue, dispatch }) => {
     try {
+      dispatch(fetchAllTasksOnBoard(id));
       const data = (await ColumnService.loadAllColumns(id)) || [];
       return data as IColumn[];
     } catch (error) {

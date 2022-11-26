@@ -6,7 +6,6 @@ import { getColumns, selectColumnIds, selectColumns } from 'store/slices/columns
 import { Column } from '../../../components/Column/Column';
 
 export const ColumnsList = memo(() => {
-  console.log('Column List rendered');
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const columnsIds = useAppSelector(selectColumnIds);

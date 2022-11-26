@@ -2,7 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import { $api } from 'api';
 import { ITask } from 'ts/interfaces';
 
-export interface IAddingTaskDataApi {
+export interface ITaskDataBodyApi {
   title: string;
   order: number;
   description: string;
@@ -19,7 +19,7 @@ export default class TasksService {
     boardId: EntityId,
     columnId: EntityId,
     userId: string,
-    taskData: IAddingTaskDataApi
+    taskData: ITaskDataBodyApi
   ) {
     const body = {
       ...taskData,
@@ -29,6 +29,25 @@ export default class TasksService {
     const url = `boards/${boardId}/columns/${columnId}/tasks`;
 
     const added = await $api.post<ITask>(url, body);
+    return added.data;
+  }
+
+  static async editTask(
+    boardId: EntityId,
+    columnId: EntityId,
+    taskId: EntityId,
+    userId: string,
+    taskData: ITaskDataBodyApi
+  ) {
+    const body = {
+      ...taskData,
+      userId,
+      columnId,
+    };
+
+    const url = `boards/${boardId}/columns/${columnId}/tasks/${taskId}`;
+
+    const added = await $api.put<ITask>(url, body);
     return added.data;
   }
 }

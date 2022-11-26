@@ -14,3 +14,6 @@ const tasksIdsByColumnIdSelector = createSelector(
 
 export const selectTaskIdsByColumnId = (columnId: EntityId) => (state: RootState) =>
   tasksIdsByColumnIdSelector(state, columnId);
+
+export const selectTaskById = (taskId: EntityId) => (state: RootState) =>
+  tasksAdapterSelectors.selectById(state, taskId);

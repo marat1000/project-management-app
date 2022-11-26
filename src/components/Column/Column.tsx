@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
 import dots from '../Svg/dots.svg';
 import AddingTask from './AddingTask/AddingTask';
+import TasksList from './TasksList/TasksList';
 
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
@@ -61,6 +62,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
         <header>{title}</header>
       )}
 
+      <TasksList columnId={columnId} />
       <footer>
         <AddingTask />
         {!isEditing && (

@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { ITask } from 'ts/interfaces';
-import { addTask, fetchAllTasksOnBoard } from './tasksThunks';
+import { addTask, editTask, fetchAllTasksOnBoard } from './tasksThunks';
 
 export const tasksAdapter = createEntityAdapter<ITask>({
   selectId: (task) => task._id,
@@ -31,6 +31,10 @@ const tasksSlice = createSlice({
       })
       .addCase(addTask.fulfilled, (state, action) => {
         tasksAdapter.addOne(state, action.payload);
+      })
+      .addCase(editTask.fulfilled, (state, action) => {
+        const task = action.payload;
+        tasksAdapter.updateOne(state, { id: task._id, changes: { ...task } });
       });
   },
 });
