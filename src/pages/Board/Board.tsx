@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
@@ -16,6 +16,7 @@ export const Board = memo(() => {
   const [isError, setIsError] = useState('');
   const boardData = useAppSelector(selectBoardById(id!));
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const addColumnHandler = () => {
     dispatch(toggleEditColumnModal(true));
@@ -55,8 +56,21 @@ export const Board = memo(() => {
   return (
     <div className="board-page__container">
       <div className="board-page__header">
+        <button onClick={() => navigate(-1)} className="return-button">
+          <svg
+            width="10"
+            height="16"
+            viewBox="0 0 10 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
+          </svg>
+        </button>
         <h3>{title}</h3>
-        <button onClick={addColumnHandler}> Add list +</button>
+        <button className="add-list-button" onClick={addColumnHandler}>
+          Add list +
+        </button>
       </div>
       <ColumnsList></ColumnsList>
     </div>
