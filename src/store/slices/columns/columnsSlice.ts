@@ -1,21 +1,10 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, EntityId } from '@reduxjs/toolkit';
 import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
-import { useAppDispatch } from 'store/hooks';
 import { IColumn } from 'ts/interfaces';
 import { fetchAllUsers } from '../editBoard/editBoardThunks';
 import { toggleEditColumnModal } from '../modals/modalsSlice';
 import { fetchAllTasksOnBoard } from '../tasks/tasksThunks';
-
-type Fetching = {
-  isLoading: boolean;
-  error: string;
-};
-
-interface IColumnsState {
-  columns: IColumn[];
-  fetching: Fetching;
-}
 
 const columnsAdapter = createEntityAdapter<IColumn>({
   selectId: (column) => column._id,
@@ -37,7 +26,7 @@ const columnSlice = createSlice({
       state.fetching.error = '';
     });
 
-    builder.addCase(getColumns.rejected, (state, action) => {
+    builder.addCase(getColumns.rejected, (state) => {
       state.fetching.isLoading = false;
       state.fetching.error = 'error';
       // to watch this
@@ -54,7 +43,7 @@ const columnSlice = createSlice({
       state.fetching.error = '';
     });
 
-    builder.addCase(addColumn.rejected, (state, action) => {
+    builder.addCase(addColumn.rejected, (state) => {
       state.fetching.isLoading = false;
       state.fetching.error = 'error';
       // to watch this
@@ -71,7 +60,7 @@ const columnSlice = createSlice({
       state.fetching.error = '';
     });
 
-    builder.addCase(deleteColumn.rejected, (state, action) => {
+    builder.addCase(deleteColumn.rejected, (state) => {
       state.fetching.isLoading = false;
       state.fetching.error = 'error';
       // to watch this
@@ -88,7 +77,7 @@ const columnSlice = createSlice({
       state.fetching.error = '';
     });
 
-    builder.addCase(updateColumn.rejected, (state, action) => {
+    builder.addCase(updateColumn.rejected, (state) => {
       state.fetching.isLoading = false;
       state.fetching.error = 'error';
     });

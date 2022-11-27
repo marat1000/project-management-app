@@ -1,13 +1,7 @@
-import { createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SyntheticEvent, useCallback } from 'react';
 import { useAppDispatch } from 'store/hooks';
-import { deleteBoard } from '../boards/boardsThunks';
-import { endEditingBoard, startEditingBoard } from '../editBoard/editBoardThunks';
 import { endEditingColumn } from './editColumnThunks';
-
-// export const boardUsersAdapter = createEntityAdapter<IUser>({
-//   selectId: (user) => user._id,
-// });
 
 export interface IEditingColumnData {
   title: string;

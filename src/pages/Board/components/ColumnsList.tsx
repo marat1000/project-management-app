@@ -20,7 +20,7 @@ export const ColumnsList = memo(() => {
     } else {
       setIsLoading(false);
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, setIsLoading, columnsIds, idInState]);
 
   if (isLoading) {
     return <div>Loading...</div>;

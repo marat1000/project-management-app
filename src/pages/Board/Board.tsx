@@ -32,7 +32,7 @@ export const Board = memo(() => {
           setIsError(err.message);
         });
     }
-  }, [id]);
+  }, [id, dispatch, boardData]);
 
   if (!isAuth) {
     return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
