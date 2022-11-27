@@ -10,7 +10,10 @@
     backdrop-filter: blur(7.5px);
     border-radius: 15px;
 
-    &.showOver {
+    &.showOver_left {
+        border-left: 10px solid $color-add;
+    }
+    &.showOver_right {
         border-right: 10px solid $color-add;
     }
 

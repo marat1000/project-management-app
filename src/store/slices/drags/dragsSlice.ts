@@ -7,12 +7,14 @@ import { columnSelectors, setColumnsOrder } from '../columns/columnsSlice';
 interface IDragState {
   isLoading: boolean;
   dragColumn: IColumn | null;
+  dragColumnSide: 1 | -1;
   overColumn: IColumn | null;
 }
 
 const initialState: IDragState = {
   isLoading: false,
   dragColumn: null,
+  dragColumnSide: -1,
   overColumn: null,
 };
 
@@ -28,8 +30,9 @@ export const dragsSlice = createSlice({
       state.dragColumn = action.payload;
     },
 
-    setOverColumn: (state, action: PayloadAction<IColumn>) => {
-      state.overColumn = action.payload;
+    setOverColumn: (state, action: PayloadAction<{ column: IColumn; side: 1 | -1 }>) => {
+      state.overColumn = action.payload.column;
+      state.dragColumnSide = action.payload.side;
     },
   },
 });
@@ -74,10 +77,5 @@ export const catchColumnsDrop = createAsyncThunk<void, void, { state: RootState 
     } finally {
       dispatch(setLoading(false));
     }
-    // setTimeout(() => {
-    //   console.log('revert');
-    //   dispatch(setColumnsOrder(before));
-    //   dispatch(setLoading(false));
-    // }, 2000);
   }
 );

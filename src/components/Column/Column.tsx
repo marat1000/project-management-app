@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { EditTitleInput } from 'components/Input/editTitleInput';
 import { EPattern } from 'components/Input/InputWithErrorMessage';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
@@ -13,8 +13,9 @@ import TasksList from './TasksList/TasksList';
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
   const columnData = useAppSelector(selectColumnById(id))!;
+  const columnRef = useRef<HTMLDivElement>(null);
 
-  const [showDragOver, setShowDragOver] = useState(false);
+  const [showDragOver, setShowDragOver] = useState<null | -1 | 1>(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEditPending, setIsEditPending] = useState(false);
@@ -52,24 +53,43 @@ export const Column = memo(({ id }: { id: EntityId }) => {
 
   return (
     <div
-      className={showDragOver ? 'column showOver' : 'column'}
+      ref={columnRef}
+      className={
+        !showDragOver
+          ? 'column '
+          : showDragOver == -1
+          ? 'column showOver_left'
+          : 'column showOver_right'
+      }
       draggable={true}
       onDragStart={() => dispatch(setDragColumn(columnData))}
-      onDragOver={(e) => {
+      onDragOverCapture={(e) => {
         e.preventDefault();
-        if (!showDragOver) {
-          setShowDragOver(true);
+        if (!columnRef.current) {
+          return;
         }
-        dispatch(setOverColumn(columnData));
+
+        const x = e.clientX - columnRef.current.offsetLeft;
+        const width = columnRef.current.clientWidth;
+        const side = (x - width / 2) / width > 0 ? 1 : -1;
+        if (showDragOver != side) {
+          setShowDragOver(side);
+        }
+        dispatch(
+          setOverColumn({
+            column: columnData,
+            side,
+          })
+        );
       }}
       onDragLeave={() => {
         if (showDragOver) {
-          setShowDragOver(false);
+          setShowDragOver(null);
         }
       }}
       onDrop={() => {
         if (showDragOver) {
-          setShowDragOver(false);
+          setShowDragOver(null);
         }
         dispatch(catchColumnsDrop());
       }}
