@@ -17,6 +17,11 @@ interface IRowBoardData {
   users: EntityId[];
 }
 
+export const fetchAllUsers = createAsyncThunk('editBoard/fetchAllUsers', async () => {
+  const users = await UserService.getAllUsers();
+  return users;
+});
+
 export const startEditingBoard = createAsyncThunk<
   ICreateOrEditBoardsPayload,
   EntityId | undefined,

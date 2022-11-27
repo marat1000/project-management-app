@@ -4,6 +4,7 @@
     background-color: white;
     border-radius: 25px;
     margin: 10px 0;
+
     input {
         border: 1px solid $color-light-text;
         background-color: transparent;
@@ -27,6 +28,7 @@
         background-color: transparent;
         height: 100px;
         padding: 10px;
+        margin-bottom: 10px;
     }
 
     textarea.invalid {
@@ -36,6 +38,25 @@
     textarea:disabled{
         border: 1px solid $color-main-disable;
 
+    }
+
+    &__users-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    &__user-item {
+        background-color: $color-main-disable;
+        border-radius: 20px;
+        cursor: pointer;
+        padding: 2px 10px;
+        color: white;
+
+
+        &.selected {
+            background-color: $color-accept
+        }
     }
 
     footer {

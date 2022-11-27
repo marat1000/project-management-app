@@ -13,7 +13,6 @@ const Task = memo<ITaskProps>(({ id }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const dispatch = useAppDispatch();
-
   const cancelEdit = useCallback(() => {
     setIsEditing(false);
   }, []);

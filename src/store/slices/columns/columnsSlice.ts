@@ -3,6 +3,7 @@ import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
 import { useAppDispatch } from 'store/hooks';
 import { IColumn } from 'ts/interfaces';
+import { fetchAllUsers } from '../editBoard/editBoardThunks';
 import { toggleEditColumnModal } from '../modals/modalsSlice';
 import { fetchAllTasksOnBoard } from '../tasks/tasksThunks';
 
@@ -109,6 +110,7 @@ export const getColumns = createAsyncThunk(
   async (id: string, { rejectWithValue, dispatch }) => {
     try {
       dispatch(fetchAllTasksOnBoard(id));
+      dispatch(fetchAllUsers());
       const data = (await ColumnService.loadAllColumns(id)) || [];
       return data as IColumn[];
     } catch (error) {

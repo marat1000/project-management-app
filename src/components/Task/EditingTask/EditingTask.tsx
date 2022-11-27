@@ -1,8 +1,8 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { useInput } from 'hooks/hooks';
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useReducer, useRef, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
+import { TaskUsersList } from './TaskUsers/TaskUsers';
 
 interface IEditingTaskProps {
   id?: EntityId;
@@ -11,6 +11,23 @@ interface IEditingTaskProps {
   deleteHandler?: () => void;
   submit: (title: string, description: string, users: EntityId[]) => void;
 }
+
+export type TTaskUsersAction = {
+  type: 'addUser' | 'removeUser';
+  payload: EntityId;
+};
+
+const taskUserReducer = (state: EntityId[], action: TTaskUsersAction) => {
+  switch (action.type) {
+    case 'addUser':
+      return [...state, action.payload];
+    case 'removeUser':
+      return state.filter((id) => id !== action.payload);
+    default:
+      return state;
+  }
+};
+
 export const EditingTask = memo<IEditingTaskProps>(
   ({ id, cancel, deleteHandler, submit, isUpdating }) => {
     const taskData = useAppSelector(selectTaskById(id || 0));
@@ -19,6 +36,8 @@ export const EditingTask = memo<IEditingTaskProps>(
 
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
+
+    const [taskUsers, dispatch] = useReducer(taskUserReducer, taskData?.users || []);
 
     const submitHandler = () => {
       if (!titleRef.current || !descriptionRef.current) return;
@@ -29,7 +48,7 @@ export const EditingTask = memo<IEditingTaskProps>(
       if (isTitleValid && isDescriptionValid) {
         const title = titleRef.current.value;
         const description = descriptionRef.current.value;
-        submit(title, description, []);
+        submit(title, description, taskUsers);
       }
     };
 
@@ -53,6 +72,7 @@ export const EditingTask = memo<IEditingTaskProps>(
           required
           defaultValue={taskData?.description || ''}
         />
+        <TaskUsersList taskUsers={taskUsers} dispatch={dispatch} disabled={isUpdating} />
         <footer>
           <button onClick={submitHandler} className="accept" disabled={isUpdating}>
             <span className="material-symbols-outlined"> done </span>
