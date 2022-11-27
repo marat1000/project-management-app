@@ -12,6 +12,7 @@ import TasksList from './TasksList/TasksList';
 
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
+  const [isOnDrag, setIsOnDrag] = useState(false);
   const columnData = useAppSelector(selectColumnById(id))!;
   const columnRef = useRef<HTMLDivElement>(null);
 
@@ -68,7 +69,11 @@ export const Column = memo(({ id }: { id: EntityId }) => {
           return;
         }
 
-        const x = e.clientX - columnRef.current.offsetLeft;
+        if (isOnDrag) {
+          return;
+        }
+
+        const x = e.clientX - columnRef.current.getBoundingClientRect().left;
         const width = columnRef.current.clientWidth;
         const side = (x - width / 2) / width > 0 ? 1 : -1;
         if (showDragOver != side) {
@@ -86,6 +91,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
           setShowDragOver(null);
         }
       }}
+      onDragEnd={() => setIsOnDrag(false)}
       onDrop={() => {
         if (showDragOver) {
           setShowDragOver(null);
@@ -96,7 +102,10 @@ export const Column = memo(({ id }: { id: EntityId }) => {
       <div
         className="column_container"
         draggable={true}
-        onDragStart={() => dispatch(setDragColumn(columnData))}
+        onDragStart={() => {
+          setIsOnDrag(true);
+          dispatch(setDragColumn(columnData));
+        }}
       >
         {isEditing ? (
           <EditTitleInput
