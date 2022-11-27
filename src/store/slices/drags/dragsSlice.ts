@@ -60,17 +60,18 @@ export const catchColumnsDrop = createAsyncThunk<void, void, { state: RootState 
     }
 
     const updated = before.map((column) => ({ ...column }));
+    const side = state.drags.dragColumnSide > 0 ? 1 : 0;
 
     const columnOnDragIndex = updated.findIndex((item) => item._id === dragColumn._id);
     const columnOnDrag = updated.splice(columnOnDragIndex, 1)[0];
     const columnOnOverIndex = updated.findIndex((item) => item._id === overColumn._id);
-    updated.splice(columnOnOverIndex + 1, 0, columnOnDrag);
+
+    updated.splice(columnOnOverIndex + side, 0, columnOnDrag);
     updated.forEach((column, i) => (column.order = i));
 
     dispatch(setColumnsOrder(updated));
     try {
       dispatch(setLoading(true));
-
       await ColumnService.updateOrder(updated);
     } catch {
       dispatch(setColumnsOrder(before));

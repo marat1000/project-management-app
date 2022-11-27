@@ -65,6 +65,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
       onDragStart={() => dispatch(setDragColumn(columnData))}
       onDragOverCapture={(e) => {
         e.preventDefault();
+        e.stopPropagation();
         if (!columnRef.current) {
           return;
         }
