@@ -22,15 +22,18 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   const [isEditPending, setIsEditPending] = useState(false);
   const { title, boardId, _id: columnId, order } = columnData!;
 
-  const updateTitle = useCallback((value: string) => {
-    setIsEditPending(true);
-    dispatch(updateColumn({ title: value, columnId, boardId, order }))
-      .unwrap()
-      .then(() => setIsEditing(false))
-      .finally(() => {
-        setIsEditPending(false);
-      });
-  }, []);
+  const updateTitle = useCallback(
+    (value: string) => {
+      setIsEditPending(true);
+      dispatch(updateColumn({ title: value, columnId, boardId, order }))
+        .unwrap()
+        .then(() => setIsEditing(false))
+        .finally(() => {
+          setIsEditPending(false);
+        });
+    },
+    [order]
+  );
 
   const cancelEdit = useCallback(() => {
     setIsEditing(false);
