@@ -59,6 +59,10 @@ export const catchColumnsDrop = createAsyncThunk<void, void, { state: RootState 
       return;
     }
 
+    if (dragColumn === overColumn) {
+      return;
+    }
+
     const updated = before.map((column) => ({ ...column }));
     const side = state.drags.dragColumnSide > 0 ? 1 : 0;
 
