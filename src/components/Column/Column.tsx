@@ -61,8 +61,6 @@ export const Column = memo(({ id }: { id: EntityId }) => {
           ? 'column showOver_left'
           : 'column showOver_right'
       }
-      draggable={true}
-      onDragStart={() => dispatch(setDragColumn(columnData))}
       onDragOverCapture={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -95,28 +93,34 @@ export const Column = memo(({ id }: { id: EntityId }) => {
         dispatch(catchColumnsDrop());
       }}
     >
-      {isEditing ? (
-        <EditTitleInput
-          submitHandler={updateTitle}
-          cancelHandler={cancelEdit}
-          deleteHandler={deleteColumnHandler}
-          pattern={EPattern.name}
-          initialValue={title}
-          isLoading={isEditPending}
-        />
-      ) : (
-        <header>{title}</header>
-      )}
-
-      <TasksList columnId={columnId} />
-      <footer>
-        <AddingTask columnId={id} />
-        {!isEditing && (
-          <button onClick={editColumn}>
-            <img src={dots} />
-          </button>
+      <div
+        className="column_container"
+        draggable={true}
+        onDragStart={() => dispatch(setDragColumn(columnData))}
+      >
+        {isEditing ? (
+          <EditTitleInput
+            submitHandler={updateTitle}
+            cancelHandler={cancelEdit}
+            deleteHandler={deleteColumnHandler}
+            pattern={EPattern.name}
+            initialValue={title}
+            isLoading={isEditPending}
+          />
+        ) : (
+          <header>{title}</header>
         )}
-      </footer>
+
+        <TasksList columnId={columnId} />
+        <footer>
+          <AddingTask columnId={id} />
+          {!isEditing && (
+            <button onClick={editColumn}>
+              <img src={dots} />
+            </button>
+          )}
+        </footer>
+      </div>
     </div>
   );
 });
