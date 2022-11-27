@@ -1,9 +1,11 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
 import { EditingTask } from './EditingTask/EditingTask';
+import { TaskUserItem } from './EditingTask/TaskUsers/TaskUsers';
 
 interface ITaskProps {
   id: EntityId;
@@ -16,6 +18,8 @@ const Task = memo<ITaskProps>(({ id }) => {
   const cancelEdit = useCallback(() => {
     setIsEditing(false);
   }, []);
+
+  const users = useAppSelector(selectUsersByIds(taskData?.users || []));
 
   const deleteTaskHandler = useCallback(() => {
     if (!taskData) return;
@@ -68,12 +72,17 @@ const Task = memo<ITaskProps>(({ id }) => {
   return (
     <div className="task">
       <header>
-        {taskData?.title}{' '}
+        {taskData?.title}
         <button onClick={() => setIsEditing(true)}>
           <span className="material-symbols-outlined">more_horiz</span>
         </button>
       </header>
       <p>{taskData?.description}</p>
+      <div className="task__user-list">
+        {users.map((user) => (
+          <TaskUserItem name={user.name} key={user._id} userId={user._id} />
+        ))}
+      </div>
     </div>
   );
 });

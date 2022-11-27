@@ -13,18 +13,18 @@ interface ITaskUsersProps {
 }
 
 interface ITaskUserItemProps {
-  toggleUser: (userId: EntityId) => void;
+  toggleUser?: (userId: EntityId) => void;
   isSelected?: boolean;
   userId: EntityId;
   name: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-const TaskUserItem = memo<ITaskUserItemProps>(
+export const TaskUserItem = memo<ITaskUserItemProps>(
   ({ toggleUser, isSelected, userId, name, disabled }) => {
     return (
       <div
-        onClick={() => !disabled && toggleUser(userId)}
+        onClick={() => !disabled && toggleUser && toggleUser(userId)}
         className={`edit-task__user-item ${isSelected && !disabled ? 'selected' : ''}`}
       >
         {name}
