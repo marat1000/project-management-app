@@ -49,4 +49,5 @@ const settingsSlice = createSlice({
   },
 });
 
+export const { toggleLang, toggleTheme, changeLang, changeTheme } = settingsSlice.actions;
 export default settingsSlice.reducer;

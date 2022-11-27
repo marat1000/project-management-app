@@ -1,6 +1,6 @@
 import './App.css';
 import React, { memo } from 'react';
-import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
+import { useAppDispatch, useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
@@ -12,6 +12,7 @@ import { Layout } from 'components/Layout';
 import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
 import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
+import { changeTheme, EThemes } from 'store/slices/settings/settingsSlice';
 
 const AuthRoutes = memo(() => {
   return (
@@ -48,6 +49,16 @@ const NonAuthRoutes = memo(() => {
 function App() {
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
+  const currentHours = new Date().getHours();
+  const dispatch = useAppDispatch();
+  if (currentHours > 17 || currentHours < 8) {
+    dispatch(changeTheme(EThemes.DARK));
+  } else {
+    dispatch(changeTheme(EThemes.LIGHT));
+  }
+
+  const currentTheme = useAppSelector((state) => state.settings.theme);
+  console.log(currentTheme);
 
   useFirstCheckAuth();
 
