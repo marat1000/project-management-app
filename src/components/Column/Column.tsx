@@ -5,14 +5,16 @@ import React, { useCallback, useState } from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
+import { catchColumnsDrop, setDragColumn, setOverColumn } from 'store/slices/drags/dragsSlice';
 import dots from '../Svg/dots.svg';
 import AddingTask from './AddingTask/AddingTask';
 import TasksList from './TasksList/TasksList';
 
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
-  const columnData = useAppSelector(selectColumnById(id));
-  console.log(columnData);
+  const columnData = useAppSelector(selectColumnById(id))!;
+
+  const [showDragOver, setShowDragOver] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEditPending, setIsEditPending] = useState(false);
@@ -49,7 +51,29 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   };
 
   return (
-    <div className="column">
+    <div
+      className={showDragOver ? 'column showOver' : 'column'}
+      draggable={true}
+      onDragStart={() => dispatch(setDragColumn(columnData))}
+      onDragOver={(e) => {
+        e.preventDefault();
+        if (!showDragOver) {
+          setShowDragOver(true);
+        }
+        dispatch(setOverColumn(columnData));
+      }}
+      onDragLeave={() => {
+        if (showDragOver) {
+          setShowDragOver(false);
+        }
+      }}
+      onDrop={() => {
+        if (showDragOver) {
+          setShowDragOver(false);
+        }
+        dispatch(catchColumnsDrop());
+      }}
+    >
       {isEditing ? (
         <EditTitleInput
           submitHandler={updateTitle}

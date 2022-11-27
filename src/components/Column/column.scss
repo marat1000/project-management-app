@@ -3,11 +3,16 @@
     flex-shrink: 0;
     padding: 10px;
     padding-top: 16px;
+    cursor: grab;
 
     background: rgba(255, 255, 255, 0.85);
     border: 1px solid #FFFFFF;
     backdrop-filter: blur(7.5px);
     border-radius: 15px;
+
+    &.showOver {
+        border-right: 10px solid $color-add;
+    }
 
     & header {
         font-family: 'Audi Type Ext';
