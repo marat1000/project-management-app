@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -9,13 +9,22 @@ export const ColumnsList = memo(() => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const columnsIds = useAppSelector(selectColumnIds);
+  const [isLoading, setIsLoading] = useState(true);
   const idInState = useAppSelector(selectColumns)[0]?.boardId;
 
   useEffect(() => {
     if (!columnsIds || idInState !== id) {
-      dispatch(getColumns(id!));
+      dispatch(getColumns(id!))
+        .unwrap()
+        .then(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
     }
   }, [dispatch, id]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="board-page__columns-list">
