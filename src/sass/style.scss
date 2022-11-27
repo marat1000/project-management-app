@@ -24,6 +24,7 @@
 @import "blocks/nav";
 @import "blocks/theme-switcher";
 @import "../components/AuthContainer/auth-container.scss";
+@import "../components/Task/EditingTask/edit-task.scss";
 @import "../components/Column/column.scss";
 @import "../components/StartPagesLayout/start-pages-layout.scss";
 @import "../components/BoardItem/board-item.scss";
@@ -31,6 +32,7 @@
 @import "../components/Modals/Modal/modal.scss";
 @import "../components/Modals/EditBoardModal/edit-board-model.scss";
 @import "../components/Modals/EditProfileModal/edit-profile-modal.scss";
+@import "../components/Task/task.scss";
 @import "blocks/block";
 
 // используйте это для отключения ховеров на тач устройствах
@@ -53,6 +55,7 @@
 
 @import './UI/button.scss';
 @import './UI/input.scss';
+@import './UI/edit-title-input.scss';
 
 
 // Pages

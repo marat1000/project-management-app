@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { checkAuth, logOut, signIn } from '../auth/authThunks';
 import { loadUserData, editUser, deleteUser } from './userThunks';
 
@@ -10,6 +10,7 @@ type IUserState = {
     isLoading: boolean;
     error: string;
   };
+  onBoard: string;
 };
 const initialState: IUserState = {
   id: '',
@@ -19,12 +20,17 @@ const initialState: IUserState = {
   },
   username: '',
   login: '',
+  onBoard: '',
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setOnBoard: (state, action: PayloadAction<string>) => {
+      state.onBoard = action.payload;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -92,5 +98,7 @@ const userSlice = createSlice({
       });
   },
 });
+
+export const { setOnBoard } = userSlice.actions;
 
 export default userSlice.reducer;

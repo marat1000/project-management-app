@@ -3,7 +3,7 @@ import { SyntheticEvent, useCallback } from 'react';
 import { useAppDispatch } from 'store/hooks';
 import { IUser } from 'ts/interfaces';
 import { deleteBoard } from '../boards/boardsThunks';
-import { startEditingBoard, endEditingBoard } from './editBoardThunks';
+import { startEditingBoard, endEditingBoard, fetchAllUsers } from './editBoardThunks';
 
 export const boardUsersAdapter = createEntityAdapter<IUser>({
   selectId: (user) => user._id,
@@ -75,6 +75,7 @@ const editBoardSlice = createSlice({
       })
       .addCase(endEditingBoard.fulfilled, (state) => {
         state.flags.isLoading = false;
+        state.data.id = '';
       })
       .addCase(endEditingBoard.rejected, (state, action) => {
         state.flags.isLoading = false;
@@ -90,6 +91,9 @@ const editBoardSlice = createSlice({
       .addCase(deleteBoard.rejected, (state, action) => {
         state.flags.isLoading = false;
         state.flags.error = action.error.message || 'Unknown error';
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        boardUsersAdapter.setAll(state, action.payload);
       });
   },
 });

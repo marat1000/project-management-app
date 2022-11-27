@@ -1,9 +1,12 @@
 import React, { memo, useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { loadBoard } from 'store/slices/boards/boardsThunks';
+// import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
+import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
+import { setOnBoard } from 'store/slices/user/userSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';
 
@@ -13,8 +16,15 @@ export const Board = memo(() => {
   const [isError, setIsError] = useState('');
   const boardData = useAppSelector(selectBoardById(id!));
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const addColumnHandler = () => {};
+  const addColumnHandler = () => {
+    dispatch(toggleCreateColumnModal(true));
+  };
+
+  useEffect(() => {
+    dispatch(setOnBoard(id!));
+  }, []);
 
   useEffect(() => {
     // if the user went to this page via a link,
@@ -26,19 +36,40 @@ export const Board = memo(() => {
           setIsError(err.message);
         });
     }
-  }, [id]);
+  }, [id, dispatch, boardData]);
 
-  //http://localhost:3000/boards/637a5309e298276acbb19097
   if (!isAuth) {
     return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
   }
 
   if (isError) {
-    return <div>{isError}</div>;
+    return (
+      <div className="board-page__container">
+        <div className="board-page__header">
+          <button onClick={() => navigate(-1)} className="return-button">
+            <svg width="10" height="16" viewBox="0 0 10 16">
+              <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
+            </svg>
+          </button>
+          <h3>{isError}</h3>
+        </div>
+      </div>
+    );
   }
 
   if (!boardData) {
-    return <div>Loading</div>;
+    return (
+      <div className="board-page__container">
+        <div className="board-page__header">
+          <button onClick={() => navigate(-1)} className="return-button">
+            <svg width="10" height="16" viewBox="0 0 10 16">
+              <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
+            </svg>
+          </button>
+          <h3>Loading...</h3>
+        </div>
+      </div>
+    );
   }
 
   const [title] = boardData.title.split('%');
@@ -46,10 +77,17 @@ export const Board = memo(() => {
   return (
     <div className="board-page__container">
       <div className="board-page__header">
+        <button onClick={() => navigate(-1)} className="return-button">
+          <svg width="10" height="16" viewBox="0 0 10 16">
+            <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
+          </svg>
+        </button>
         <h3>{title}</h3>
-        <button onClick={addColumnHandler}> Add list +</button>
+        <button className="add-list-button" onClick={addColumnHandler}>
+          Add list +
+        </button>
       </div>
-      <ColumnsList></ColumnsList>
+      <ColumnsList />
     </div>
   );
 });

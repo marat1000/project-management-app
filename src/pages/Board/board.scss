@@ -1,17 +1,18 @@
 .board-page{
     &__container{
         max-width: 100%;
-
+        margin: 0 20px;
         display: inline-flex;
         flex-direction: column;
         padding-top: 10px;
     }
 
     &__header{
+        position: relative;
         background-color: #FFFFFF;
         height: 50px;
         border-radius: 15px;
-        padding: 15px 30px;
+        padding: 10px 15px 10px 60px;
         display: inline-flex;
         justify-content: space-between;
 
@@ -22,10 +23,10 @@
             font-style: normal;
             font-weight: 700;
             font-size: 16px;
-            line-height: 20px;
+            line-height: 30px;
         }
 
-        & button {
+        .add-list-button {
             font-family: 'Audi Type';
             font-style: normal;
             font-weight: 400;
@@ -34,6 +35,33 @@
             color: $color-light-text;
             background-color: transparent;
             border: none;
+            cursor: pointer;
+        }
+
+        .return-button {
+            position: absolute;
+            left: 15px;
+            top: 11px;
+            width: 28px;
+            height: 28px;
+            background-color: #E9E9E9;
+            border-radius: 5px;
+            border: none;
+            line-height: 28px;
+            padding-top: 2px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #C5C5C5;
+            }
+
+            &:active {
+                background-color: #797979;
+            }
+
+            svg {
+                fill: #FFFFFF;
+            }
         }
     }
 
@@ -44,6 +72,8 @@
         padding-top: 10px;
         overflow-x: auto;
         padding-bottom: 10px;
+        align-items: flex-start;
     }
 }
+
 

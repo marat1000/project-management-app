@@ -1,0 +1,48 @@
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.task {
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+
+    & > header {
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Audi Type Ext';
+        font-size: 18px;
+        margin: 0;
+        margin-bottom: 20px;
+
+        button {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            transform: translateX(10px);
+            span {
+                font-size: 20px;
+                font-weight: bolder;
+
+            }
+        }
+    }
+
+    & > p {
+        color: $color-light-text;
+        margin: 0;
+        max-height: 90px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    &__user-list{
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+}

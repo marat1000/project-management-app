@@ -10,5 +10,5 @@ export const useFirstCheckAuth = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(checkAuth());
-  }, []);
+  }, [dispatch]);
 };
