@@ -12,6 +12,7 @@ import TasksList from './TasksList/TasksList';
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
   const columnData = useAppSelector(selectColumnById(id));
+  console.log(columnData);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEditPending, setIsEditPending] = useState(false);

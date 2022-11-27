@@ -75,6 +75,7 @@ const editBoardSlice = createSlice({
       })
       .addCase(endEditingBoard.fulfilled, (state) => {
         state.flags.isLoading = false;
+        state.data.id = '';
       })
       .addCase(endEditingBoard.rejected, (state, action) => {
         state.flags.isLoading = false;

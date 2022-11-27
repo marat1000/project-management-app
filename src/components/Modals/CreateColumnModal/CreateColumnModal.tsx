@@ -10,14 +10,17 @@ import React, { memo, useCallback, useRef, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
-import { addColumn } from 'store/slices/columns/columnsSlice';
-import { selectCurrentBoard } from 'store/slices/user/userSelectors';
+import { addColumn, selectColumnIds, selectColumnById } from 'store/slices/columns/columnsSlice';
+import { selectCurrentBoardId } from 'store/slices/user/userSelectors';
 
 export const CreateColumnModal = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
-  const currentBoard = useAppSelector(selectCurrentBoard);
+  const currentBoardId = useAppSelector(selectCurrentBoardId);
+  const columns = useAppSelector(selectColumnIds)!;
+  const columnData = useAppSelector(selectColumnById(columns.at(-1) || 0));
+
   const titleRef = useRef<HTMLInputElement>(null);
 
   const closeModal = useCallback(() => {
@@ -31,10 +34,10 @@ export const CreateColumnModal = memo(() => {
     setIsLoading(true);
     dispatch(
       addColumn({
-        boardId: currentBoard,
+        boardId: currentBoardId,
         column: {
           title: titleRef.current.value,
-          order: 0,
+          order: columnData ? columnData.order + 1 : 0,
         },
       })
     )
@@ -48,7 +51,7 @@ export const CreateColumnModal = memo(() => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [dispatch, setError, setIsLoading, currentBoard]);
+  }, [dispatch]);
 
   if (isLoading) {
     return (

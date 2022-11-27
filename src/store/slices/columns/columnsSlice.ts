@@ -3,7 +3,6 @@ import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
 import { IColumn } from 'ts/interfaces';
 import { fetchAllUsers } from '../editBoard/editBoardThunks';
-import { toggleCreateColumnModal } from '../modals/modalsSlice';
 import { fetchAllTasksOnBoard } from '../tasks/tasksThunks';
 
 const columnsAdapter = createEntityAdapter<IColumn>({
