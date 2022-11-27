@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface IModalsState {
   editProfile: boolean;
   editBoard: boolean;
-  editColumn: boolean;
+  createColumn: boolean;
 }
 
 const initialState: IModalsState = {
   editProfile: false,
   editBoard: false,
-  editColumn: false,
+  createColumn: false,
 };
 
 const modalsSlice = createSlice({
@@ -22,8 +22,8 @@ const modalsSlice = createSlice({
     toggleEditBoardModal: (state, action: PayloadAction<boolean>) => {
       state.editBoard = action.payload;
     },
-    toggleEditColumnModal: (state, action: PayloadAction<boolean>) => {
-      state.editColumn = action.payload;
+    toggleCreateColumnModal: (state, action: PayloadAction<boolean>) => {
+      state.createColumn = action.payload;
     },
   },
 });
@@ -31,5 +31,5 @@ const modalsSlice = createSlice({
 export default modalsSlice.reducer;
 
 // Actions
-export const { toggleEditProfileModal, toggleEditBoardModal, toggleEditColumnModal } =
+export const { toggleEditProfileModal, toggleEditBoardModal, toggleCreateColumnModal } =
   modalsSlice.actions;

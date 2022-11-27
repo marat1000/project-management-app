@@ -14,14 +14,12 @@ export interface IColumnError {
 export default class ColumnService {
   static loadAllColumns = async (boardID: string) => {
     const response = await $api.get<IColumn[]>(`boards/${boardID}/columns`);
-    // if (response.status !== 200) throw new Error('Columns not found');
     return response.data;
   };
 
   static addColumn = async (boardID: string, columnParams: IColumnParams) => {
-    const response = await $api.post(`boards/${boardID}/columns`, columnParams);
-    if (response.status !== 200) throw new Error(response.data.message);
-    return response.data as IColumn;
+    const response = await $api.post<IColumn>(`boards/${boardID}/columns`, columnParams);
+    return response.data;
   };
 
   static deleteColumn = async (boardID: string, columnID: string) => {

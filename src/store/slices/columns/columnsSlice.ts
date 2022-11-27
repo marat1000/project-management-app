@@ -3,7 +3,7 @@ import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
 import { IColumn } from 'ts/interfaces';
 import { fetchAllUsers } from '../editBoard/editBoardThunks';
-import { toggleEditColumnModal } from '../modals/modalsSlice';
+import { toggleCreateColumnModal } from '../modals/modalsSlice';
 import { fetchAllTasksOnBoard } from '../tasks/tasksThunks';
 
 const columnsAdapter = createEntityAdapter<IColumn>({
@@ -46,7 +46,6 @@ const columnSlice = createSlice({
     builder.addCase(addColumn.rejected, (state) => {
       state.fetching.isLoading = false;
       state.fetching.error = 'error';
-      // to watch this
     });
 
     builder.addCase(addColumn.fulfilled, (state, action) => {
@@ -112,20 +111,16 @@ export const getColumns = createAsyncThunk(
 
 export const addColumn = createAsyncThunk(
   'columns/addColumn',
-  async ({ boardId, column }: { boardId: string; column: IColumnParams }, { rejectWithValue }) => {
-    try {
-      return await ColumnService.addColumn(boardId, column);
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async ({ boardId, column }: { boardId: string; column: IColumnParams }) => {
+    const added = await ColumnService.addColumn(boardId, column);
+    return added;
   }
 );
 
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumn',
-  async ({ boardId, columnId }: { boardId: string; columnId: string }, { dispatch }) => {
+  async ({ boardId, columnId }: { boardId: string; columnId: string }) => {
     const deletedColumnID = await ColumnService.deleteColumn(boardId, columnId);
-    dispatch(toggleEditColumnModal(false));
     return deletedColumnID;
   }
 );

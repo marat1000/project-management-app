@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { loadBoard } from 'store/slices/boards/boardsThunks';
-import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
-import { toggleEditColumnModal } from 'store/slices/modals/modalsSlice';
+// import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
+import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
+import { setOnBoard } from 'store/slices/user/userSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';
 
@@ -18,9 +19,12 @@ export const Board = memo(() => {
   const navigate = useNavigate();
 
   const addColumnHandler = () => {
-    dispatch(toggleEditColumnModal(true));
-    dispatch(setInitialColumnValues({ boardId: id }));
+    dispatch(toggleCreateColumnModal(true));
   };
+
+  useEffect(() => {
+    dispatch(setOnBoard(id!));
+  }, []);
 
   useEffect(() => {
     // if the user went to this page via a link,
