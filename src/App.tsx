@@ -13,6 +13,7 @@ import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
 import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { changeTheme, EThemes } from 'store/slices/settings/settingsSlice';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 
 const AuthRoutes = memo(() => {
   return (
@@ -51,14 +52,18 @@ function App() {
   const isAuth = useAppSelector(selectAuthorizationFlag);
   const currentHours = new Date().getHours();
   const dispatch = useAppDispatch();
-  if (currentHours > 17 || currentHours < 8) {
-    dispatch(changeTheme(EThemes.DARK));
-  } else {
-    dispatch(changeTheme(EThemes.LIGHT));
+  const isDark = useAppSelector(selectIsDark);
+  if (!isDark) {
+    console.log('change');
+    if (currentHours > 17 || currentHours < 8) {
+      dispatch(changeTheme(EThemes.DARK));
+    } else {
+      dispatch(changeTheme(EThemes.LIGHT));
+    }
   }
 
   const currentTheme = useAppSelector((state) => state.settings.theme);
-  console.log(currentTheme);
+  // console.log(currentTheme);
 
   useFirstCheckAuth();
 

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface ISettingsType {
-  theme: EThemes;
+  theme: EThemes | null;
   lang: ELang;
 }
 
@@ -26,7 +26,7 @@ type changeThemeAction = {
 };
 
 const initialState: ISettingsType = {
-  theme: EThemes.LIGHT,
+  theme: null,
   lang: ELang.ENG,
 };
 

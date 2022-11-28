@@ -1,15 +1,20 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { ERoutes } from 'ts/enums';
 import { Nav } from './Nav';
 import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+import { useDispatch } from 'react-redux';
+import { toggleTheme } from 'store/slices/settings/settingsSlice';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);
-  const [value, setValue] = useState(false);
+  // const [value, setValue] = useState(false);
+  const dispatch = useAppDispatch();
+  const isDark = useAppSelector(selectIsDark);
   const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });
   const headerRef = useRef<HTMLElement>(null);
 
@@ -54,7 +59,11 @@ export const Header = memo(() => {
           </NavLink>
           {isAuth && <Nav />}
           <LangSelect />
-          <ThemeSwitcher isOn={value} handleToggle={() => setValue(!value)} onColor="#EF476F" />
+          <ThemeSwitcher
+            isOn={isDark}
+            handleToggle={() => dispatch(toggleTheme())}
+            onColor="#EF476F"
+          />
         </div>
       </div>
     </header>
