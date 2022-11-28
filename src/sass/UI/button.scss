@@ -10,6 +10,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: all 0.25s linear;
+    text-transform: none;
 
     &_main {
         background-color: $color-main;

@@ -15,13 +15,10 @@ export const Header = memo(() => {
 
   // handle scroll event
   const handleScroll = (elTopOffset: number, elHeight: number) => {
-    const main = document.querySelector(`.main-content`) as HTMLElement;
-    if (window.scrollY > elTopOffset) {
+    if (window.scrollY > 0) {
       setSticky({ isSticky: true, offset: elHeight });
-      main.style.marginTop = `${elHeight}px`;
     } else {
       setSticky({ isSticky: false, offset: 0 });
-      main.style.marginTop = `0px`;
     }
   };
 

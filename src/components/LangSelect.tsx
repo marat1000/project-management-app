@@ -1,12 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
 import Select, { components, DropdownIndicatorProps, GroupBase } from 'react-select';
-import { IReactSelectOptions } from '../ts/interfaces';
-
-const options = [
-  { value: 'eng', label: 'Eng' },
-  { value: 'ru', label: 'Ru' },
-];
+import { useTranslation } from 'react-i18next';
 
 const DropdownIndicator = (
   props: JSX.IntrinsicAttributes & DropdownIndicatorProps<unknown, boolean, GroupBase<unknown>>
@@ -19,13 +14,28 @@ const DropdownIndicator = (
   );
 };
 
+type MyOption = { label: string; value: string };
+
 export const LangSelect = memo(() => {
+  const { t } = useTranslation();
+  const options = [
+    { value: 'en', label: t(`en`) },
+    { value: 'ru', label: t(`ru`) },
+  ];
+  const { i18n } = useTranslation();
+
   return (
     <Select
       className={`header__lang`}
       classNamePrefix="select"
+      onChange={(selectedOption?: MyOption | MyOption[] | null | unknown) => {
+        if (Array.isArray(selectedOption)) {
+          throw new Error('Unexpected type passed to ReactSelect onChange handler');
+        }
+        i18n.changeLanguage((selectedOption as MyOption).value);
+      }}
+      value={i18n.language === `ru` ? options[1] : options[0]}
       isRtl={true}
-      defaultValue={options[0]}
       options={options}
       components={{ DropdownIndicator, IndicatorSeparator: () => null }}
       styles={{
@@ -51,7 +61,7 @@ export const LangSelect = memo(() => {
           color: `#000000`,
         }),
       }}
-    />
+    ></Select>
   );
 });
 

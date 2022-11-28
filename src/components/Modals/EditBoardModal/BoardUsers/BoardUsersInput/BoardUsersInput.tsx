@@ -4,8 +4,10 @@ import { selectAllUsers, selectEditedBoardUsers } from 'store/slices/editBoard/e
 import { selectUserName } from 'store/slices/user/userSelectors';
 import { IUser } from 'ts/interfaces';
 import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';
+import { useTranslation } from 'react-i18next';
 
 export const BoardUsersInput = memo(() => {
+  const { t } = useTranslation();
   const usersOnThisBoard = useAppSelector(selectEditedBoardUsers);
   const username = useAppSelector(selectUserName);
   const users = useAppSelector(selectAllUsers);
@@ -41,7 +43,7 @@ export const BoardUsersInput = memo(() => {
       <input
         className="input"
         type="text"
-        placeholder="Add user..."
+        placeholder={`${t(`addUser`)}...`}
         value={search}
         onChange={searchUsers}
       />

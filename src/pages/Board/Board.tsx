@@ -9,14 +9,25 @@ import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
 import { setOnBoard } from 'store/slices/user/userSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';
+import { useTranslation } from 'react-i18next';
 
 export const Board = memo(() => {
+  const { t } = useTranslation();
+  const message = {
+    boardNotFound: t('boardNotFound'),
+    unknownError: t('unknownError'),
+    accessDenied: t(`accessDenied`),
+  };
   const isAuth = useAppSelector(selectAuthorizationFlag);
   const { id } = useParams();
   const [isError, setIsError] = useState('');
   const boardData = useAppSelector(selectBoardById(id!));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const obj = {
+    id,
+    message,
+  };
 
   const addColumnHandler = () => {
     dispatch(toggleCreateColumnModal(true));
@@ -30,13 +41,13 @@ export const Board = memo(() => {
     // if the user went to this page via a link,
     // he will not have this board in the store
     if (!boardData) {
-      dispatch(loadBoard(id!))
+      dispatch(loadBoard(obj))
         .unwrap()
         .catch((err) => {
           setIsError(err.message);
         });
     }
-  }, [id, dispatch, boardData]);
+  }, [id, dispatch, boardData, obj]);
 
   if (!isAuth) {
     return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
@@ -66,7 +77,7 @@ export const Board = memo(() => {
               <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
             </svg>
           </button>
-          <h3>Loading...</h3>
+          <h3>{t(`loading`)}</h3>
         </div>
       </div>
     );
@@ -84,7 +95,7 @@ export const Board = memo(() => {
         </button>
         <h3>{title}</h3>
         <button className="add-list-button" onClick={addColumnHandler}>
-          Add list +
+          {t(`addColumn`)} +
         </button>
       </div>
       <ColumnsList />
