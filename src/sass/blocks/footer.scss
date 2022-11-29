@@ -11,6 +11,7 @@
     font-weight: bold;
     color: #000;
     font-size: 13px;
+    transition: background-color 1s ease;
 
     .footer__info {
         display: flex;
@@ -35,7 +36,7 @@
 }
 
 .footer__wrapper-dark {
-    color: #fff;
+    color: #D9D9D9;
     background-color: #262626;
 }
 

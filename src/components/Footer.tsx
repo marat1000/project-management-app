@@ -8,6 +8,8 @@ export const Footer = memo(() => {
   const body = document.querySelector('body');
   if (body && isDark) {
     body.className = 'body-dark';
+  } else if (body && !isDark) {
+    body.classList.remove('body-dark');
   }
   //idk where to put it
 

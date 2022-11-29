@@ -1,5 +1,7 @@
 import { useInputWithCb } from 'hooks/hooks';
 import React, { forwardRef, SyntheticEvent, useState } from 'react';
+import { useAppSelector } from 'store/hooks';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 
 export enum EInputTypes {
   text = 'text',
@@ -44,9 +46,12 @@ export const InputWithErrorMessage = forwardRef<HTMLInputElement, IInputWithErro
 
     const onInvalid = () => setIsValid(false);
 
+    const isDark = useAppSelector(selectIsDark);
+
     return (
       <div className="input-container">
         <input
+          style={isDark ? { color: '#D9D9D9' } : {}}
           required
           ref={ref}
           className={isValid ? '' : 'input-error'}
@@ -57,7 +62,10 @@ export const InputWithErrorMessage = forwardRef<HTMLInputElement, IInputWithErro
           pattern={pattern}
           {...bind}
         />
-        <label className={isValid ? '' : 'label-error'}>
+        <label
+          style={isDark && isValid ? { color: '#D9D9D9' } : {}}
+          className={isValid ? '' : 'label-error'}
+        >
           {isValid ? placeholder : errorMessage}
         </label>
       </div>

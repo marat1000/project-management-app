@@ -33,6 +33,8 @@ body {
 
 .body-dark {
   background-image: url('../../../public/bg-dark.png');
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 code {

@@ -9,12 +9,21 @@
         display: flex;
         cursor: pointer;
     }
+    
 
     &__container{
         position: relative;
         padding: 50px;
         margin: auto;
         background-color: #fff;
+        cursor: auto;
+    }
+
+    &__container-dark{
+        position: relative;
+        padding: 50px;
+        margin: auto;
+        background-color: #2F2F2FD9;
         cursor: auto;
     }
 

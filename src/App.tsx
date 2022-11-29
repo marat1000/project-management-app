@@ -12,8 +12,8 @@ import { Layout } from 'components/Layout';
 import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
 import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
-import { changeTheme, EThemes } from 'store/slices/settings/settingsSlice';
-import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+// import { changeTheme, EThemes } from 'store/slices/settings/settingsSlice';
+// import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 
 const AuthRoutes = memo(() => {
   return (
@@ -50,19 +50,19 @@ const NonAuthRoutes = memo(() => {
 function App() {
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
-  const currentHours = new Date().getHours();
-  const dispatch = useAppDispatch();
-  const isDark = useAppSelector(selectIsDark);
-  if (!isDark) {
-    console.log('change');
-    if (currentHours > 17 || currentHours < 8) {
-      dispatch(changeTheme(EThemes.DARK));
-    } else {
-      dispatch(changeTheme(EThemes.LIGHT));
-    }
-  }
+  // const currentHours = new Date().getHours();
+  // const dispatch = useAppDispatch();
+  // const isDark = useAppSelector(selectIsDark);
+  // if (!isDark) {
+  //   console.log('change');
+  //   if (currentHours > 17 || currentHours < 8) {
+  //     dispatch(changeTheme(EThemes.DARK));
+  //   } else {
+  //     dispatch(changeTheme(EThemes.LIGHT));
+  //   }
+  // }
 
-  const currentTheme = useAppSelector((state) => state.settings.theme);
+  // const currentTheme = useAppSelector((state) => state.settings.theme);
   // console.log(currentTheme);
 
   useFirstCheckAuth();
