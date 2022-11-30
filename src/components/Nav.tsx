@@ -6,8 +6,10 @@ import { ERoutes } from '../ts/enums';
 import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/modals/modalsSlice';
 import { Button } from './Button/Button';
 import { logOut } from 'store/slices/auth/authThunks';
+import { useTranslation } from 'react-i18next';
 
 export const Nav = memo(() => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const openEditProfileModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -24,15 +26,15 @@ export const Nav = memo(() => {
   return (
     <nav className={`nav`}>
       <Button color="add" onClick={openCreatingBoardModal}>
-        + Create new board
+        {t('createNewBoard')}
       </Button>
       <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
         <ProfileSVG />
-        <span>Profile</span>
+        <span> {t('profile')}</span>
       </NavLink>
       <NavLink to={ERoutes.welcome} onClick={logout}>
         <SignOutSVG />
-        <span>Sign Out</span>
+        <span> {t('signOut')}</span>
       </NavLink>
     </nav>
   );

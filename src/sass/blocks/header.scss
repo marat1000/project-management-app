@@ -5,11 +5,15 @@
 }
 
 .header_sticky {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   background-color: #C9C9C9;
   /* animation: smoothScroll 1s forwards; */
+}
+
+.select__control {
+  cursor: pointer !important;
 }
 
 .header__wrapper {

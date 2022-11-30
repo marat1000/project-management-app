@@ -3,6 +3,7 @@ import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
 import { IBoardExtended, IBoard } from 'ts/interfaces';
 import { toggleEditBoardModal } from '../modals/modalsSlice';
+import { useTranslation } from 'react-i18next';
 
 export interface ICreateBoardProps {
   title: string;
@@ -51,16 +52,29 @@ export const updateBoard = createAsyncThunk(
   }
 );
 
-export const loadBoard = createAsyncThunk<IBoardExtended | null, string, { state: RootState }>(
+export const loadBoard = createAsyncThunk<
+  IBoardExtended | null,
+  {
+    id: string | undefined;
+    message: { boardNotFound: string; unknownError: string; accessDenied: string };
+  },
+  { state: RootState }
+>(
   'boards/load',
-  async (boardID: string, { getState }) => {
+  async (
+    obj: {
+      id: string | undefined;
+      message: { boardNotFound: string; unknownError: string; accessDenied: string };
+    },
+    { getState }
+  ) => {
     const userId = getState().user.id;
-    const board = await BoardService.loadBoardData(boardID);
+    const board = await BoardService.loadBoardData(obj);
     if (!board) {
-      throw new Error('Board not found');
+      throw new Error(obj.message.boardNotFound);
     }
     if (!isUserHaveAccessToBoard(board, userId)) {
-      throw new Error('Access is denied');
+      throw new Error(obj.message.accessDenied);
     }
     return board;
   }

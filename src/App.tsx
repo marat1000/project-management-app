@@ -12,6 +12,8 @@ import { Layout } from 'components/Layout';
 import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
 import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const AuthRoutes = memo(() => {
   return (
@@ -25,6 +27,8 @@ const AuthRoutes = memo(() => {
       {/* redirect because user logged  */}
       <Route path={ERoutes.singIn} element={<Navigate to={'/'} />} />
       <Route path={ERoutes.singUp} element={<Navigate to={'/'} />} />
+      <Route path="404" element={<Page404 />} />
+      <Route path="*" element={<Navigate replace to="404" />} />
     </Routes>
   );
 });
@@ -40,19 +44,22 @@ const NonAuthRoutes = memo(() => {
       <Route path={ERoutes.welcome} element={<Welcome />} />
       <Route path={ERoutes.singIn} element={<SignIn />} />
       <Route path={ERoutes.singUp} element={<SignUp />} />
-      <Route path="*" element={<Page404 />} />
+      <Route path="404" element={<Page404 />} />
+      <Route path="*" element={<Navigate replace to="404" />} />
     </Routes>
   );
 });
 
 function App() {
+  const { t } = useTranslation();
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
+  const message = t(`youAreNotLoggedIn`);
 
-  useFirstCheckAuth();
+  useFirstCheckAuth(message);
 
   if (isChecking) {
-    return <div>authorization check</div>;
+    return <div>{t(`Authorization check`)}</div>;
   }
 
   return (

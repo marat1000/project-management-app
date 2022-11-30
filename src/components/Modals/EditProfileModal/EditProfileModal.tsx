@@ -3,7 +3,6 @@ import {
   InputWithErrorMessage,
   EInputTypes,
   EPattern,
-  EFormErrorMessages,
 } from 'components/Input/InputWithErrorMessage';
 import { Modal } from 'components/Modals/Modal/Modal';
 import React, { useRef, memo } from 'react';
@@ -17,8 +16,10 @@ import {
   selectUserLogin,
 } from 'store/slices/user/userSelectors';
 import { editUser, deleteUser } from 'store/slices/user/userThunks';
+import { useTranslation } from 'react-i18next';
 
 export const EditProfileModal = memo(() => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const closeModal = () => {
     dispatch(toggleEditProfileModal(false));
@@ -61,28 +62,28 @@ export const EditProfileModal = memo(() => {
 
   if (isLoading) {
     return (
-      <Modal close={closeModal} title="Edit Profile">
-        Loading
+      <Modal close={closeModal} title={t(`editProfile`)}>
+        {t(`loading`)}
       </Modal>
     );
   }
 
   if (error) {
     return (
-      <Modal close={closeModal} title="Edit Profile">
+      <Modal close={closeModal} title={t(`editProfile`)}>
         {error}
       </Modal>
     );
   }
 
   return (
-    <Modal close={closeModal} title="Edit Profile">
+    <Modal close={closeModal} title={t(`editProfile`)}>
       <div className="create-board-container">
         <InputWithErrorMessage
           initialValue={username}
           pattern={EPattern.name}
-          placeholder="Name"
-          errorMessage={EFormErrorMessages.name}
+          placeholder={String(t(`name`))}
+          errorMessage={t('nameError')}
           type={EInputTypes.text}
           onChangeCb={clearError}
           ref={nameRef}
@@ -90,25 +91,25 @@ export const EditProfileModal = memo(() => {
         <InputWithErrorMessage
           initialValue={userLogin}
           pattern={EPattern.login}
-          placeholder="Login"
-          errorMessage={EFormErrorMessages.login}
+          placeholder={String(t(`login`))}
+          errorMessage={t('loginError')}
           type={EInputTypes.text}
           onChangeCb={clearError}
           ref={loginRef}
         />
         <InputWithErrorMessage
           pattern={EPattern.password}
-          placeholder="Password"
-          errorMessage={EFormErrorMessages.password}
+          placeholder={String(t(`password`))}
+          errorMessage={t('passwordError')}
           type={EInputTypes.password}
           onChangeCb={clearError}
           ref={passwordRef}
         />
         <Button color="main" onClick={changeUserHandler}>
-          Change
+          {t(`edit`)}
         </Button>
         <Button color="add" onClick={deleteUserHandler}>
-          Delete user
+          {t(`deleteUser`)}
         </Button>
       </div>
     </Modal>

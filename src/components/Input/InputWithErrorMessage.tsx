@@ -1,5 +1,6 @@
 import { useInputWithCb } from 'hooks/hooks';
 import React, { forwardRef, SyntheticEvent, useState } from 'react';
+import i18next from 'i18next';
 
 export enum EInputTypes {
   text = 'text',
