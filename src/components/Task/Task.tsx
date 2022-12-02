@@ -2,7 +2,13 @@ import { EntityId } from '@reduxjs/toolkit';
 import { useDrag } from 'hooks/hooks';
 import React, { memo, useCallback, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { catchTaskDrop, selectIsTaskDrag, setDragTask } from 'store/slices/drags/dragsSlice';
+import {
+  catchTaskDrop,
+  selectIsTaskDrag,
+  setDragTask,
+  setOverTask,
+  setOverTaskSide,
+} from 'store/slices/drags/dragsSlice';
 import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
@@ -55,11 +61,23 @@ const Task = memo<ITaskProps>(({ id }) => {
     const side = (y - height / 2) / height > 0 ? 1 : -1;
     if (side != dragOverSide) {
       setDragOverSide(side);
-      // dispatch(setOverColumnSide(side));
+      dispatch(setOverTaskSide(side));
     }
   };
 
-  const { bind: bindDrag, isDragOver } = useDrag(taskRef, undefined, onDragOver);
+  const onDragLeaveCb = () => {
+    setDragOverSide(null);
+    dispatch(setOverTask(null));
+  };
+
+  const onDragEnterCb = () => {
+    if (isOnDrag) {
+      return;
+    }
+    dispatch(setOverTask(taskData));
+  };
+
+  const { bind: bindDrag, isDragOver } = useDrag(taskRef, onDragEnterCb, onDragOver, onDragLeaveCb);
   const [isOnDrag, setIsOnDrag] = useState(false);
   const isTaskDrag = useAppSelector(selectIsTaskDrag);
   const [dragOverSide, setDragOverSide] = useState<null | -1 | 1>(null);
@@ -124,7 +142,8 @@ const Task = memo<ITaskProps>(({ id }) => {
       ref={taskRef}
       className={getTaskClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide)}
       draggable={true}
-      onDragStart={() => {
+      onDragStart={(e) => {
+        e.stopPropagation();
         setIsOnDrag(true);
         dispatch(setDragTask(taskData));
       }}

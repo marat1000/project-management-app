@@ -17,18 +17,29 @@ import dots from '../Svg/dots.svg';
 import AddingTask from './AddingTask/AddingTask';
 import TasksList from './TasksList/TasksList';
 
-const getColumnClassName = (isDragOver: boolean, side: null | -1 | 1, isTaskDrag: boolean) => {
+const getColumnClassName = (
+  isOnDrag: boolean,
+  isTaskDrag: boolean,
+  isDragOver: boolean,
+  side: null | -1 | 1
+) => {
+  if (isOnDrag) {
+    return 'column';
+  }
   if (isTaskDrag) {
     return isDragOver ? 'column on-task-over' : 'column';
   }
-  if (!isDragOver || !side) {
-    return 'column';
+
+  if (isDragOver && side) {
+    return side > 0 ? 'column on-column-over_right' : 'column on-column-over_left';
   }
+  return 'column';
 };
 
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
   const columnData = useAppSelector(selectColumnById(id))!;
+
   const columnRef = useRef<HTMLDivElement>(null);
   const [dragOverSide, setDragOverSide] = useState<null | -1 | 1>(null);
   const isTaskDrag = useAppSelector(selectIsTaskDrag);
@@ -110,14 +121,13 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   return (
     <div
       ref={columnRef}
-      className={getColumnClassName(isDragOver, dragOverSide, isTaskDrag)}
+      className={getColumnClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide)}
       {...bindDrag}
     >
       <div
         className="column_container"
         draggable={true}
         onDragStart={(e) => {
-          e.stopPropagation();
           setIsOnDrag(true);
           dispatch(setDragColumn(columnData));
         }}

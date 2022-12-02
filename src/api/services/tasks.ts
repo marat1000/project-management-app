@@ -59,4 +59,9 @@ export default class TasksService {
     const added = await $api.delete<ITask>(url);
     return added.data;
   }
+
+  static updateOrder = async (orders: { _id: string; order: number; columnId: EntityId }[]) => {
+    const response = await $api.patch<ITask[]>(`tasksSet`, orders);
+    return response.data;
+  };
 }

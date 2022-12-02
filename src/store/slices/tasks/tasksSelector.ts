@@ -2,7 +2,7 @@ import { createSelector, EntityId } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 import { tasksAdapter } from './tasksSlice';
 
-const tasksAdapterSelectors = tasksAdapter.getSelectors<RootState>((state) => state.tasks);
+export const tasksAdapterSelectors = tasksAdapter.getSelectors<RootState>((state) => state.tasks);
 
 export const selectAllTasks = tasksAdapterSelectors.selectAll;
 const tasksIdsByColumnIdSelector = createSelector(

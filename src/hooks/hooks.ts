@@ -67,7 +67,8 @@ export const useDrag = (
   ref: React.RefObject<HTMLDivElement>,
   onDragEnterCb?: (e: React.DragEvent<HTMLDivElement>) => void,
   onDragOverCb?: (e: React.DragEvent<HTMLDivElement>) => void,
-  onDragLeaveCb?: (e: React.DragEvent<HTMLDivElement>) => void
+  onDragLeaveCb?: (e: React.DragEvent<HTMLDivElement>) => void,
+  onDropCb?: (e: React.DragEvent<HTMLDivElement>) => void
 ) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const onDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -105,7 +106,8 @@ export const useDrag = (
     onDragOverCb && onDragOverCb(e);
   };
 
-  const onDrop = () => {
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    onDropCb && onDropCb(e);
     setIsDragOver(false);
   };
 
