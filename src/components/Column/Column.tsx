@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
 import {
   catchColumnsDrop,
+  selectIsTaskDrag,
   setDragColumn,
   setOverColumn,
   setOverColumnSide,
@@ -16,9 +17,9 @@ import dots from '../Svg/dots.svg';
 import AddingTask from './AddingTask/AddingTask';
 import TasksList from './TasksList/TasksList';
 
-const getColumnClassName = (isDragOver: boolean, side: null | -1 | 1, isTaskOver: boolean) => {
-  if (isTaskOver) {
-    return 'column on-task-over';
+const getColumnClassName = (isDragOver: boolean, side: null | -1 | 1, isTaskDrag: boolean) => {
+  if (isTaskDrag) {
+    return isDragOver ? 'column on-task-over' : 'column';
   }
   if (!isDragOver || !side) {
     return 'column';
@@ -32,12 +33,17 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   const columnData = useAppSelector(selectColumnById(id))!;
   const columnRef = useRef<HTMLDivElement>(null);
   const [dragOverSide, setDragOverSide] = useState<null | -1 | 1>(null);
-  console.log('Column rerender', columnData.title);
+  const isTaskDrag = useAppSelector(selectIsTaskDrag);
+  const [isDrag, setIsDrag] = useState(false);
 
   const onDragOverCb = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (!columnRef.current) {
+      return;
+    }
+
+    if (isDrag) {
       return;
     }
 
@@ -106,17 +112,20 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   return (
     <div
       ref={columnRef}
-      className={getColumnClassName(isDragOver, dragOverSide, false)}
+      className={getColumnClassName(isDragOver, dragOverSide, isTaskDrag)}
       {...bindDrag}
     >
       <div
         className="column_container"
         draggable={true}
-        onDragStart={() => {
+        onDragStart={(e) => {
+          e.stopPropagation();
+          setIsDrag(true);
           dispatch(setDragColumn(columnData));
         }}
-        onDragEnd={(e) => {
-          e.preventDefault();
+        onDragEnd={() => {
+          if (isTaskDrag) return;
+          setIsDrag(false);
           dispatch(catchColumnsDrop());
         }}
       >

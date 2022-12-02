@@ -12,10 +12,9 @@ interface ITaskProps {
   id: EntityId;
 }
 const Task = memo<ITaskProps>(({ id }) => {
-  const taskData = useAppSelector(selectTaskById(id));
+  const taskData = useAppSelector(selectTaskById(id))!;
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isOnDrag, setIsOnDrag] = useState(false);
   const dispatch = useAppDispatch();
   const cancelEdit = useCallback(() => {
     setIsEditing(false);
@@ -72,19 +71,13 @@ const Task = memo<ITaskProps>(({ id }) => {
     );
   }
 
-  const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    dispatch(setDragTask(taskData!));
-    setIsOnDrag(true);
-  };
-
-  const onDragEnd = () => {
-    dispatch(catchTaskDrop());
-    setIsOnDrag(false);
-  };
-
   return (
-    <div className="task" draggable={true} onDragStart={onDragStart} onDragEnd={onDragEnd}>
+    <div
+      className="task"
+      draggable={true}
+      onDragStart={() => dispatch(setDragTask(taskData))}
+      onDragEnd={() => dispatch(catchTaskDrop())}
+    >
       <header>
         {taskData?.title}
         <button onClick={() => setIsEditing(true)}>

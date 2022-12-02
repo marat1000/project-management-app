@@ -110,7 +110,7 @@ export const catchColumnsDrop = createAsyncThunk<void, void, { state: RootState 
 export const catchTaskDrop = createAsyncThunk<void, void, { state: RootState }>(
   'drags/catchTaskDrop',
   async (_, { getState, dispatch }) => {
-    // console.log('catchTaskDrop');
+    console.log('catchTaskDrop');
     dispatch(clearDragTask());
     // const state = getState();
     // if (state.drags.isLoading || state.drags.dragTask) {
