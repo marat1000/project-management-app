@@ -18,3 +18,10 @@
 .no-transition {
   transition: none !important;
 }
+
+.error-boundary {
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: bold;
+  color: darkred !important;
+}
