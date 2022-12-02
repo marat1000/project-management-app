@@ -10,6 +10,7 @@ interface IDragState {
   overColumnSide: 1 | -1;
   overColumn: IColumn | null;
   dragTask: ITask | null;
+  overTask: ITask | null;
 }
 
 const initialState: IDragState = {
@@ -18,6 +19,7 @@ const initialState: IDragState = {
   overColumn: null,
   overColumnSide: -1,
   dragTask: null,
+  overTask: null,
 };
 
 export const dragsSlice = createSlice({
@@ -47,6 +49,10 @@ export const dragsSlice = createSlice({
     setOverColumnSide: (state, action: PayloadAction<-1 | 1>) => {
       state.overColumnSide = action.payload;
     },
+
+    setOverTask: (state, action: PayloadAction<ITask>) => {
+      state.overTask = action.payload;
+    },
   },
 });
 
@@ -61,6 +67,7 @@ export const {
   setDragTask,
   clearDragTask,
   setOverColumnSide,
+  setOverTask,
 } = dragsSlice.actions;
 
 export const catchColumnsDrop = createAsyncThunk<void, void, { state: RootState }>(

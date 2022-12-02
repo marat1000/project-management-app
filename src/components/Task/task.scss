@@ -9,6 +9,13 @@
     background-color: white;
     border-radius: 10px;
 
+    &.on-task-over_top{
+        border-top: 5px solid $color-add;
+    }
+    &.on-task-over_bottom{
+        border-bottom: 5px solid $color-add;
+    }
+
     & > header {
         padding: 0;
         display: flex;

@@ -24,8 +24,6 @@ const getColumnClassName = (isDragOver: boolean, side: null | -1 | 1, isTaskDrag
   if (!isDragOver || !side) {
     return 'column';
   }
-
-  return side > 0 ? 'column on-column-over_right' : 'column on-column-over_left';
 };
 
 export const Column = memo(({ id }: { id: EntityId }) => {
@@ -34,7 +32,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   const columnRef = useRef<HTMLDivElement>(null);
   const [dragOverSide, setDragOverSide] = useState<null | -1 | 1>(null);
   const isTaskDrag = useAppSelector(selectIsTaskDrag);
-  const [isDrag, setIsDrag] = useState(false);
+  const [isOnDrag, setIsOnDrag] = useState(false);
 
   const onDragOverCb = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -43,7 +41,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
       return;
     }
 
-    if (isDrag) {
+    if (isOnDrag) {
       return;
     }
 
@@ -120,12 +118,12 @@ export const Column = memo(({ id }: { id: EntityId }) => {
         draggable={true}
         onDragStart={(e) => {
           e.stopPropagation();
-          setIsDrag(true);
+          setIsOnDrag(true);
           dispatch(setDragColumn(columnData));
         }}
         onDragEnd={() => {
           if (isTaskDrag) return;
-          setIsDrag(false);
+          setIsOnDrag(false);
           dispatch(catchColumnsDrop());
         }}
       >

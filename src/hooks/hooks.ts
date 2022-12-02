@@ -92,7 +92,7 @@ export const useDrag = (
     const x = e.clientX;
     const y = e.clientY;
     const rect = ref.current.getBoundingClientRect();
-    if (x > rect.x && x < rect.x + rect.width && y > rect.y && y < rect.height) {
+    if (x > rect.x && x < rect.x + rect.width && y > rect.y && y < rect.y + rect.height) {
       return;
     }
 

@@ -1,7 +1,8 @@
 import { EntityId } from '@reduxjs/toolkit';
-import React, { memo, useCallback, useState } from 'react';
+import { useDrag } from 'hooks/hooks';
+import React, { memo, useCallback, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { catchTaskDrop, setDragTask } from 'store/slices/drags/dragsSlice';
+import { catchTaskDrop, selectIsTaskDrag, setDragTask } from 'store/slices/drags/dragsSlice';
 import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
@@ -11,11 +12,58 @@ import { TaskUserItem } from './EditingTask/TaskUsers/TaskUsers';
 interface ITaskProps {
   id: EntityId;
 }
+
+const getTaskClassName = (
+  isOnDrag: boolean,
+  isTaskDrag: boolean,
+  isDragOver: boolean,
+  side: null | -1 | 1
+) => {
+  if (isOnDrag) {
+    return 'task';
+  }
+
+  if (!isTaskDrag) {
+    return 'task';
+  }
+
+  if (isDragOver && side) {
+    return side > 0 ? 'task on-task-over_bottom' : 'task on-task-over_top';
+  }
+  return 'task';
+};
+
 const Task = memo<ITaskProps>(({ id }) => {
   const taskData = useAppSelector(selectTaskById(id))!;
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const dispatch = useAppDispatch();
+
+  const taskRef = useRef<HTMLDivElement>(null);
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    if (!taskRef.current) {
+      return;
+    }
+
+    if (isOnDrag) {
+      return;
+    }
+
+    const y = e.clientY - taskRef.current.getBoundingClientRect().top;
+    const height = taskRef.current.clientHeight;
+    const side = (y - height / 2) / height > 0 ? 1 : -1;
+    if (side != dragOverSide) {
+      setDragOverSide(side);
+      // dispatch(setOverColumnSide(side));
+    }
+  };
+
+  const { bind: bindDrag, isDragOver } = useDrag(taskRef, undefined, onDragOver);
+  const [isOnDrag, setIsOnDrag] = useState(false);
+  const isTaskDrag = useAppSelector(selectIsTaskDrag);
+  const [dragOverSide, setDragOverSide] = useState<null | -1 | 1>(null);
+
   const cancelEdit = useCallback(() => {
     setIsEditing(false);
   }, []);
@@ -73,10 +121,18 @@ const Task = memo<ITaskProps>(({ id }) => {
 
   return (
     <div
-      className="task"
+      ref={taskRef}
+      className={getTaskClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide)}
       draggable={true}
-      onDragStart={() => dispatch(setDragTask(taskData))}
-      onDragEnd={() => dispatch(catchTaskDrop())}
+      onDragStart={() => {
+        setIsOnDrag(true);
+        dispatch(setDragTask(taskData));
+      }}
+      onDragEnd={() => {
+        setIsOnDrag(false);
+        dispatch(catchTaskDrop());
+      }}
+      {...bindDrag}
     >
       <header>
         {taskData?.title}
