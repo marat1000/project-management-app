@@ -1,6 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { catchTaskDrop, setDragTask } from 'store/slices/drags/dragsSlice';
 import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
@@ -14,6 +15,7 @@ const Task = memo<ITaskProps>(({ id }) => {
   const taskData = useAppSelector(selectTaskById(id));
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isOnDrag, setIsOnDrag] = useState(false);
   const dispatch = useAppDispatch();
   const cancelEdit = useCallback(() => {
     setIsEditing(false);
@@ -69,8 +71,20 @@ const Task = memo<ITaskProps>(({ id }) => {
       />
     );
   }
+
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    dispatch(setDragTask(taskData!));
+    setIsOnDrag(true);
+  };
+
+  const onDragEnd = () => {
+    dispatch(catchTaskDrop());
+    setIsOnDrag(false);
+  };
+
   return (
-    <div className="task">
+    <div className="task" draggable={true} onDragStart={onDragStart} onDragEnd={onDragEnd}>
       <header>
         {taskData?.title}
         <button onClick={() => setIsEditing(true)}>

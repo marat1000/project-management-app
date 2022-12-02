@@ -1,12 +1,18 @@
 .column {
-    &.showOver_left {
+    &.on-column-over_left {
         & > .column_container {
             border-left: 10px solid $color-add;
         }
     }
-    &.showOver_right {
+    &.on-column-over_right{
         & > .column_container {
             border-right: 10px solid $color-add;
+        }
+    }
+
+    &.on-task-over {
+        & > .column_container {
+            border: 10px solid $color-add;
         }
     }
 

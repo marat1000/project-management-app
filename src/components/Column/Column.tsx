@@ -1,22 +1,70 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { EditTitleInput } from 'components/Input/editTitleInput';
 import { EPattern } from 'components/Input/InputWithErrorMessage';
+import { useDrag } from 'hooks/hooks';
 import React, { useCallback, useRef, useState } from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
-import { catchColumnsDrop, setDragColumn, setOverColumn } from 'store/slices/drags/dragsSlice';
+import {
+  catchColumnsDrop,
+  setDragColumn,
+  setOverColumn,
+  setOverColumnSide,
+} from 'store/slices/drags/dragsSlice';
 import dots from '../Svg/dots.svg';
 import AddingTask from './AddingTask/AddingTask';
 import TasksList from './TasksList/TasksList';
 
+const getColumnClassName = (isDragOver: boolean, side: null | -1 | 1, isTaskOver: boolean) => {
+  if (isTaskOver) {
+    return 'column on-task-over';
+  }
+  if (!isDragOver || !side) {
+    return 'column';
+  }
+
+  return side > 0 ? 'column on-column-over_right' : 'column on-column-over_left';
+};
+
 export const Column = memo(({ id }: { id: EntityId }) => {
   const dispatch = useAppDispatch();
-  const [isOnDrag, setIsOnDrag] = useState(false);
   const columnData = useAppSelector(selectColumnById(id))!;
   const columnRef = useRef<HTMLDivElement>(null);
+  const [dragOverSide, setDragOverSide] = useState<null | -1 | 1>(null);
+  console.log('Column rerender', columnData.title);
 
-  const [showDragOver, setShowDragOver] = useState<null | -1 | 1>(null);
+  const onDragOverCb = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!columnRef.current) {
+      return;
+    }
+
+    const x = e.clientX - columnRef.current.getBoundingClientRect().left;
+    const width = columnRef.current.clientWidth;
+    const side = (x - width / 2) / width > 0 ? 1 : -1;
+    if (side != dragOverSide) {
+      setDragOverSide(side);
+      dispatch(setOverColumnSide(side));
+    }
+  };
+
+  const onDragEnterCb = () => {
+    dispatch(setOverColumn(columnData));
+    setDragOverSide(null);
+  };
+
+  const onDragLeaveCb = () => {
+    setDragOverSide(null);
+  };
+
+  const { isDragOver, bind: bindDrag } = useDrag(
+    columnRef,
+    onDragEnterCb,
+    onDragOverCb,
+    onDragLeaveCb
+  );
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEditPending, setIsEditPending] = useState(false);
@@ -58,56 +106,18 @@ export const Column = memo(({ id }: { id: EntityId }) => {
   return (
     <div
       ref={columnRef}
-      className={
-        !showDragOver
-          ? 'column '
-          : showDragOver == -1
-          ? 'column showOver_left'
-          : 'column showOver_right'
-      }
-      onDragOverCapture={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!columnRef.current) {
-          return;
-        }
-
-        if (isOnDrag) {
-          return;
-        }
-
-        const x = e.clientX - columnRef.current.getBoundingClientRect().left;
-        const width = columnRef.current.clientWidth;
-        const side = (x - width / 2) / width > 0 ? 1 : -1;
-        if (showDragOver != side) {
-          setShowDragOver(side);
-        }
-        dispatch(
-          setOverColumn({
-            column: columnData,
-            side,
-          })
-        );
-      }}
-      onDragLeave={() => {
-        if (showDragOver) {
-          setShowDragOver(null);
-        }
-      }}
-      onDragEnd={() => setIsOnDrag(false)}
-      onDrop={() => {
-        if (showDragOver) {
-          setShowDragOver(null);
-        }
-        dispatch(catchColumnsDrop());
-      }}
+      className={getColumnClassName(isDragOver, dragOverSide, false)}
+      {...bindDrag}
     >
       <div
         className="column_container"
         draggable={true}
         onDragStart={() => {
-          setIsOnDrag(true);
           dispatch(setDragColumn(columnData));
+        }}
+        onDragEnd={(e) => {
+          e.preventDefault();
+          dispatch(catchColumnsDrop());
         }}
       >
         {isEditing ? (
