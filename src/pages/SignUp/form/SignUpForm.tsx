@@ -12,8 +12,14 @@ import { selectRegistrationFlags } from 'store/slices/auth/authSelectors';
 import { clearRegistrationError } from 'store/slices/auth/authSlice';
 import { signUp } from 'store/slices/auth/authThunks';
 import { ERoutes } from 'ts/enums';
+import { useTranslation } from 'react-i18next';
 
 export const SignUpForm = memo(() => {
+  const { t } = useTranslation();
+  const message = {
+    thisLoginAlreadyExists: t('thisLoginAlreadyExists'),
+    unknownError: t('unknownError'),
+  };
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector(selectRegistrationFlags);
   const navigate = useNavigate();
@@ -40,7 +46,7 @@ export const SignUpForm = memo(() => {
       const login = loginRef.current.value;
       const password = passwordRef.current.value;
 
-      dispatch(signUp({ name, login, password }))
+      dispatch(signUp({ name, login, password, message }))
         .unwrap()
         .then(() => {
           const path = isRedirect ? '/' + isRedirect.split('-').join('/') : ERoutes.main;
@@ -50,38 +56,39 @@ export const SignUpForm = memo(() => {
   };
 
   const signInUrl = isRedirect ? `${ERoutes.singIn}?redirect=${isRedirect}` : ERoutes.singIn;
+
   return (
     <>
       <InputWithErrorMessage
         pattern={EPattern.name}
-        placeholder="Name"
-        errorMessage={EFormErrorMessages.name}
+        placeholder={String(t('name'))}
+        errorMessage={t('nameError')}
         type={EInputTypes.text}
         onChangeCb={clearError}
         ref={nameRef}
       />
       <InputWithErrorMessage
         pattern={EPattern.login}
-        placeholder="Login"
-        errorMessage={EFormErrorMessages.login}
+        placeholder={String(t('login'))}
+        errorMessage={t('loginError')}
         type={EInputTypes.text}
         onChangeCb={clearError}
         ref={loginRef}
       />
       <InputWithErrorMessage
         pattern={EPattern.password}
-        placeholder="Password"
-        errorMessage={EFormErrorMessages.password}
+        placeholder={String(t('password'))}
+        errorMessage={t('passwordError')}
         type={EInputTypes.password}
         onChangeCb={clearError}
         ref={passwordRef}
       />
       <div style={{ color: 'red' }}>{error}</div>
       <Button isLoading={isLoading} onClick={submit}>
-        Sign Up
+        {t('signUp')}
       </Button>
       <Button onClick={() => navigate(signInUrl)} color="add">
-        Sign In
+        {t('signIn')}
       </Button>
     </>
   );

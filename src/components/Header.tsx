@@ -7,8 +7,9 @@ import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectIsDark } from 'store/slices/settings/settingsSelectors';
-import { useDispatch } from 'react-redux';
 import { toggleTheme } from 'store/slices/settings/settingsSlice';
+import ErrorBoundary from '../common/ErrorBoundary';
+import { Button } from './Button/Button';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);
@@ -20,13 +21,10 @@ export const Header = memo(() => {
 
   // handle scroll event
   const handleScroll = (elTopOffset: number, elHeight: number) => {
-    const main = document.querySelector(`.main-content`) as HTMLElement;
-    if (window.scrollY > elTopOffset) {
+    if (window.scrollY > 0) {
       setSticky({ isSticky: true, offset: elHeight });
-      main.style.marginTop = `${elHeight}px`;
     } else {
       setSticky({ isSticky: false, offset: 0 });
-      main.style.marginTop = `0px`;
     }
   };
 
@@ -65,13 +63,17 @@ export const Header = memo(() => {
             <Logo color={isDark ? '#D9D9D9' : '#1C1B1F'} />
             <span>Boardello</span>
           </NavLink>
-          {isAuth && <Nav />}
-          <LangSelect />
-          <ThemeSwitcher
-            isOn={isDark}
-            handleToggle={() => dispatch(toggleTheme())}
-            onColor="#EF476F"
-          />
+          <ErrorBoundary>{isAuth && <Nav />}</ErrorBoundary>
+          <ErrorBoundary>
+            <LangSelect />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <ThemeSwitcher
+              isOn={isDark}
+              handleToggle={() => dispatch(toggleTheme())}
+              onColor="#EF476F"
+            />
+          </ErrorBoundary>
         </div>
       </div>
     </header>

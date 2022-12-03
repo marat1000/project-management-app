@@ -1,6 +1,5 @@
 import { Button } from 'components/Button/Button';
 import {
-  EFormErrorMessages,
   EInputTypes,
   EPattern,
   InputWithErrorMessage,
@@ -12,8 +11,10 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
 import { addColumn, selectColumnIds, selectColumnById } from 'store/slices/columns/columnsSlice';
 import { selectCurrentBoardId } from 'store/slices/user/userSelectors';
+import { useTranslation } from 'react-i18next';
 
 export const CreateColumnModal = memo(() => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
@@ -55,34 +56,34 @@ export const CreateColumnModal = memo(() => {
 
   if (isLoading) {
     return (
-      <Modal close={closeModal} title={'Create column'}>
-        Loading
+      <Modal close={closeModal} title={t(`createColumn`)}>
+        {t(`loading`)}
       </Modal>
     );
   }
 
   if (error) {
     return (
-      <Modal close={closeModal} title={'Create column'}>
+      <Modal close={closeModal} title={t(`createColumn`)}>
         {error}
       </Modal>
     );
   }
 
   return (
-    <Modal close={closeModal} title={'Create column'}>
+    <Modal close={closeModal} title={t(`createColumn`)}>
       <div className="create-board-container">
         <InputWithErrorMessage
           type={EInputTypes.text}
           pattern={EPattern.name}
-          errorMessage={EFormErrorMessages.name}
-          placeholder="Column name"
+          errorMessage={t('nameError')}
+          placeholder={String(t(`columnName`))}
           ref={titleRef}
           initialValue={''}
         />
 
         <Button color="add" onClick={submit}>
-          Create
+          {t(`create`)}
         </Button>
       </div>
     </Modal>

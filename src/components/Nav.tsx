@@ -7,8 +7,11 @@ import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/mo
 import { Button } from './Button/Button';
 import { logOut } from 'store/slices/auth/authThunks';
 import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+import { useTranslation } from 'react-i18next';
+import ErrorBoundary from '../common/ErrorBoundary';
 
 export const Nav = memo(() => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const isDark = useAppSelector(selectIsDark);
   const openEditProfileModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -25,16 +28,18 @@ export const Nav = memo(() => {
 
   return (
     <nav className={`nav`}>
-      <Button color="add" onClick={openCreatingBoardModal}>
-        + Create new board
-      </Button>
+      <ErrorBoundary>
+        <Button color="add" onClick={openCreatingBoardModal}>
+          {t('createNewBoard')}
+        </Button>
+      </ErrorBoundary>
       <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
         <ProfileSVG color={isDark ? '#D9D9D9' : '#1C1B1F'} />
-        <span>Profile</span>
+        <span>{t('profile')}</span>
       </NavLink>
       <NavLink to={ERoutes.welcome} onClick={logout}>
         <SignOutSVG color={isDark ? '#D9D9D9' : '#1C1B1F'} />
-        <span>Sign Out</span>
+        <span>{t('signOut')}</span>
       </NavLink>
     </nav>
   );

@@ -13,7 +13,7 @@
 }
 
 .header_sticky {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   background-color: #C9C9C9;
@@ -21,14 +21,9 @@
   /* animation: smoothScroll 1s forwards; */
 }
 
-.header_sticky-dark {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #262626;
-  color: inherit;
+.select__control {
+  cursor: pointer !important;
 }
-
 
 .header__wrapper {
   display: flex;

@@ -1,39 +1,59 @@
 .column {
-    width: 265px;
-    flex-shrink: 0;
-    padding: 10px;
-    padding-top: 16px;
-
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid #FFFFFF;
-    backdrop-filter: blur(7.5px);
-    border-radius: 15px;
-
-    & header {
-        font-family: 'Audi Type Ext';
-        padding-left: 18px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 20px;
-        margin-bottom: 10px;
+    &.on-column-over_left {
+        & > .column_container {
+            border-left: 10px solid $color-add;
+        }
+    }
+    &.on-column-over_right{
+        & > .column_container {
+            border-right: 10px solid $color-add;
+        }
     }
 
-    & > footer {
-        display: flex;
-        justify-content: space-between;
-        // padding: 0 14px;
-        flex-wrap: wrap;
-        margin-top: 10px;
-        & > button {
-            margin-left: 14px;
-            background-color: transparent;
-            border: none;
+    &.on-task-over {
+        & > .column_container {
+            background-color: white;
+        }
+    }
+
+    .column_container{
+        width: 265px;
+        flex-shrink: 0;
+        padding: 10px;
+        padding-top: 16px;
+        cursor: grab;
+    
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #FFFFFF;
+        backdrop-filter: blur(7.5px);
+        border-radius: 15px;
+
+        & header {
             font-family: 'Audi Type Ext';
-            color: $color-light-text;
+            padding-left: 18px;
             font-weight: 700;
             font-size: 16px;
             line-height: 20px;
-            cursor: pointer;
+            margin-bottom: 10px;
+        }
+    
+        & > footer {
+            display: flex;
+            justify-content: space-between;
+            // padding: 0 14px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            & > button {
+                margin-left: 14px;
+                background-color: transparent;
+                border: none;
+                font-family: 'Audi Type Ext';
+                color: $color-light-text;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 20px;
+                cursor: pointer;
+            }
         }
     }
 }

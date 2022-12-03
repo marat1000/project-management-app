@@ -1,4 +1,10 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, EntityId } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+  EntityId,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import ColumnService, { IColumnParams } from 'api/services/columns';
 import { RootState } from 'store';
 import { IColumn } from 'ts/interfaces';
@@ -9,7 +15,6 @@ const columnsAdapter = createEntityAdapter<IColumn>({
   selectId: (column) => column._id,
   sortComparer: (a, b) => a.order - b.order,
 });
-
 const columnSlice = createSlice({
   name: 'columns',
   initialState: columnsAdapter.getInitialState({
@@ -18,7 +23,16 @@ const columnSlice = createSlice({
       error: '',
     },
   }),
-  reducers: {},
+  reducers: {
+    setColumnsOrder: (state, action: PayloadAction<{ _id: EntityId; order: number }[]>) => {
+      const updatesRaw = action.payload;
+      const updates = updatesRaw.map(({ _id, order }) => ({
+        id: _id,
+        changes: { order },
+      }));
+      columnsAdapter.updateMany(state, updates);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getColumns.pending, (state) => {
       state.fetching.isLoading = true;
@@ -92,6 +106,8 @@ const columnSlice = createSlice({
   },
 });
 
+export const { setColumnsOrder } = columnSlice.actions;
+
 export const getColumns = createAsyncThunk(
   'columns/getColumns',
   async (id: string, { rejectWithValue, dispatch }) => {
@@ -145,7 +161,7 @@ export const updateColumn = createAsyncThunk(
   }
 );
 
-const columnSelectors = columnsAdapter.getSelectors<RootState>((state) => state.columns);
+export const columnSelectors = columnsAdapter.getSelectors<RootState>((state) => state.columns);
 export const selectColumns = columnSelectors.selectAll;
 export const selectColumnIds = columnSelectors.selectIds;
 export const selectColumnById = (id: EntityId | null) => (state: RootState) => {

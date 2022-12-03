@@ -3,7 +3,6 @@ import {
   InputWithErrorMessage,
   EPattern,
   EInputTypes,
-  EFormErrorMessages,
 } from 'components/Input/InputWithErrorMessage';
 import React, { memo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -12,6 +11,7 @@ import { selectLoginFlags } from 'store/slices/auth/authSelectors';
 import { clearLoginError } from 'store/slices/auth/authSlice';
 import { signIn } from 'store/slices/auth/authThunks';
 import { ERoutes } from 'ts/enums';
+import { useTranslation } from 'react-i18next';
 
 export const SignInForm = memo(() => {
   const dispatch = useAppDispatch();
@@ -46,30 +46,33 @@ export const SignInForm = memo(() => {
   };
 
   const signUpUrl = isRedirect ? `${ERoutes.singUp}?redirect=${isRedirect}` : ERoutes.singUp;
+
+  const { t } = useTranslation();
+
   return (
     <>
       <InputWithErrorMessage
         pattern={EPattern.login}
-        placeholder="Login"
-        errorMessage={EFormErrorMessages.login}
+        placeholder={t('login') as string}
+        errorMessage={t('loginError')}
         type={EInputTypes.text}
         onChangeCb={clearError}
         ref={loginRef}
       />
       <InputWithErrorMessage
         pattern={EPattern.password}
-        placeholder="Password"
-        errorMessage={EFormErrorMessages.password}
+        placeholder={t('password') as string}
+        errorMessage={t('passwordError')}
         type={EInputTypes.password}
         onChangeCb={clearError}
         ref={passwordRef}
       />
       <div style={{ color: 'red' }}>{error}</div>
       <Button isLoading={isLoading} onClick={submit}>
-        Sign In
+        {t('signIn')}
       </Button>
       <Button onClick={() => navigate(signUpUrl)} color="add">
-        Sign Up
+        {t('signUp')}
       </Button>
     </>
   );
