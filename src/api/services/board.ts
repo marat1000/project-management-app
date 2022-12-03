@@ -1,7 +1,6 @@
 import { $api } from 'api';
 import axios from 'axios';
 import { IBoard, IBoardExtended } from 'ts/interfaces';
-import i18n from '../../common/i18n';
 
 export interface INewBoard {
   title: string;
@@ -43,6 +42,11 @@ export default class BoardService {
     return boardsAPIMiddleWare(response.data, userId);
   }
 
+  static async loadBoards(boardIds: string[], userId: string) {
+    const response = await $api.get<IBoard[]>(`boardsSet?ids=[${boardIds}]`);
+    return boardsAPIMiddleWare(response.data, userId);
+  }
+
   static async loadBoardData(obj: {
     id: string | undefined;
     message: { boardNotFound: string; unknownError: string };
@@ -58,6 +62,11 @@ export default class BoardService {
         throw error;
       }
     }
+  }
+
+  static async fetchBoardUpdate(id: string) {
+    const response = await $api.get<IBoard>(`boards/${id}`);
+    return response.data ? extendBoard(response.data) : null;
   }
 
   static async delete(boardID: string) {

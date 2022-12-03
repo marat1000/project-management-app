@@ -32,6 +32,10 @@ const columnSlice = createSlice({
       }));
       columnsAdapter.updateMany(state, updates);
     },
+
+    deleteColumnSocket: (state, action: PayloadAction<string>) => {
+      columnsAdapter.removeOne(state, action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getColumns.pending, (state) => {
@@ -103,10 +107,16 @@ const columnSlice = createSlice({
       state.fetching.isLoading = false;
       state.fetching.error = '';
     });
+
+    builder.addCase(loadColumnsSocket.fulfilled, (state, action) => {
+      const columns = action.payload;
+      console.log(columns);
+      columnsAdapter.setMany(state, columns);
+    });
   },
 });
 
-export const { setColumnsOrder } = columnSlice.actions;
+export const { setColumnsOrder, deleteColumnSocket } = columnSlice.actions;
 
 export const getColumns = createAsyncThunk(
   'columns/getColumns',
@@ -158,6 +168,20 @@ export const updateColumn = createAsyncThunk(
     } catch (error) {
       // do something
     }
+  }
+);
+
+export const loadColumnsSocket = createAsyncThunk<IColumn[], string[], { state: RootState }>(
+  'columns/loadColumnsSocket',
+  async (columnIds, { getState }) => {
+    const user = getState().user;
+    const response = await ColumnService.loadColumns(user.id, columnIds);
+    if (response) {
+      if (user.onBoard === response[0].boardId) {
+        return response;
+      }
+    }
+    throw new Error();
   }
 );
 

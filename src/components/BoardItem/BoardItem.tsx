@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { startEditingBoard } from 'store/slices/editBoard/editBoardThunks';
+import { selectUserId } from 'store/slices/user/userSelectors';
 import { ERoutes } from 'ts/enums';
 import dots from '../Svg/dots-dark.svg';
 
@@ -13,6 +14,7 @@ interface IBoardsItem {
 
 export const BoardsItem = memo<IBoardsItem>(({ id }) => {
   const boardData = useAppSelector(selectBoardById(id));
+  const userId = useAppSelector(selectUserId);
 
   const dispatch = useAppDispatch();
 
@@ -34,7 +36,9 @@ export const BoardsItem = memo<IBoardsItem>(({ id }) => {
         <Link to={`${ERoutes.boards}/${id}`}>
           <h3 className="board-item__title">{title}</h3>
         </Link>
-        <img onClick={editBoard} className="board-item__edit" src={dots} />
+        {userId === boardData.owner && (
+          <img onClick={editBoard} className="board-item__edit" src={dots} />
+        )}
       </header>
       <p className="board-item__description">{description}</p>
     </div>

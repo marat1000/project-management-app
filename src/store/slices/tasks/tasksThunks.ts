@@ -52,3 +52,17 @@ export const deleteTask = createAsyncThunk<ITask, IDeleteTaskDataThunk, { state:
     return deleted;
   }
 );
+
+export const loadTasksSocket = createAsyncThunk<ITask[], string[], { state: RootState }>(
+  'columns/loadTasksSocket',
+  async (columnId, { getState }) => {
+    const user = getState().user;
+    const response = await TasksService.loadTasks(user.id, columnId);
+    if (response) {
+      if (user.onBoard === response[0].boardId) {
+        return response;
+      }
+    }
+    throw new Error();
+  }
+);
