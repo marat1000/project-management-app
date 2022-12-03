@@ -9,11 +9,9 @@ import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { toggleTheme } from 'store/slices/settings/settingsSlice';
 import ErrorBoundary from '../common/ErrorBoundary';
-import { Button } from './Button/Button';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);
-  // const [value, setValue] = useState(false);
   const dispatch = useAppDispatch();
   const isDark = useAppSelector(selectIsDark);
   const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });

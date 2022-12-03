@@ -47,17 +47,14 @@ export default class BoardService {
     return boardsAPIMiddleWare(response.data, userId);
   }
 
-  static async loadBoardData(obj: {
-    id: string | undefined;
-    message: { boardNotFound: string; unknownError: string };
-  }) {
+  static async loadBoardData(id: string) {
     try {
-      const response = await $api.get<IBoard>(`boards/${obj.id}`);
+      const response = await $api.get<IBoard>(`boards/${id}`);
       return response.data ? extendBoard(response.data) : null;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;
-        throw new Error(status === 404 ? obj.message.boardNotFound : obj.message.unknownError);
+        throw new Error(status === 404 ? 'boardNotFound' : 'unknownError');
       } else {
         throw error;
       }

@@ -1,10 +1,12 @@
-import React, { ReactNode } from 'react';
-import { withTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
+import React, { memo, ReactNode } from 'react';
+import { ELang } from 'store/slices/settings/settingsSlice';
+import { langConfig } from 'language/langConfig';
+import { useAppSelector } from 'store/hooks';
+import { selectLanguage } from 'store/slices/settings/settingsSelectors';
 
 interface IProps {
   children?: ReactNode;
-  t: TFunction;
+  lang: ELang;
 }
 
 interface IState {
@@ -28,17 +30,20 @@ class ErrorBoundary extends React.Component<IProps, IState> {
   // }
 
   render() {
-    const { t } = this.props;
+    const { lang } = this.props;
 
     if (this.state.hasError) {
       // Можно отрендерить запасной UI произвольного вида
-      return <span className={`error-boundary`}>{t(`somethingWentWrong`)}</span>;
+      return <span className={`error-boundary`}>{langConfig.somethingWentWrong[lang]}</span>;
     }
 
     return this.props.children;
   }
 }
 
-const ErrorBoundaryI18next = withTranslation()(ErrorBoundary);
+const ErrorBoundaryWithLang = memo<{ children: ReactNode }>(({ children }) => {
+  const lang = useAppSelector(selectLanguage);
+  return <ErrorBoundary lang={lang}>{children}</ErrorBoundary>;
+});
 
-export default ErrorBoundaryI18next;
+export default ErrorBoundaryWithLang;

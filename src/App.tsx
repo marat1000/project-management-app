@@ -1,6 +1,6 @@
 import './App.css';
 import React, { memo } from 'react';
-import { useAppDispatch, useAppSelector, useFirstCheckAuth } from 'store/hooks';
+import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
@@ -12,7 +12,8 @@ import { Layout } from 'components/Layout';
 import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
 import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
-import { useTranslation } from 'react-i18next';
+import { langConfig } from 'language/langConfig';
+import { selectLanguage } from 'store/slices/settings/settingsSelectors';
 
 const AuthRoutes = memo(() => {
   return (
@@ -50,14 +51,13 @@ const NonAuthRoutes = memo(() => {
 });
 
 function App() {
-  const { t } = useTranslation();
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
-
+  const lang = useAppSelector(selectLanguage);
   useFirstCheckAuth('');
 
   if (isChecking) {
-    return <div>{t(`authorizationCheck`)}</div>;
+    return <div>{langConfig.authorizationCheck[lang]}</div>;
   }
 
   return (

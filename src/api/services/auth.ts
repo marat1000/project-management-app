@@ -1,6 +1,5 @@
 import { $api } from 'api';
 import axios from 'axios';
-import i18next from 'i18next';
 
 interface TAuthResponse {
   name: string;
@@ -12,19 +11,14 @@ interface TLoginResponse {
 }
 
 export class AuthService {
-  static async signUp(
-    name: string,
-    login: string,
-    password: string,
-    message: { thisLoginAlreadyExists: string; unknownError: string }
-  ) {
+  static async signUp(name: string, login: string, password: string) {
     try {
       const response = await $api.post<TAuthResponse>('/auth/signup', { name, login, password });
       return response;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;
-        throw new Error(status === 409 ? message.thisLoginAlreadyExists : message.unknownError);
+        throw new Error(status === 409 ? 'loginAlreadyExists' : 'unknownError');
       } else {
         throw error;
       }
@@ -37,11 +31,7 @@ export class AuthService {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;
-        throw new Error(
-          status === 401
-            ? (i18next.t(`loginPasswordError`) as string)
-            : (i18next.t(`unknownError`) as string)
-        );
+        throw new Error(status === 401 ? 'loginPasswordError' : 'unknownError');
       } else {
         throw error;
       }

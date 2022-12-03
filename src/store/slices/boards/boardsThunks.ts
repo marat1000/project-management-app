@@ -63,29 +63,16 @@ export const loadBoardsSocket = createAsyncThunk<IBoardExtended[], string[], { s
   }
 );
 
-export const loadBoard = createAsyncThunk<
-  IBoardExtended | null,
-  {
-    id: string | undefined;
-    message: { boardNotFound: string; unknownError: string; accessDenied: string };
-  },
-  { state: RootState }
->(
+export const loadBoard = createAsyncThunk<IBoardExtended | null, string, { state: RootState }>(
   'boards/load',
-  async (
-    obj: {
-      id: string | undefined;
-      message: { boardNotFound: string; unknownError: string; accessDenied: string };
-    },
-    { getState }
-  ) => {
+  async (id: string, { getState }) => {
     const userId = getState().user.id;
-    const board = await BoardService.loadBoardData(obj);
+    const board = await BoardService.loadBoardData(id);
     if (!board) {
-      throw new Error(obj.message.boardNotFound);
+      throw new Error('boardNotFound');
     }
     if (!isUserHaveAccessToBoard(board, userId)) {
-      throw new Error(obj.message.accessDenied);
+      throw new Error('accessDenied');
     }
     return board;
   }
