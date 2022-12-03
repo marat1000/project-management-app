@@ -110,7 +110,6 @@ const columnSlice = createSlice({
 
     builder.addCase(loadColumnsSocket.fulfilled, (state, action) => {
       const columns = action.payload;
-      console.log(columns);
       columnsAdapter.setMany(state, columns);
     });
   },
