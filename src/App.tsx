@@ -54,7 +54,7 @@ function App() {
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
 
-  useFirstCheckAuth(message);
+  useFirstCheckAuth('');
 
   if (isChecking) {
     return <div>{t(`authorizationCheck`)}</div>;

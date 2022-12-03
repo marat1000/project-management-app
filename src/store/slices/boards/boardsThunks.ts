@@ -3,7 +3,6 @@ import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
 import { IBoardExtended, IBoard } from 'ts/interfaces';
 import { toggleEditBoardModal } from '../modals/modalsSlice';
-import { useTranslation } from 'react-i18next';
 
 export interface ICreateBoardProps {
   title: string;
@@ -30,6 +29,9 @@ export const fetchUserBoards = createAsyncThunk<
   }
 >('boards/fetchUserBoards', async (_, { getState }) => {
   const { id } = getState().user;
+  if (!id) {
+    throw new Error();
+  }
   const response = await BoardService.loadUserBoards(id);
   return response;
 });
@@ -49,6 +51,15 @@ export const updateBoard = createAsyncThunk(
     const updated = await BoardService.update(board);
     dispatch(toggleEditBoardModal(false));
     return updated;
+  }
+);
+
+export const loadBoardsSocket = createAsyncThunk<IBoardExtended[], string[], { state: RootState }>(
+  'columns/loadBoardsSocket',
+  async (boardsIds, { getState }) => {
+    const user = getState().user;
+    const response = await BoardService.loadBoards(boardsIds, user.id);
+    return response;
   }
 );
 
@@ -77,5 +88,19 @@ export const loadBoard = createAsyncThunk<
       throw new Error(obj.message.accessDenied);
     }
     return board;
+  }
+);
+
+export const fetchBoardUpdate = createAsyncThunk<IBoardExtended, string, { state: RootState }>(
+  'boards/fetchBoardUpdate',
+  async (id, { getState }) => {
+    const userId = getState().user.id;
+    const board = await BoardService.fetchBoardUpdate(id);
+    if (board) {
+      if (board.users.includes(userId)) {
+        return board;
+      }
+    }
+    throw new Error();
   }
 );

@@ -54,6 +54,11 @@ export default class TasksService {
     return added.data;
   }
 
+  static loadTasks = async (userId: string, tasksIds: string[]) => {
+    const response = await $api.get<ITask[]>(`tasksSet?userId=${userId}&ids=[${tasksIds}]`);
+    return response.data;
+  };
+
   static async deleteTask(boardId: EntityId, columnId: EntityId, taskId: EntityId) {
     const url = `boards/${boardId}/columns/${columnId}/tasks/${taskId}`;
 

@@ -17,6 +17,11 @@ export default class ColumnService {
     return response.data;
   };
 
+  static loadColumns = async (userId: string, columnIds: string[]) => {
+    const response = await $api.get<IColumn[]>(`columnsSet?userId=${userId}&ids=[${columnIds}]`);
+    return response.data;
+  };
+
   static addColumn = async (boardID: string, columnParams: IColumnParams) => {
     const response = await $api.post<IColumn>(`boards/${boardID}/columns`, columnParams);
     return response.data;
