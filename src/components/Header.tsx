@@ -6,6 +6,8 @@ import { Nav } from './Nav';
 import { LangSelect } from './LangSelect';
 import ThemeSwitcher from './ThemeSwitcher';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
+import ErrorBoundary from '../common/ErrorBoundary';
+import { Button } from './Button/Button';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);
@@ -49,9 +51,13 @@ export const Header = memo(() => {
             <Logo />
             <span>Boardello</span>
           </NavLink>
-          {isAuth && <Nav />}
-          <LangSelect />
-          <ThemeSwitcher isOn={value} handleToggle={() => setValue(!value)} onColor="#EF476F" />
+          <ErrorBoundary>{isAuth && <Nav />}</ErrorBoundary>
+          <ErrorBoundary>
+            <LangSelect />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <ThemeSwitcher isOn={value} handleToggle={() => setValue(!value)} onColor="#EF476F" />
+          </ErrorBoundary>
         </div>
       </div>
     </header>

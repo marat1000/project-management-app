@@ -12,7 +12,6 @@ import { Layout } from 'components/Layout';
 import { Board } from 'pages/Board/Board';
 import { Main } from 'pages/Main/Main';
 import { selectAuthCheckingFlag, selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
-import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 const AuthRoutes = memo(() => {
@@ -59,7 +58,7 @@ function App() {
   useFirstCheckAuth(message);
 
   if (isChecking) {
-    return <div>{t(`Authorization check`)}</div>;
+    return <div>{t(`authorizationCheck`)}</div>;
   }
 
   return (

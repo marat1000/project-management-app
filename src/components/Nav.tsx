@@ -7,6 +7,7 @@ import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/mo
 import { Button } from './Button/Button';
 import { logOut } from 'store/slices/auth/authThunks';
 import { useTranslation } from 'react-i18next';
+import ErrorBoundary from '../common/ErrorBoundary';
 
 export const Nav = memo(() => {
   const { t } = useTranslation();
@@ -25,9 +26,11 @@ export const Nav = memo(() => {
 
   return (
     <nav className={`nav`}>
-      <Button color="add" onClick={openCreatingBoardModal}>
-        {t('createNewBoard')}
-      </Button>
+      <ErrorBoundary>
+        <Button color="add" onClick={openCreatingBoardModal}>
+          {t('createNewBoard')}
+        </Button>
+      </ErrorBoundary>
       <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
         <ProfileSVG />
         <span> {t('profile')}</span>
