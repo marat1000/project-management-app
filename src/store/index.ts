@@ -9,8 +9,8 @@ import userSlice from './slices/user/userSlice';
 import settingSlice from './slices/settings/settingsSlice';
 import columnSlice from './slices/columns/columnsSlice';
 import boardsSlice from './slices/boards/boardsSlice';
-// import editColumnSlice from './slices/editColumn/editColumnSlice';
 import tasksSlice from './slices/tasks/tasksSlice';
+import dragsSlice from './slices/drags/dragsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +21,7 @@ export const store = configureStore({
     settings: settingSlice,
     modals: modalsSlice,
     columns: columnSlice,
-    // editColumn: editColumnSlice,
+    drags: dragsSlice,
     tasks: tasksSlice,
   },
   middleware: (getDefaultMiddleware) =>

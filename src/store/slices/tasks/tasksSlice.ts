@@ -1,9 +1,10 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
 import { ITask } from 'ts/interfaces';
 import { addTask, deleteTask, editTask, fetchAllTasksOnBoard } from './tasksThunks';
 
 export const tasksAdapter = createEntityAdapter<ITask>({
   selectId: (task) => task._id,
+  sortComparer: (a, b) => a.order - b.order,
 });
 
 const tasksSlice = createSlice({
@@ -14,7 +15,20 @@ const tasksSlice = createSlice({
       error: '',
     },
   }),
-  reducers: {},
+  reducers: {
+    setTasksOrder: (
+      state,
+      action: PayloadAction<{ _id: EntityId; order: number; columnId: string }[]>
+    ) => {
+      const updatesRaw = action.payload;
+      const updates = updatesRaw.map(({ _id, order, columnId }) => ({
+        id: _id,
+        changes: { order, columnId },
+      }));
+
+      tasksAdapter.updateMany(state, updates);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllTasksOnBoard.pending, (state) => {
@@ -42,5 +56,5 @@ const tasksSlice = createSlice({
       });
   },
 });
-
+export const { setTasksOrder } = tasksSlice.actions;
 export default tasksSlice.reducer;

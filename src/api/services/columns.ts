@@ -41,4 +41,9 @@ export default class ColumnService {
     const response = await $api.put(`boards/${boardID}/columns/${columnID}`, { title, order });
     return response.data;
   };
+
+  static updateOrder = async (orders: { _id: string; order: number }[]) => {
+    const response = await $api.patch<IColumn[]>(`columnsSet`, orders);
+    return response.data;
+  };
 }

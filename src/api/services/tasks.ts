@@ -1,5 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { $api } from 'api';
+import { TTaskOrderUpdate } from 'store/slices/drags/dragsSlice';
 import { ITask } from 'ts/interfaces';
 
 export interface ITaskDataBodyApi {
@@ -59,4 +60,9 @@ export default class TasksService {
     const added = await $api.delete<ITask>(url);
     return added.data;
   }
+
+  static updateOrder = async (orders: TTaskOrderUpdate[]) => {
+    const response = await $api.patch<ITask[]>(`tasksSet`, orders);
+    return response.data;
+  };
 }
