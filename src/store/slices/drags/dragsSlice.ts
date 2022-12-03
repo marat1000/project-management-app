@@ -124,6 +124,12 @@ export const catchColumnsDrop = createAsyncThunk<void, void, { state: RootState 
   }
 );
 
+export type TTaskOrderUpdate = {
+  _id: string;
+  order: number;
+  columnId: string;
+};
+
 export const catchTaskDrop = createAsyncThunk<void, void, { state: RootState }>(
   'drags/catchTaskDrop',
   async (_, { getState, dispatch }) => {
@@ -141,6 +147,9 @@ export const catchTaskDrop = createAsyncThunk<void, void, { state: RootState }>(
       .selectAll(state)
       .filter((task) => task.columnId === overColumn._id)
       .map((task) => ({ _id: task._id, order: task.order, columnId: task.columnId }));
+
+    let newOrder: TTaskOrderUpdate[];
+    let oldOrder: TTaskOrderUpdate[];
 
     if (!overTask) {
       // place to end of tasks list on column
@@ -161,16 +170,9 @@ export const catchTaskDrop = createAsyncThunk<void, void, { state: RootState }>(
             : lastTaskInColumn.order + 1
           : 0,
       };
-      dispatch(setTasksOrder([updated]));
-      try {
-        dispatch(setLoading(true));
-        dispatch(clearDragTask());
-        await TasksService.updateOrder([updated]);
-      } catch {
-        dispatch(setTasksOrder([before]));
-      } finally {
-        dispatch(setLoading(false));
-      }
+
+      oldOrder = [before];
+      newOrder = [updated];
     } else {
       const side = state.drags.overTaskSide > 0 ? 1 : 0;
 
@@ -189,16 +191,9 @@ export const catchTaskDrop = createAsyncThunk<void, void, { state: RootState }>(
         const taskOnOverIndex = updatedList.findIndex((item) => item._id === overTask._id);
         updatedList.splice(taskOnOverIndex + side, 0, taskOnDrag);
         updatedList.forEach((task, i) => (task.order = i));
-        dispatch(setTasksOrder(updatedList));
-        try {
-          dispatch(setLoading(true));
-          dispatch(clearDragTask());
-          await TasksService.updateOrder(updatedList);
-        } catch {
-          dispatch(setTasksOrder([...tasksOnColumnBefore, beforeTask]));
-        } finally {
-          dispatch(setLoading(false));
-        }
+
+        newOrder = updatedList;
+        oldOrder = [...tasksOnColumnBefore, beforeTask];
       } else {
         //if in different columns
         const taskOnOverIndex = updatedList.findIndex((item) => item._id === overTask._id);
@@ -211,17 +206,21 @@ export const catchTaskDrop = createAsyncThunk<void, void, { state: RootState }>(
         updatedList.forEach((task, i) => {
           task.order = i;
         });
-        dispatch(setTasksOrder(updatedList));
-        try {
-          dispatch(setLoading(true));
-          dispatch(clearDragTask());
-          await TasksService.updateOrder(updatedList);
-        } catch {
-          dispatch(setTasksOrder([...tasksOnColumnBefore, beforeTask]));
-        } finally {
-          dispatch(setLoading(false));
-        }
+
+        newOrder = updatedList;
+        oldOrder = [...tasksOnColumnBefore, beforeTask];
       }
+    }
+
+    dispatch(setTasksOrder(newOrder));
+    try {
+      dispatch(setLoading(true));
+      dispatch(clearDragTask());
+      await TasksService.updateOrder(newOrder);
+    } catch {
+      dispatch(setTasksOrder(oldOrder));
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 );
