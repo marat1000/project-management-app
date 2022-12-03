@@ -43,7 +43,7 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const checkAuth = createAsyncThunk('auth/check', async (message: string) => {
+export const checkAuth = createAsyncThunk('auth/check', async () => {
   // just try to fetch some data;
   // token will be will be taken from LS and placed to headers
   // if response will ok it means token works
@@ -54,7 +54,7 @@ export const checkAuth = createAsyncThunk('auth/check', async (message: string) 
     throw new Error();
   }
   // if is check token
-  const response = await AuthService.checkAuth(message);
+  const response = await AuthService.checkAuth();
   if (response) {
     const token = localStorage.getItem(ELSKeys.token)!;
     return jwtDecode<TDecodedJWT>(token);

@@ -54,7 +54,7 @@ function App() {
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
   const lang = useAppSelector(selectLanguage);
-  useFirstCheckAuth('');
+  useFirstCheckAuth();
 
   if (isChecking) {
     return <div>{langConfig.authorizationCheck[lang]}</div>;
