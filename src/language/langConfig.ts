@@ -6,13 +6,13 @@ type TLangConfigItem = {
 export const langConfig: { [key: string]: TLangConfigItem } = {
   signIn: { ru: 'Войти', eng: 'Sign In' },
   signUp: { ru: 'Зарегистрироваться', eng: 'Sign Up' },
-  nameError: { eng: 'Please enter a correct name', ru: 'Пожалуйста, введите корректное имя' },
-  welcomeBack: { ru: 'Добро пожаловать назад', eng: 'Welcome Back' },
+  nameError: { eng: 'Please enter a correct name', ru: 'Некорректное имя' },
+  welcomeBack: { ru: 'Рады Вас видеть!', eng: 'Welcome Back' },
   login: { ru: 'Логин', eng: 'Login' },
   password: { ru: 'Пароль', eng: 'Password' },
-  loginError: { ru: 'Пожалуйста, введите корректный логин', eng: 'Please enter a correct login' },
+  loginError: { ru: 'Некорректный логин', eng: 'Please enter a correct login' },
   passwordError: {
-    ru: 'Пожалуйста, введите корректный пароль',
+    ru: 'Некорректный пароль',
     eng: 'Please enter the correct password',
   },
   loginPasswordError: { ru: 'Некорректный логин или пароль', eng: 'Incorrect login or password' },
@@ -41,7 +41,7 @@ export const langConfig: { [key: string]: TLangConfigItem } = {
     ru: 'Ошибка 404. Такой страницы на нашем сайте не существует.',
     eng: 'Error 404. Such a page does not exist on our site.',
   },
-  thisLoginAlreadyExists: { ru: 'Такой логин уже существует', eng: 'This login already exists' },
+  loginAlreadyExists: { ru: 'Такой логин уже существует', eng: 'This login already exists' },
   accessDenied: { ru: 'Отказано в доступе', eng: 'Access denied' },
   youAreNotLoggedIn: { ru: 'Вы не вошли в систему', eng: 'You are not logged in' },
   authorizationCheck: { ru: 'Проверка авторизации...', eng: 'Authorization check...' },
@@ -49,4 +49,5 @@ export const langConfig: { [key: string]: TLangConfigItem } = {
   add: { ru: 'Добавить +', eng: 'Add +' },
   eng: { ru: 'Анг', eng: 'Eng' },
   ru: { ru: 'Рус', eng: 'Rus' },
+  welcome: { ru: 'Добро пожаловать', eng: 'Welcome' },
 };

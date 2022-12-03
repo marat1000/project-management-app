@@ -7,7 +7,6 @@ type TRegisterProps = {
   name: string;
   login: string;
   password: string;
-  message: { thisLoginAlreadyExists: string; unknownError: string };
 };
 
 type TLoginProps = {
@@ -36,8 +35,8 @@ export const signIn = createAsyncThunk('auth/login', async ({ login, password }:
 
 export const signUp = createAsyncThunk(
   'auth/registration',
-  async ({ name, login, password, message }: TRegisterProps, thunkAPI) => {
-    const response = await AuthService.signUp(name, login, password, message);
+  async ({ name, login, password }: TRegisterProps, thunkAPI) => {
+    const response = await AuthService.signUp(name, login, password);
     if (response.status === 200) {
       return thunkAPI.dispatch(signIn({ login, password }));
     }

@@ -18,7 +18,7 @@ export const Button = memo<IButtonProps>(({ to, isLoading, children, color = 'ma
   color === 'main' ? styles.push('button_main') : styles.push('button_add');
 
   const button = (
-    <button onClick={onClick} className={styles.join(' ')}>
+    <button onClick={onClick} className={styles.join(' ')} disabled={isLoading}>
       {isLoading ? langConfig.loading[lang] : children}
     </button>
   );

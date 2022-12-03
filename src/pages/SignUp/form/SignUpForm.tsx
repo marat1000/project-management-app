@@ -1,25 +1,22 @@
 import { Button } from 'components/Button/Button';
 import {
-  EFormErrorMessages,
   EInputTypes,
   EPattern,
   InputWithErrorMessage,
 } from 'components/Input/InputWithErrorMessage';
+import { langConfig } from 'language/langConfig';
 import React, { memo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectRegistrationFlags } from 'store/slices/auth/authSelectors';
 import { clearRegistrationError } from 'store/slices/auth/authSlice';
 import { signUp } from 'store/slices/auth/authThunks';
+import { selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { ERoutes } from 'ts/enums';
-import { useTranslation } from 'react-i18next';
 
 export const SignUpForm = memo(() => {
-  const { t } = useTranslation();
-  const message = {
-    thisLoginAlreadyExists: t('thisLoginAlreadyExists'),
-    unknownError: t('unknownError'),
-  };
+  const lang = useAppSelector(selectLanguage);
+
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector(selectRegistrationFlags);
   const navigate = useNavigate();
@@ -46,7 +43,7 @@ export const SignUpForm = memo(() => {
       const login = loginRef.current.value;
       const password = passwordRef.current.value;
 
-      dispatch(signUp({ name, login, password, message }))
+      dispatch(signUp({ name, login, password }))
         .unwrap()
         .then(() => {
           const path = isRedirect ? '/' + isRedirect.split('-').join('/') : ERoutes.main;
@@ -61,34 +58,34 @@ export const SignUpForm = memo(() => {
     <>
       <InputWithErrorMessage
         pattern={EPattern.name}
-        placeholder={String(t('name'))}
-        errorMessage={t('nameError')}
+        placeholder={langConfig.name[lang]}
+        errorMessage={langConfig.nameError[lang]}
         type={EInputTypes.text}
         onChangeCb={clearError}
         ref={nameRef}
       />
       <InputWithErrorMessage
         pattern={EPattern.login}
-        placeholder={String(t('login'))}
-        errorMessage={t('loginError')}
+        placeholder={langConfig.login[lang]}
+        errorMessage={langConfig.loginError[lang]}
         type={EInputTypes.text}
         onChangeCb={clearError}
         ref={loginRef}
       />
       <InputWithErrorMessage
         pattern={EPattern.password}
-        placeholder={String(t('password'))}
-        errorMessage={t('passwordError')}
+        placeholder={langConfig.password[lang]}
+        errorMessage={langConfig.passwordError[lang]}
         type={EInputTypes.password}
         onChangeCb={clearError}
         ref={passwordRef}
       />
-      <div style={{ color: 'red' }}>{error}</div>
+      {error && <div style={{ color: 'red' }}>{langConfig[error][lang]}</div>}
       <Button isLoading={isLoading} onClick={submit}>
-        {t('signUp')}
+        {langConfig.signUp[lang]}
       </Button>
       <Button onClick={() => navigate(signInUrl)} color="add">
-        {t('signIn')}
+        {langConfig.signIn[lang]}
       </Button>
     </>
   );
