@@ -16,6 +16,7 @@ import { langConfig } from 'language/langConfig';
 
 export const CreateColumnModal = memo(() => {
   const lang = useAppSelector(selectLanguage);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
