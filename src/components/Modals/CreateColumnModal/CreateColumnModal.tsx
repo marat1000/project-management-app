@@ -11,10 +11,11 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
 import { addColumn, selectColumnIds, selectColumnById } from 'store/slices/columns/columnsSlice';
 import { selectCurrentBoardId } from 'store/slices/user/userSelectors';
-import { useTranslation } from 'react-i18next';
+import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { langConfig } from 'language/langConfig';
 
 export const CreateColumnModal = memo(() => {
-  const { t } = useTranslation();
+  const lang = useAppSelector(selectLanguage);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
@@ -56,34 +57,34 @@ export const CreateColumnModal = memo(() => {
 
   if (isLoading) {
     return (
-      <Modal close={closeModal} title={t(`createColumn`)}>
-        {t(`loading`)}
+      <Modal close={closeModal} title={langConfig.createColumn[lang]}>
+        {langConfig.loading[lang]}
       </Modal>
     );
   }
 
   if (error) {
     return (
-      <Modal close={closeModal} title={t(`createColumn`)}>
+      <Modal close={closeModal} title={langConfig.createColumn[lang]}>
         {error}
       </Modal>
     );
   }
 
   return (
-    <Modal close={closeModal} title={t(`createColumn`)}>
+    <Modal close={closeModal} title={langConfig.createColumn[lang]}>
       <div className="create-board-container">
         <InputWithErrorMessage
           type={EInputTypes.text}
           pattern={EPattern.name}
-          errorMessage={t('nameError')}
-          placeholder={String(t(`columnName`))}
+          errorMessage={langConfig.nameError[lang]}
+          placeholder={langConfig.columnName[lang]}
           ref={titleRef}
           initialValue={''}
         />
 
         <Button color="add" onClick={submit}>
-          {t(`create`)}
+          {langConfig.create[lang]}
         </Button>
       </div>
     </Modal>

@@ -4,7 +4,6 @@ import React, { memo, useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { addTask } from 'store/slices/tasks/tasksThunks';
-import { useTranslation } from 'react-i18next';
 import { selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { langConfig } from 'language/langConfig';
 
