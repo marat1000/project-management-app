@@ -1,6 +1,8 @@
-import React, { memo, ReactNode, useEffect, useState } from 'react';
+import { langConfig } from 'language/langConfig';
+import React, { memo, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'store/hooks';
+import { selectLanguage } from 'store/slices/settings/settingsSelectors';
 
 interface IButtonProps {
   to?: string;
@@ -11,23 +13,13 @@ interface IButtonProps {
 }
 
 export const Button = memo<IButtonProps>(({ to, isLoading, children, color = 'main', onClick }) => {
-  const { t } = useTranslation();
+  const lang = useAppSelector(selectLanguage);
   const styles = ['button'];
   color === 'main' ? styles.push('button_main') : styles.push('button_add');
 
-  // const [w, ww] = useState(0);
-  // const onClick1 = () => {
-  //   ww(w + 1);
-  // };
-  // useEffect(() => {
-  //   if (w === 2) {
-  //     throw new Error('I crashed!');
-  //   }
-  // });
-
   const button = (
     <button onClick={onClick} className={styles.join(' ')}>
-      {isLoading ? t(`loading`) : children}
+      {isLoading ? langConfig.loading[lang] : children}
     </button>
   );
 

@@ -4,31 +4,22 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectAuthorizationFlag } from 'store/slices/auth/authSelectors';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { loadBoard } from 'store/slices/boards/boardsThunks';
-// import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
 import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
-import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { setOnBoard } from 'store/slices/user/userSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';
-import { useTranslation } from 'react-i18next';
+import { langConfig } from 'language/langConfig';
 
 export const Board = memo(() => {
-  const { t } = useTranslation();
-  const message = {
-    boardNotFound: t('boardNotFound'),
-    unknownError: t('unknownError'),
-    accessDenied: t(`accessDenied`),
-  };
+  const lang = useAppSelector(selectLanguage);
+
   const isAuth = useAppSelector(selectAuthorizationFlag);
   const { id } = useParams();
-  const [isError, setIsError] = useState('');
+  const [error, setError] = useState('');
   const boardData = useAppSelector(selectBoardById(id!));
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const obj = {
-    id,
-    message,
-  };
 
   const addColumnHandler = () => {
     dispatch(toggleCreateColumnModal(true));
@@ -42,13 +33,13 @@ export const Board = memo(() => {
     // if the user went to this page via a link,
     // he will not have this board in the store
     if (!boardData) {
-      dispatch(loadBoard(obj))
+      dispatch(loadBoard(id!))
         .unwrap()
         .catch((err) => {
-          setIsError(err.message);
+          setError(err.message);
         });
     }
-  }, [id, dispatch, boardData, obj]);
+  }, [id, dispatch, boardData]);
 
   const isDark = useAppSelector(selectIsDark);
 
@@ -58,7 +49,7 @@ export const Board = memo(() => {
     return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
   }
 
-  if (isError) {
+  if (error) {
     return (
       <div className={boardPageClass + '__container'}>
         <div className={boardPageClass + '__header'}>
@@ -67,7 +58,7 @@ export const Board = memo(() => {
               <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
             </svg>
           </button>
-          <h3>{isError}</h3>
+          <h3>{langConfig[error][lang]}</h3>
         </div>
       </div>
     );
@@ -82,7 +73,7 @@ export const Board = memo(() => {
               <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
             </svg>
           </button>
-          <h3>{t(`loading`)}</h3>
+          <h3>{langConfig.loading[lang]}</h3>
         </div>
       </div>
     );
@@ -100,7 +91,7 @@ export const Board = memo(() => {
         </button>
         <h3>{title}</h3>
         <button className="add-list-button" onClick={addColumnHandler}>
-          {t(`addColumn`)} +
+          {langConfig.addColumn[lang]} +
         </button>
       </div>
       <ColumnsList />

@@ -2,16 +2,18 @@ import { EntityId } from '@reduxjs/toolkit';
 import { EditingTask } from 'components/Task/EditingTask/EditingTask';
 import React, { memo, useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { addTask } from 'store/slices/tasks/tasksThunks';
 import { useTranslation } from 'react-i18next';
+import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { langConfig } from 'language/langConfig';
 
 interface IAddingTaskProps {
   columnId: EntityId;
 }
 
 const AddingTask = memo<IAddingTaskProps>(({ columnId }) => {
-  const { t } = useTranslation();
+  const lang = useAppSelector(selectLanguage);
   const [isAdding, setIsAdding] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -51,7 +53,7 @@ const AddingTask = memo<IAddingTaskProps>(({ columnId }) => {
   if (isAdding) {
     return <EditingTask cancel={cancelAdding} submit={addTaskHandler} isUpdating={isUpdating} />;
   }
-  return <button onClick={() => setIsAdding(true)}>{t(`add`)}</button>;
+  return <button onClick={() => setIsAdding(true)}>{langConfig.add[lang]}</button>;
 });
 
 export default AddingTask;

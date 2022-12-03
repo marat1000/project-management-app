@@ -25,7 +25,7 @@ export interface IInputWithErrorMessage {
   type: EInputTypes;
   pattern: EPattern;
   placeholder?: string;
-  errorMessage: EFormErrorMessages;
+  errorMessage: string;
   onChangeCb?: (e: SyntheticEvent<HTMLInputElement>) => void;
   initialValue?: string;
 }

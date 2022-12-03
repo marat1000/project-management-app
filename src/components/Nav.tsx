@@ -30,7 +30,7 @@ export const Nav = memo(() => {
     <nav className={`nav`}>
       <ErrorBoundary>
         <Button color="add" onClick={openCreatingBoardModal}>
-          {langConfig.createBoard[lang]}
+          {langConfig.createNewBoard[lang]}
         </Button>
       </ErrorBoundary>
       <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
