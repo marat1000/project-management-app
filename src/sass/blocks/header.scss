@@ -2,6 +2,14 @@
   background-color: $color-default-white;
   transition: background-color 1s ease;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.15);
+  color: $color-default-black;
+}
+
+.header-dark {
+  background-color: $color-default-white;
+  transition: background-color 1s ease;
+  background-color: #262626;
+  color: #D9D9D9
 }
 
 .header_sticky {
@@ -9,6 +17,7 @@
   top: 0;
   width: 100%;
   background-color: #C9C9C9;
+  color: inherit;
   /* animation: smoothScroll 1s forwards; */
 }
 
@@ -23,22 +32,27 @@
   padding-top: 10px;
   margin-left: 50px;
   margin-right: 50px;
+  color: inherit;
 
-  * {
-    color: $color-default-black;
-  }
+  // * {
+  //   color: $color-default-black;
+  // }
 
   .header__logo {
     margin-right: 5%;
+    color: inherit;
   }
 
   .header__lang {
     margin-left: auto;
     margin-right: 3%;
+    color: inherit;
 
     svg {
       width: 20px;
       height: auto;
+      fill: inherit;
+      // color: inherit;
     }
   }
 
@@ -68,4 +82,13 @@
 
 .header__lang.header__lang.header__lang .select__input {
   color: transparent !important;
+}
+
+.nav {
+  a {
+    color: inherit;
+    span {
+      color: inherit;
+    }
+  }
 }

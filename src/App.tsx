@@ -1,6 +1,6 @@
 import './App.css';
 import React, { memo } from 'react';
-import { useAppSelector, useFirstCheckAuth } from 'store/hooks';
+import { useAppDispatch, useAppSelector, useFirstCheckAuth } from 'store/hooks';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Welcome } from './pages/Welcome/Welcome';
 import { Page404 } from './pages/Page404';
@@ -53,7 +53,6 @@ function App() {
   const { t } = useTranslation();
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
-  const message = t(`youAreNotLoggedIn`);
 
   useFirstCheckAuth(message);
 

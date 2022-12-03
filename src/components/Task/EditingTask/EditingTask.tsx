@@ -1,6 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useReducer, useRef, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { TaskUsersList } from './TaskUsers/TaskUsers';
 
@@ -52,8 +53,11 @@ export const EditingTask = memo<IEditingTaskProps>(
       }
     };
 
+    const isDark = useAppSelector(selectIsDark);
+    const mainClassName = isDark ? 'edit-task-dark' : 'edit-task';
+
     return (
-      <div className="edit-task">
+      <div className={mainClassName}>
         <input
           disabled={isUpdating}
           className={isTitleValid ? '' : 'invalid'}

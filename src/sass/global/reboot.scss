@@ -31,6 +31,12 @@ body {
   sans-serif;
 }
 
+.body-dark {
+  background-image: url('../../../public/bg-dark.png');
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;

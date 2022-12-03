@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface ISettingsType {
-  theme: EThemes;
-  lang: ELang;
+  theme: EThemes | string;
+  lang: ELang | string;
 }
 
 export enum EThemes {
@@ -26,8 +26,8 @@ type changeThemeAction = {
 };
 
 const initialState: ISettingsType = {
-  theme: EThemes.LIGHT,
-  lang: ELang.ENG,
+  theme: localStorage.getItem('theme') || EThemes.LIGHT,
+  lang: localStorage.getItem('lang') || ELang.ENG,
 };
 
 const settingsSlice = createSlice({
@@ -39,14 +39,18 @@ const settingsSlice = createSlice({
     },
     toggleTheme: (state) => {
       state.theme = state.theme === EThemes.LIGHT ? EThemes.DARK : EThemes.LIGHT;
+      localStorage.setItem('theme', state.theme);
+      console.log(localStorage.getItem('theme'));
     },
     changeLang: (state, action: changeLangAction) => {
       state.lang = action.payload;
     },
     changeTheme: (state, action: changeThemeAction) => {
       state.theme = action.payload;
+      localStorage.setItem('theme', action.payload);
     },
   },
 });
 
+export const { toggleLang, toggleTheme, changeLang, changeTheme } = settingsSlice.actions;
 export default settingsSlice.reducer;

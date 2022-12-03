@@ -10,6 +10,7 @@ import {
   setOverTaskSide,
 } from 'store/slices/drags/dragsSlice';
 import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
 import { EditingTask } from './EditingTask/EditingTask';
@@ -125,6 +126,8 @@ const Task = memo<ITaskProps>(({ id }) => {
       });
   }, []);
 
+  const isDark = useAppSelector(selectIsDark);
+
   if (isEditing) {
     return (
       <EditingTask
@@ -138,6 +141,7 @@ const Task = memo<ITaskProps>(({ id }) => {
   }
 
   return (
+    // <div className={isDark ? 'task-dark' : 'task'}>
     <div
       ref={taskRef}
       className={getTaskClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide)}

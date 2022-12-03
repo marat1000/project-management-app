@@ -1,10 +1,22 @@
 import React, { memo } from 'react';
+import { useAppSelector } from 'store/hooks';
+import { selectIsDark, selectTheme } from 'store/slices/settings/settingsSelectors';
 
 export const Footer = memo(() => {
+  const isDark = useAppSelector(selectIsDark);
+  const wrapperClass = `footer__wrapper ${isDark && 'footer__wrapper-dark'}`;
+  const body = document.querySelector('body');
+  if (body && isDark) {
+    body.className = 'body-dark';
+  } else if (body && !isDark) {
+    body.classList.remove('body-dark');
+  }
+  //idk where to put it
+
   return (
-    <footer className="footer">
+    <footer className={isDark ? 'footer footer-dark' : 'footer'}>
       <div className="container">
-        <div className="footer__wrapper">
+        <div className={wrapperClass}>
           <div className="footer__info">
             <div className="footer__rss">
               <a

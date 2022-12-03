@@ -1,5 +1,7 @@
 import { useInputWithCb } from 'hooks/hooks';
 import React, { memo, SyntheticEvent, useRef, useState } from 'react';
+import { useAppSelector } from 'store/hooks';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { EInputTypes, EPattern } from './InputWithErrorMessage';
 
 export interface IEditInput {
@@ -47,6 +49,8 @@ export const EditTitleInput = memo<IEditInput>(
       }
     };
 
+    const isDark = useAppSelector(selectIsDark);
+
     return (
       <div className="edit-input">
         <div className={isValid ? 'edit-input-container' : 'edit-input-container error'}>
@@ -60,6 +64,7 @@ export const EditTitleInput = memo<IEditInput>(
             onInvalid={onInvalid}
             pattern={pattern}
             ref={inputRef}
+            style={isDark ? { color: '#D9D9D9' } : {}}
             {...input}
           />
           {submitHandler && (
