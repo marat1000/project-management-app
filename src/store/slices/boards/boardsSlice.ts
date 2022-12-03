@@ -1,6 +1,14 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IBoardExtended } from 'ts/interfaces';
-import { fetchUserBoards, createBoard, deleteBoard, updateBoard, loadBoard } from './boardsThunks';
+import {
+  fetchUserBoards,
+  createBoard,
+  deleteBoard,
+  updateBoard,
+  loadBoard,
+  fetchBoardUpdate,
+  loadBoardsSocket,
+} from './boardsThunks';
 
 export const boardsAdapter = createEntityAdapter<IBoardExtended>({
   selectId: (book) => book._id,
@@ -17,6 +25,9 @@ const boardsSlice = createSlice({
   }),
   reducers: {
     removeAllBoards: boardsAdapter.removeAll,
+    deleteBoardSocket: (state, action: PayloadAction<string>) => {
+      boardsAdapter.removeOne(state, action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -26,7 +37,7 @@ const boardsSlice = createSlice({
       })
 
       .addCase(fetchUserBoards.fulfilled, (state, action) => {
-        boardsAdapter.addMany(state, action.payload);
+        boardsAdapter.setAll(state, action.payload);
         state.fetching.isLoading = false;
         state.fetching.error = '';
       })
@@ -57,10 +68,20 @@ const boardsSlice = createSlice({
         if (board) {
           boardsAdapter.addOne(state, board);
         }
+      })
+      .addCase(fetchBoardUpdate.fulfilled, (state, action) => {
+        const board = action.payload;
+        if (board) {
+          boardsAdapter.addOne(state, board);
+        }
+      })
+      .addCase(loadBoardsSocket.fulfilled, (state, action) => {
+        const board = action.payload;
+        boardsAdapter.setMany(state, board);
       });
   },
 });
 
-export const { removeAllBoards } = boardsSlice.actions;
+export const { removeAllBoards, deleteBoardSocket } = boardsSlice.actions;
 
 export default boardsSlice.reducer;
