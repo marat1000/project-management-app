@@ -6,13 +6,13 @@ import { ERoutes } from '../ts/enums';
 import { toggleEditBoardModal, toggleEditProfileModal } from '../store/slices/modals/modalsSlice';
 import { Button } from './Button/Button';
 import { logOut } from 'store/slices/auth/authThunks';
-import { selectIsDark } from 'store/slices/settings/settingsSelectors';
-import { useTranslation } from 'react-i18next';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import ErrorBoundary from '../common/ErrorBoundary';
+import { langConfig } from 'language/langConfig';
 
 export const Nav = memo(() => {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const lang = useAppSelector(selectLanguage);
   const isDark = useAppSelector(selectIsDark);
   const openEditProfileModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -30,16 +30,16 @@ export const Nav = memo(() => {
     <nav className={`nav`}>
       <ErrorBoundary>
         <Button color="add" onClick={openCreatingBoardModal}>
-          {t('createNewBoard')}
+          {langConfig.createBoard[lang]}
         </Button>
       </ErrorBoundary>
       <NavLink to={ERoutes.profile} onClick={openEditProfileModal}>
         <ProfileSVG color={isDark ? '#D9D9D9' : '#1C1B1F'} />
-        <span>{t('profile')}</span>
+        <span>{langConfig.profile[lang]}</span>
       </NavLink>
       <NavLink to={ERoutes.welcome} onClick={logout}>
         <SignOutSVG color={isDark ? '#D9D9D9' : '#1C1B1F'} />
-        <span>{t('signOut')}</span>
+        <span>{langConfig.signOut[lang]}</span>
       </NavLink>
     </nav>
   );
