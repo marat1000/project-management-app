@@ -14,7 +14,7 @@ export const Footer = memo(() => {
   //idk where to put it
 
   return (
-    <footer className="footer">
+    <footer className={isDark ? 'footer footer-dark' : 'footer'}>
       <div className="container">
         <div className={wrapperClass}>
           <div className="footer__info">

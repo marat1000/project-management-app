@@ -1,10 +1,7 @@
 .footer__wrapper {
-    // display: flex;
     padding: 0 20px 0 20px;
     height: 60px;
     align-items: center;
-    // padding-bottom: 20px;
-    // padding-top: 20px;
     background-color: #fff;
     font-family: 'Audi Type';
     // можно попробовать растянутый Ext
@@ -18,14 +15,12 @@
         justify-content: space-between;
         align-items: center;
         line-height: 60px;
-        // width: 100%;
     }
 
     .footer__rss-developers {
         display: flex;
         width: 440px;
         justify-content: space-between;
-        // gap: 100px;
     }
 
     .footer__info a {
@@ -95,4 +90,14 @@
             stroke-miterlimit: 10
         }
     }
+}
+
+.footer {
+    background-color: #fff;
+    transition: background-color 1s ease;
+}
+
+.footer-dark {
+    background-color: #262626;
+    transition: background-color 1s ease;
 }

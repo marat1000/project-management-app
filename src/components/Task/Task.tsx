@@ -2,6 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { selectTaskById } from 'store/slices/tasks/tasksSelector';
 import { deleteTask, editTask } from 'store/slices/tasks/tasksThunks';
 import { EditingTask } from './EditingTask/EditingTask';
@@ -58,6 +59,8 @@ const Task = memo<ITaskProps>(({ id }) => {
       });
   }, []);
 
+  const isDark = useAppSelector(selectIsDark);
+
   if (isEditing) {
     return (
       <EditingTask
@@ -70,7 +73,7 @@ const Task = memo<ITaskProps>(({ id }) => {
     );
   }
   return (
-    <div className="task">
+    <div className={isDark ? 'task-dark' : 'task'}>
       <header>
         {taskData?.title}
         <button onClick={() => setIsEditing(true)}>

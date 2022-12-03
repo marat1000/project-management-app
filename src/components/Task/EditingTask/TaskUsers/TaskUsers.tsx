@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { selectUsersByIds } from 'store/slices/editBoard/editBoardSelectors';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { TTaskUsersAction } from '../EditingTask';
 
 interface ITaskUsersProps {
@@ -22,10 +23,12 @@ interface ITaskUserItemProps {
 
 export const TaskUserItem = memo<ITaskUserItemProps>(
   ({ toggleUser, isSelected, userId, name, disabled }) => {
+    const isDark = useAppSelector(selectIsDark);
     return (
       <div
         onClick={() => !disabled && toggleUser && toggleUser(userId)}
         className={`edit-task__user-item ${isSelected && !disabled ? 'selected' : ''}`}
+        style={isDark ? { backgroundColor: '#2F2F2F' } : {}}
       >
         {name}
       </div>

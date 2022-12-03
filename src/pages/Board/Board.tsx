@@ -6,6 +6,7 @@ import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { loadBoard } from 'store/slices/boards/boardsThunks';
 // import { setInitialColumnValues } from 'store/slices/editColumn/editColumnSlice';
 import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import { setOnBoard } from 'store/slices/user/userSlice';
 import { ERoutes } from 'ts/enums';
 import { ColumnsList } from './components/ColumnsList';
@@ -38,14 +39,18 @@ export const Board = memo(() => {
     }
   }, [id, dispatch, boardData]);
 
+  const isDark = useAppSelector(selectIsDark);
+
+  const boardPageClass = isDark ? 'board-page-dark' : 'board-page';
+
   if (!isAuth) {
     return <Navigate to={`${ERoutes.singIn}?redirect=boards-${id}`} />;
   }
 
   if (isError) {
     return (
-      <div className="board-page__container">
-        <div className="board-page__header">
+      <div className={boardPageClass + '__container'}>
+        <div className={boardPageClass + '__header'}>
           <button onClick={() => navigate(-1)} className="return-button">
             <svg width="10" height="16" viewBox="0 0 10 16">
               <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
@@ -59,8 +64,8 @@ export const Board = memo(() => {
 
   if (!boardData) {
     return (
-      <div className="board-page__container">
-        <div className="board-page__header">
+      <div className={boardPageClass + '__container'}>
+        <div className={boardPageClass + '__header'}>
           <button onClick={() => navigate(-1)} className="return-button">
             <svg width="10" height="16" viewBox="0 0 10 16">
               <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />
@@ -75,8 +80,8 @@ export const Board = memo(() => {
   const [title] = boardData.title.split('%');
 
   return (
-    <div className="board-page__container">
-      <div className="board-page__header">
+    <div className={boardPageClass + '__container'}>
+      <div className={boardPageClass + '__header'}>
         <button onClick={() => navigate(-1)} className="return-button">
           <svg width="10" height="16" viewBox="0 0 10 16">
             <path d="M8 16L0 8L8 0L9.42 1.42L2.84 8L9.42 14.58L8 16Z" />

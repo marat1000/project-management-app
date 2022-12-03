@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react';
 import { memo } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, selectColumnById, updateColumn } from 'store/slices/columns/columnsSlice';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 import dots from '../Svg/dots.svg';
 import AddingTask from './AddingTask/AddingTask';
 import TasksList from './TasksList/TasksList';
@@ -48,8 +49,9 @@ export const Column = memo(({ id }: { id: EntityId }) => {
       });
   };
 
+  const isDark = useAppSelector(selectIsDark);
   return (
-    <div className="column">
+    <div className={isDark ? 'column-dark' : 'column'}>
       {isEditing ? (
         <EditTitleInput
           submitHandler={updateTitle}
