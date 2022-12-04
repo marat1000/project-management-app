@@ -23,16 +23,17 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../../../public/bg.png');
+  background-image: url('../../../public/bg.jpg');
   background-size: cover;
   background-attachment: fixed;
+  transition: all 1s ease;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
 }
 
 .body-dark {
-  background-image: url('../../../public/bg-dark.png');
+  background-image: url('../../../public/bg-dark.jpg');
   background-size: cover;
   background-attachment: fixed;
 }
