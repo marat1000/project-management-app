@@ -4,13 +4,14 @@ import {
   EInputTypes,
   EPattern,
 } from 'components/Input/InputWithErrorMessage';
+import Loader from 'components/Loader/Loader';
 import { Modal } from 'components/Modals/Modal/Modal';
 import { langConfig } from 'language/langConfig';
 import React, { useRef, memo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearEditProfileError } from 'store/slices/auth/authSlice';
 import { toggleEditProfileModal } from 'store/slices/modals/modalsSlice';
-import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import {
   selectUserName,
   selectUserEditFlags,
@@ -62,10 +63,15 @@ export const EditProfileModal = memo(() => {
     dispatch(deleteUser(userID));
   };
 
+  const isDark = useAppSelector(selectIsDark);
+
   if (isLoading) {
     return (
       <Modal close={closeModal} title={langConfig.editProfile[lang]}>
-        {langConfig.loading[lang]}
+        <div style={{ padding: '20px', textAlign: 'center', color: `${isDark ? '#fff' : '#000'}` }}>
+          {langConfig.loading[lang]}
+        </div>
+        <Loader />
       </Modal>
     );
   }

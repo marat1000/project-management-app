@@ -23,8 +23,9 @@ import {
   selectEditedBoardFlags,
   selectEditedBoardId,
 } from 'store/slices/editBoard/editBoardSelectors';
-import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { langConfig } from 'language/langConfig';
+import Loader from 'components/Loader/Loader';
 
 export const EditBoardModal = memo(() => {
   const lang = useAppSelector(selectLanguage);
@@ -32,6 +33,7 @@ export const EditBoardModal = memo(() => {
   const boardId = useAppSelector(selectEditedBoardId);
   const rowBoardData = useAppSelector(selectBoardById(boardId));
   const dispatch = useAppDispatch();
+  const isDark = useAppSelector(selectIsDark);
 
   const closeModal = useCallback(() => {
     dispatch(toggleEditBoardModal(false));
@@ -66,7 +68,10 @@ export const EditBoardModal = memo(() => {
   if (isLoading) {
     return (
       <Modal close={closeModal} title={modalTitle}>
-        {langConfig.loading[lang]}
+        <div style={{ padding: '20px', textAlign: 'center', color: `${isDark ? '#fff' : '#000'}` }}>
+          {langConfig.loading[lang]}
+        </div>
+        <Loader />
       </Modal>
     );
   }

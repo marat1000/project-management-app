@@ -11,11 +11,13 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { toggleCreateColumnModal } from 'store/slices/modals/modalsSlice';
 import { addColumn, selectColumnIds, selectColumnById } from 'store/slices/columns/columnsSlice';
 import { selectCurrentBoardId } from 'store/slices/user/userSelectors';
-import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { langConfig } from 'language/langConfig';
+import Loader from 'components/Loader/Loader';
 
 export const CreateColumnModal = memo(() => {
   const lang = useAppSelector(selectLanguage);
+  const isDark = useAppSelector(selectIsDark);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -59,7 +61,10 @@ export const CreateColumnModal = memo(() => {
   if (isLoading) {
     return (
       <Modal close={closeModal} title={langConfig.createColumn[lang]}>
-        {langConfig.loading[lang]}
+        <div style={{ padding: '20px', textAlign: 'center', color: `${isDark ? '#fff' : '#000'}` }}>
+          {langConfig.loading[lang]}
+        </div>
+        <Loader />
       </Modal>
     );
   }
