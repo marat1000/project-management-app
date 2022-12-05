@@ -5,7 +5,7 @@ import { IUser } from 'ts/interfaces';
 import { boardsSelectors } from '../boards/boardsSelectors';
 import { updateBoard, createBoard } from '../boards/boardsThunks';
 import { toggleEditBoardModal } from '../modals/modalsSlice';
-import { IEditingBoardData } from './editBoardSlice';
+import { clearBoardData, IEditingBoardData } from './editBoardSlice';
 
 interface ICreateOrEditBoardsPayload {
   users: IUser[];
@@ -71,6 +71,7 @@ export const endEditingBoard = createAsyncThunk<boolean, void, { state: RootStat
         owner: userId,
       };
       await dispatch(updateBoard(board)).unwrap();
+      dispatch(clearBoardData());
       return true;
     } else {
       const board = {
@@ -79,6 +80,7 @@ export const endEditingBoard = createAsyncThunk<boolean, void, { state: RootStat
         owner: userId,
       };
       await dispatch(createBoard(board)).unwrap();
+      dispatch(clearBoardData());
       return true;
     }
   }

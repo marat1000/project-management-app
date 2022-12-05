@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
 import { IBoardExtended, IBoard } from 'ts/interfaces';
+import { clearBoardData } from '../editBoard/editBoardSlice';
 import { toggleEditBoardModal } from '../modals/modalsSlice';
 
 export interface ICreateBoardProps {
@@ -41,6 +42,7 @@ export const deleteBoard = createAsyncThunk(
   async (boardID: string, { dispatch }) => {
     const deleted = await BoardService.delete(boardID);
     dispatch(toggleEditBoardModal(false));
+    dispatch(clearBoardData());
     return deleted;
   }
 );

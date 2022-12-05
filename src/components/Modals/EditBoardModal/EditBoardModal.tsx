@@ -12,6 +12,7 @@ import React, { memo, useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { toggleEditBoardModal } from 'store/slices/modals/modalsSlice';
 import {
+  clearBoardData,
   useEditBoardDescriptionOnChange,
   useEditBoardTitleOnChange,
 } from 'store/slices/editBoard/editBoardSlice';
@@ -34,6 +35,7 @@ export const EditBoardModal = memo(() => {
 
   const closeModal = useCallback(() => {
     dispatch(toggleEditBoardModal(false));
+    dispatch(clearBoardData());
   }, [dispatch]);
 
   const submit = useCallback(() => {
