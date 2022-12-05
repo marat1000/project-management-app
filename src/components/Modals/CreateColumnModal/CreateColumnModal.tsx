@@ -77,7 +77,7 @@ export const CreateColumnModal = memo(() => {
       <div className="create-board-container">
         <InputWithErrorMessage
           type={EInputTypes.text}
-          pattern={EPattern.name}
+          pattern={EPattern.title}
           errorMessage={langConfig.nameError[lang]}
           placeholder={langConfig.columnName[lang]}
           ref={titleRef}

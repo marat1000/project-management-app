@@ -84,7 +84,7 @@ export const EditBoardModal = memo(() => {
       <div className="create-board-container">
         <InputWithErrorMessage
           type={EInputTypes.text}
-          pattern={EPattern.name}
+          pattern={EPattern.title}
           errorMessage={langConfig.nameError[lang]}
           placeholder={langConfig.boardName[lang]}
           onChangeCb={onTitleChange}

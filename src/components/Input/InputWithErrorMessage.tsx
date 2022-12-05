@@ -12,6 +12,7 @@ export enum EPattern {
   login = '^[A-Za-z_0-9]{2,15}$',
   name = '^[A-Za-z]{2,15}$',
   password = '[0-9a-zA-Z!@#$%^&*]{6,20}',
+  title = '^[a-zA-Z0-9 а-яА-Я]{2,20}$',
 }
 
 export enum EFormErrorMessages {
