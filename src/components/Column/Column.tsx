@@ -125,27 +125,6 @@ export const Column = memo(({ id }: { id: EntityId }) => {
 
   const isDark = useAppSelector(selectIsDark);
   return (
-    // <div className={isDark ? 'column-dark' : 'column'}>
-    //   {isEditing ? (
-    //     <EditTitleInput
-    //       submitHandler={updateTitle}
-    //       cancelHandler={cancelEdit}
-    //       deleteHandler={deleteColumnHandler}
-    //       pattern={EPattern.name}
-    //       initialValue={title}
-    //       isLoading={isEditPending}
-    //     />
-    //   ) : (
-    //     <header>{title}</header>
-    //   )}
-
-    //   <TasksList columnId={columnId} />
-    //   <footer>
-    //     <AddingTask columnId={id} />
-    //     {!isEditing && (
-    //       <button onClick={editColumn}>
-    //         <img src={dots} />
-    //       </button>
     <div
       ref={columnRef}
       className={getColumnClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide, isDark)}
@@ -169,7 +148,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
             submitHandler={updateTitle}
             cancelHandler={cancelEdit}
             deleteHandler={deleteColumnHandler}
-            pattern={EPattern.name}
+            pattern={EPattern.title}
             initialValue={title}
             isLoading={isEditPending}
           />
