@@ -8,6 +8,7 @@
         background-color: rgba(0,0,0,0.5);
         display: flex;
         cursor: pointer;
+        z-index: 100000000;
     }
 
 
@@ -19,8 +20,8 @@
         cursor: auto;
 
         @media screen and (max-width: 460px) {
-            padding: 20px 0;
-
+            padding: 20px 20px;
+            max-width: 90%;
             & > * {
                 margin-left: 10px !important;
                 margin-right: 10px !important;
@@ -34,6 +35,15 @@
         margin: auto;
         background-color: #2F2F2FD9;
         cursor: auto;
+
+        @media screen and (max-width: 460px) {
+            padding: 20px 20px;
+            max-width: 90%;
+            & > * {
+                margin-left: 10px !important;
+                margin-right: 10px !important;
+            }
+        }
     }
 
     &__header {
