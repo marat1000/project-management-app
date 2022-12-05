@@ -10,7 +10,7 @@ const ThemeSwitcher = ({
   onColor: string;
 }) => {
   return (
-    <div className={`theme-switcher`}>
+    <label className={`theme-switcher`} htmlFor={`react-switch-new`}>
       <input
         checked={isOn}
         onChange={handleToggle}
@@ -18,9 +18,8 @@ const ThemeSwitcher = ({
         id={`react-switch-new`}
         type="checkbox"
       />
-      <label
+      <div
         className="theme-switcher__label"
-        htmlFor={`react-switch-new`}
         style={{
           borderColor: isOn ? `#12C20F` : `#000000`,
         }}
@@ -31,9 +30,9 @@ const ThemeSwitcher = ({
             background: isOn ? `#12C20F` : `#000000`,
           }}
         />
-      </label>
-      <label htmlFor={`react-switch-new`}>{isOn ? <DarkSVG /> : <LightSVG />}</label>
-    </div>
+      </div>
+      {isOn ? <DarkSVG /> : <LightSVG />}
+    </label>
   );
 };
 

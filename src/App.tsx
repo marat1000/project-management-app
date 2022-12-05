@@ -53,6 +53,7 @@ function App() {
   const { t } = useTranslation();
   const isChecking = useAppSelector(selectAuthCheckingFlag);
   const isAuth = useAppSelector(selectAuthorizationFlag);
+  const message = t(`youAreNotLoggedIn`);
 
   useFirstCheckAuth(message);
 

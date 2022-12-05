@@ -5,11 +5,12 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
+  width: 40%;
 
   a {
     display: flex;
     align-items: center;
-    margin-left: 14%;
+    margin-left: 8%;
     white-space: nowrap;
   }
 
@@ -26,5 +27,230 @@
     border-radius: 8px;
     cursor: pointer;
     text-transform: none;
+  }
+
+  @include vp--799 {
+    margin-bottom: 15px;
+  }
+
+  @include vp--949 {
+    svg {
+      margin-right: 7%;
+    }
+  }
+
+  @include vp--529 {
+    flex-direction: column;
+    font-size: 15px;
+    line-height: 18px;
+
+    a, button {
+      width: 100%;
+    }
+
+    a {
+      background-color: #C9C9C9;
+      padding: 12px 15px;
+      margin-top: 15px;
+      margin-left: 0;
+      border-radius: 8px;
+    }
+
+    svg {
+      width: 18px;
+    }
+  }
+}
+
+.header-dark {
+  @include vp--529 {
+    a,
+    .select__control,
+    .theme-switcher {
+      background-color: #262626 !important;
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: auto;
+  padding: 0.5rem 0rem;
+  background-color: inherit;
+}
+
+.brand-name {
+  text-decoration: none;
+  color: black;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+}
+
+.navigation-menu {
+  //margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  color: inherit;
+  width: 100%;
+  transition: background-color 1s ease;
+  z-index: 50;
+}
+
+.navigation-menu ul {
+  display: flex;
+  padding: 0;
+}
+
+.navigation-menu li {
+  list-style-type: none;
+  margin: 0 1rem;
+}
+
+.navigation-menu li a {
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+.hamburger {
+  //border: none;
+  //height: 40px;
+  //width: 40px;
+  //padding: 0.5rem;
+  //border-radius: 50%;
+  //background-color: #283b8b;
+  //cursor: pointer;
+  //transition: background-color 0.2s ease-in-out;
+  //position: absolute;
+  //top: 50%;
+  //left: 0px;
+  //transform: translateY(-50%);
+  //display: none;
+
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  background: #262626;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: none;
+  z-index: 10;
+
+  span {
+    width: 1.02rem;
+    height: 0.15rem;
+    background: $color-default-white;
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+
+    :first-child {
+      transform: rotate(0);
+    }
+    :nth-child(2) {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    :nth-child(3) {
+      transform: rotate(0);
+    }
+  }
+}
+
+.hamburger_expanded span {
+
+}
+
+.hamburger_expanded span:first-child {
+  //transform: scaleX(0.8);
+  transform: translateX(0.15rem) rotate(45deg);
+}
+
+.hamburger_expanded span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.hamburger_expanded span:nth-child(3) {
+  //transform: scaleX(0.8);
+  transform: translateX(0.15rem) rotate(-45deg);
+}
+
+.hamburger:hover {
+  //background-color: #2642af;
+}
+
+@media screen and (max-width: 799px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .navigation-menu {
+    //flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    //height: calc(100vh - 60px);
+    background-color: white;
+    border-top: 1px solid black;
+    display: none;
+  }
+
+  .header-dark .navigation-menu {
+    background-color: #2f2f2f;
+  }
+
+  .navigation-menu li {
+    text-align: center;
+    margin: 0;
+  }
+
+  .navigation-menu li a {
+    color: black;
+    width: 100%;
+    padding: 1.5rem 0;
+  }
+
+  .navigation-menu li:hover {
+    background-color: #eee;
+  }
+
+  .navigation-menu.expanded {
+    padding: 20px;
+    padding-bottom: 30px;
+    display: flex;
+    background-color: $color-default-white;
+    border-radius: 0px 0px 15px 15px;
+
+    nav {
+      width: 100%;
+    }
+  }
+
+  .header_sticky .navigation-menu.expanded {
+    background-color: #999;
+  }
+
+  .header-dark .navigation-menu.expanded {
+    background-color: #2f2f2f;
+  }
+
+  .header_sticky.header-dark .navigation-menu.expanded {
+    background-color: #999;
   }
 }

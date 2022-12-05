@@ -60,6 +60,10 @@ export const LangSelect = memo(() => {
           lineHeight: `22px`,
           color: `#000000`,
         }),
+        option: (provided, state) => ({
+          ...provided,
+          color: state.isSelected ? 'white' : 'black',
+        }),
       }}
     ></Select>
   );
@@ -67,8 +71,8 @@ export const LangSelect = memo(() => {
 
 const TriangleSVG = memo(() => {
   return (
-    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 4.5L0.833333 0.333333H9.16667L5 4.5Z" fill="#000000" />
+    <svg width="10" height="5" viewBox="0 0 10 5" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 4.5L0.833333 0.333333H9.16667L5 4.5Z" />
     </svg>
   );
 });

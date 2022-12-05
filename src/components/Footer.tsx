@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectIsDark, selectTheme } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark } from 'store/slices/settings/settingsSelectors';
 
 export const Footer = memo(() => {
   const isDark = useAppSelector(selectIsDark);
@@ -17,33 +17,31 @@ export const Footer = memo(() => {
     <footer className={isDark ? 'footer footer-dark' : 'footer'}>
       <div className="container">
         <div className={wrapperClass}>
-          <div className="footer__info">
-            <div className="footer__rss">
-              <a
-                className="footer__rss-link"
-                href="https://rs.school/react/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <RSSsvg />
-              </a>
-            </div>
-            <div className="footer__rss-developers">
-              <a href="https://github.com/Wsko-12" target="_blank" rel="noreferrer">
-                {/* <GithubSVG /> */}
-                <span>Wsko-12</span>
-              </a>
-              <a href="https://github.com/Aleg3000" target="_blank" rel="noreferrer">
-                {/* <GithubSVG /> */}
-                <span>Aleg3000</span>
-              </a>
-              <a href="https://github.com/marat1000" target="_blank" rel="noreferrer">
-                {/* <GithubSVG /> */}
-                <span>marat1000</span>
-              </a>
-            </div>
-            <div className="footer__copyright">2022</div>
+          <div className="footer__rss">
+            <a
+              className="footer__rss-link"
+              href="https://rs.school/react/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <RSSsvg />
+            </a>
           </div>
+          <div className="footer__rss-developers">
+            <a href="https://github.com/Wsko-12" target="_blank" rel="noreferrer">
+              {/* <GithubSVG /> */}
+              <span>Wsko-12</span>
+            </a>
+            <a href="https://github.com/Aleg3000" target="_blank" rel="noreferrer">
+              {/* <GithubSVG /> */}
+              <span>Aleg3000</span>
+            </a>
+            <a href="https://github.com/marat1000" target="_blank" rel="noreferrer">
+              {/* <GithubSVG /> */}
+              <span>marat1000</span>
+            </a>
+          </div>
+          <div className="footer__copyright">2022</div>
         </div>
       </div>
     </footer>
