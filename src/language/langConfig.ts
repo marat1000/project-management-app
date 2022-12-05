@@ -52,4 +52,5 @@ export const langConfig: { [key: string]: TLangConfigItem } = {
   eng: { ru: 'Анг', eng: 'Eng' },
   ru: { ru: 'Рус', eng: 'Rus' },
   welcome: { ru: 'Добро пожаловать', eng: 'Welcome' },
+  deleteColumn: { ru: 'Удалить колонку?', eng: 'Delete column?' },
 };
