@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/boardello/static/css/main.5f1a2754.css",
+    "main.js": "/boardello/static/js/main.539955ff.js",
+    "static/media/bg.jpg": "/boardello/static/media/bg.346039b3aab914046a6e.jpg",
+    "static/media/bg-dark.jpg": "/boardello/static/media/bg-dark.97f230c87b1c30eec97d.jpg",
+    "static/media/morpheus.png": "/boardello/static/media/morpheus.418c6ffa5ea8246266e1.png",
+    "static/media/AudiType-ExtendedNormal.ttf": "/boardello/static/media/AudiType-ExtendedNormal.d381d814a5b3250e1eac.ttf",
+    "static/media/AudiType-Normal.ttf": "/boardello/static/media/AudiType-Normal.c7490245645a3f1e4922.ttf",
+    "static/media/AudiType-ExtendedBold.ttf": "/boardello/static/media/AudiType-ExtendedBold.339349c58ffa8d2c0cd5.ttf",
+    "static/media/AudiType-Bold.ttf": "/boardello/static/media/AudiType-Bold.281532ad1ed3a1ab566b.ttf",
+    "static/media/RobotoCondensed-Bold.woff": "/boardello/static/media/RobotoCondensed-Bold.de31490429a1f6ae32e5.woff",
+    "static/media/RobotoCondensed-Regular.woff": "/boardello/static/media/RobotoCondensed-Regular.362edd5359a239be31fb.woff",
+    "static/media/auth.png": "/boardello/static/media/auth.abdc42e90aadb8941eaa.png",
+    "static/media/RobotoCondensed-Regular.woff2": "/boardello/static/media/RobotoCondensed-Regular.7b7301be89f3656091ac.woff2",
+    "static/media/RobotoCondensed-Bold.woff2": "/boardello/static/media/RobotoCondensed-Bold.071f8dcb9a54a33d23e6.woff2",
+    "static/media/dots.svg": "/boardello/static/media/dots.f11ea5cbdff4139ae2207944c0d1c837.svg",
+    "static/media/dots-dark.svg": "/boardello/static/media/dots-dark.7226f450b5b42b143954edba64aece94.svg",
+    "index.html": "/boardello/index.html",
+    "main.5f1a2754.css.map": "/boardello/static/css/main.5f1a2754.css.map",
+    "main.539955ff.js.map": "/boardello/static/js/main.539955ff.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5f1a2754.css",
+    "static/js/main.539955ff.js"
+  ]
+}
