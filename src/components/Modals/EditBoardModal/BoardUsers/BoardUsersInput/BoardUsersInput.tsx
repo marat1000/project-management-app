@@ -2,7 +2,7 @@ import { langConfig } from 'language/langConfig';
 import React, { memo, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
 import { selectAllUsers, selectEditedBoardUsers } from 'store/slices/editBoard/editBoardSelectors';
-import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { selectUserName } from 'store/slices/user/userSelectors';
 import { IUser } from 'ts/interfaces';
 import { UsersMatchListItem } from './UsersMatchListItem/UsersMatchListItem';
@@ -39,6 +39,8 @@ export const BoardUsersInput = memo(() => {
     setMatchedUsers(matches);
   }, [search, usersOnThisBoard, users, username]);
 
+  const isDark = useAppSelector(selectIsDark);
+
   return (
     <div className="input-container">
       <input
@@ -47,6 +49,7 @@ export const BoardUsersInput = memo(() => {
         placeholder={`${langConfig.addUser[lang]}...`}
         value={search}
         onChange={searchUsers}
+        style={isDark ? { color: '#D9D9D9' } : {}}
       />
       {matchedUsers.length ? (
         <div className="board-users__match-list">
