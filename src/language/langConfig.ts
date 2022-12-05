@@ -29,6 +29,8 @@ export const langConfig: { [key: string]: TLangConfigItem } = {
   description: { ru: 'Описание', eng: 'Description' },
   addUser: { ru: 'Добавить пользователя', eng: 'Add user' },
   delete: { ru: 'Удалить', eng: 'Delete' },
+  deleteConfirm: { ru: 'Вы уверены?', eng: 'Are you sure?' },
+  cancel: { ru: 'Отменить', eng: 'Cancel' },
   createColumn: { ru: 'Создать колонку', eng: 'Create Column' },
   columnName: { ru: 'Имя колонки', eng: 'Column Name' },
   loading: { ru: 'Загружаем...', eng: 'Loading...' },
