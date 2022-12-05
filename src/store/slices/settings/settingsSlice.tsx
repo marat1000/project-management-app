@@ -15,11 +15,6 @@ export enum ELang {
   ENG = 'eng',
 }
 
-type changeLangAction = {
-  type?: string;
-  payload: ELang;
-};
-
 type changeThemeAction = {
   type?: string;
   payload: EThemes;
@@ -40,7 +35,6 @@ const settingsSlice = createSlice({
     toggleTheme: (state) => {
       state.theme = state.theme === EThemes.LIGHT ? EThemes.DARK : EThemes.LIGHT;
       localStorage.setItem('theme', state.theme);
-      console.log(localStorage.getItem('theme'));
     },
     changeLang: (state, action: PayloadAction<ELang>) => {
       state.lang = action.payload;

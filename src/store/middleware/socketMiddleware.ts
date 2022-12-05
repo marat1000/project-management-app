@@ -1,9 +1,8 @@
-import BoardService from 'api/services/board';
 import { AnyAction, Middleware, MiddlewareAPI } from 'redux';
 import ClientSocket from 'socket/clientSocket';
 import { AppDispatch, RootState } from 'store';
 import { deleteBoardSocket } from 'store/slices/boards/boardsSlice';
-import { deleteBoard, fetchUserBoards, loadBoardsSocket } from 'store/slices/boards/boardsThunks';
+import { loadBoardsSocket } from 'store/slices/boards/boardsThunks';
 import { deleteColumnSocket, loadColumnsSocket } from 'store/slices/columns/columnsSlice';
 import { deleteTaskSocket } from 'store/slices/tasks/tasksSlice';
 import { loadTasksSocket } from 'store/slices/tasks/tasksThunks';
@@ -86,7 +85,7 @@ const applyTasksListeners = (
   getState: () => RootState,
   dispatch: AppDispatch
 ) => {
-  socket.on('tasks', (data: TSocketData) => {
+  socket.on<TSocketData>('tasks', (data) => {
     const state = getState();
     const userID = state.user.id;
     if (userID === data.initUser) {
