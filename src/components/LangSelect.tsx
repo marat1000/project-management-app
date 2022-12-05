@@ -58,17 +58,22 @@ export const LangSelect = memo(() => {
         }),
         singleValue: (baseStyles, state) => ({
           ...baseStyles,
-          width: `40px`,
+          width: '40px',
           fontFamily: 'Audi Type',
-          fontStyle: `normal`,
+          fontStyle: 'normal',
           fontWeight: 400,
-          fontSize: `18px`,
-          lineHeight: `22px`,
-          color: `${isDark ? '#D9D9D9' : '#000000'}`,
+          fontSize: '18px',
+          lineHeight: '22px',
+          color: isDark ? '#D9D9D9' : '#000000',
         }),
         option: (provided, state) => ({
           ...provided,
-          color: state.isSelected ? 'white' : 'black',
+          color: isDark ? '#FFFFFF' : '#262626',
+          backgroundColor: isDark ? '#262626' : '#FFFFFF',
+        }),
+        menuList: (baseStyles) => ({
+          ...baseStyles,
+          backgroundColor: isDark ? '#262626' : '#FFFFFF',
         }),
       }}
     ></Select>

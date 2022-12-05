@@ -9,7 +9,7 @@
         display: flex;
         cursor: pointer;
     }
-    
+
 
     &__container{
         position: relative;
@@ -17,6 +17,15 @@
         margin: auto;
         background-color: #fff;
         cursor: auto;
+
+        @media screen and (max-width: 460px) {
+            padding: 20px 0;
+
+            & > * {
+                margin-left: 10px !important;
+                margin-right: 10px !important;
+            }
+        }
     }
 
     &__container-dark{

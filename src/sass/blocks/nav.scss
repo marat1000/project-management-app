@@ -204,11 +204,16 @@
     position: absolute;
     top: 60px;
     left: 0;
+    transition: background-color, top 1s ease;
     width: 100%;
     //height: calc(100vh - 60px);
     background-color: white;
     border-top: 1px solid black;
     display: none;
+  }
+
+  .header_sticky .navigation-menu {
+    top: 80px;
   }
 
   .header-dark .navigation-menu {
@@ -243,7 +248,7 @@
   }
 
   .header_sticky .navigation-menu.expanded {
-    background-color: #999;
+    //background-color: #999;
   }
 
   .header-dark .navigation-menu.expanded {
@@ -251,6 +256,6 @@
   }
 
   .header_sticky.header-dark .navigation-menu.expanded {
-    background-color: #999;
+    //background-color: #999;
   }
 }

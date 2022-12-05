@@ -51,34 +51,34 @@ export const Welcome = memo(() => {
             </div>
           </SmoothCorners>
         </StartPagesLayout>
-        <section className={`welcome__school-info`}>
-          <b className={`welcome__heading`}>
-            Приложение разработано студентами группы &quot;React 2022 Q3&quot; курcа
-            &quot;React&quot; RS School
-          </b>
-          <p>
-            RS School is free-of-charge and community-based education program conducted by The
-            Rolling Scopes developer community since 2013. The mentors and trainers of our school
-            are front-end and javascript developers from different companies and countries.
-          </p>
-        </section>
-        <section className={`welcome__team`}>
-          <h2 className={`welcome__heading`}>Наша команда:</h2>
-          <div className={`welcome__team-content`}>
-            <a href="https://github.com/Wsko-12" target="_blank" rel="noreferrer">
-              <b>Влад</b>
-              <span>Фронтенд разработчик</span>
-            </a>
-            <a href="https://github.com/Aleg3000" target="_blank" rel="noreferrer">
-              <b>Олег</b>
-              <span>Фронтенд разработчик</span>
-            </a>
-            <a href="https://github.com/marat1000" target="_blank" rel="noreferrer">
-              <b>Марат</b>
-              <span>Фронтенд разработчик, тимлид</span>
-            </a>
-          </div>
-        </section>
+        {/*<section className={`welcome__school-info`}>*/}
+        {/*  <b className={`welcome__heading`}>*/}
+        {/*    Приложение разработано студентами группы &quot;React 2022 Q3&quot; курcа*/}
+        {/*    &quot;React&quot; RS School*/}
+        {/*  </b>*/}
+        {/*  <p>*/}
+        {/*    RS School is free-of-charge and community-based education program conducted by The*/}
+        {/*    Rolling Scopes developer community since 2013. The mentors and trainers of our school*/}
+        {/*    are front-end and javascript developers from different companies and countries.*/}
+        {/*  </p>*/}
+        {/*</section>*/}
+        {/*<section className={`welcome__team`}>*/}
+        {/*  <h2 className={`welcome__heading`}>Наша команда:</h2>*/}
+        {/*  <div className={`welcome__team-content`}>*/}
+        {/*    <a href="https://github.com/Wsko-12" target="_blank" rel="noreferrer">*/}
+        {/*      <b>Влад</b>*/}
+        {/*      <span>Фронтенд разработчик</span>*/}
+        {/*    </a>*/}
+        {/*    <a href="https://github.com/Aleg3000" target="_blank" rel="noreferrer">*/}
+        {/*      <b>Олег</b>*/}
+        {/*      <span>Фронтенд разработчик</span>*/}
+        {/*    </a>*/}
+        {/*    <a href="https://github.com/marat1000" target="_blank" rel="noreferrer">*/}
+        {/*      <b>Марат</b>*/}
+        {/*      <span>Фронтенд разработчик, тимлид</span>*/}
+        {/*    </a>*/}
+        {/*  </div>*/}
+        {/*</section>*/}
       </div>
     </ErrorBoundary>
   );
