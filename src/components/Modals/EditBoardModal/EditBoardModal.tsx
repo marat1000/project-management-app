@@ -12,6 +12,7 @@ import React, { memo, useCallback, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { toggleEditBoardModal } from 'store/slices/modals/modalsSlice';
 import {
+  clearBoardData,
   useEditBoardDescriptionOnChange,
   useEditBoardTitleOnChange,
 } from 'store/slices/editBoard/editBoardSlice';
@@ -22,17 +23,21 @@ import {
   selectEditedBoardFlags,
   selectEditedBoardId,
 } from 'store/slices/editBoard/editBoardSelectors';
-import { useTranslation } from 'react-i18next';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { langConfig } from 'language/langConfig';
+import Loader from 'components/Loader/Loader';
 
 export const EditBoardModal = memo(() => {
-  const { t } = useTranslation();
+  const lang = useAppSelector(selectLanguage);
   const { error, isLoading } = useAppSelector(selectEditedBoardFlags);
   const boardId = useAppSelector(selectEditedBoardId);
   const rowBoardData = useAppSelector(selectBoardById(boardId));
   const dispatch = useAppDispatch();
+  const isDark = useAppSelector(selectIsDark);
 
   const closeModal = useCallback(() => {
     dispatch(toggleEditBoardModal(false));
+    dispatch(clearBoardData());
   }, [dispatch]);
 
   const submit = useCallback(() => {
@@ -54,8 +59,8 @@ export const EditBoardModal = memo(() => {
 
   const titleRef = useRef<HTMLInputElement>(null);
 
-  const modalTitle = boardId ? t(`editBoard`) : t(`createBoard`);
-  const buttonTitle = boardId ? t(`edit`) : t(`create`);
+  const modalTitle = boardId ? langConfig.editBoard[lang] : langConfig.createBoard[lang];
+  const buttonTitle = boardId ? langConfig.edit[lang] : langConfig.create[lang];
 
   // eslint-disable-next-line prettier/prettier
   const [initialBoardTitle, ...initialBoardDescription] = rowBoardData?.title.split('%') || ['', ''];
@@ -63,7 +68,10 @@ export const EditBoardModal = memo(() => {
   if (isLoading) {
     return (
       <Modal close={closeModal} title={modalTitle}>
-        {t(`loading`)}
+        <div style={{ padding: '20px', textAlign: 'center', color: `${isDark ? '#fff' : '#000'}` }}>
+          {langConfig.loading[lang]}
+        </div>
+        <Loader />
       </Modal>
     );
   }
@@ -81,15 +89,15 @@ export const EditBoardModal = memo(() => {
       <div className="create-board-container">
         <InputWithErrorMessage
           type={EInputTypes.text}
-          pattern={EPattern.name}
-          errorMessage={t('nameError')}
-          placeholder={t(`boardName`) as string}
+          pattern={EPattern.title}
+          errorMessage={langConfig.nameError[lang]}
+          placeholder={langConfig.boardName[lang]}
           onChangeCb={onTitleChange}
           ref={titleRef}
           initialValue={initialBoardTitle}
         />
         <InputTextArea
-          placeholder={t(`description`) as string}
+          placeholder={langConfig.description[lang]}
           onChangeCb={onDescriptionChange}
           initialValue={initialBoardDescription.join('')}
         />
@@ -102,7 +110,7 @@ export const EditBoardModal = memo(() => {
 
         {boardId && (
           <Button color="add" onClick={deleteThisBoard}>
-            {t(`delete`)}
+            {langConfig.delete[lang]}
           </Button>
         )}
       </div>

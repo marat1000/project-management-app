@@ -21,7 +21,6 @@ export const StartPagesLayout = memo<IStartPagesLayout>(({ children }) => {
         corners="22, 16"
         borderRadius="25px"
         as="div"
-        // className="block_transparent spl__central-container"
         className={[
           isDark ? 'block_transparent-dark' : 'block_transparent',
           'spl__central-container',

@@ -27,8 +27,9 @@ export const TaskUserItem = memo<ITaskUserItemProps>(
     return (
       <div
         onClick={() => !disabled && toggleUser && toggleUser(userId)}
-        className={`edit-task__user-item ${isSelected && !disabled ? 'selected' : ''}`}
-        style={isDark ? { backgroundColor: '#2F2F2F' } : {}}
+        className={`${isDark ? 'edit-task-dark__user-item' : 'edit-task__user-item'} ${
+          isSelected && !disabled ? 'selected' : ''
+        }`}
       >
         {name}
       </div>

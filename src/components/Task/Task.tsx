@@ -24,20 +24,26 @@ const getTaskClassName = (
   isOnDrag: boolean,
   isTaskDrag: boolean,
   isDragOver: boolean,
-  side: null | -1 | 1
+  side: null | -1 | 1,
+  isDark: boolean
 ) => {
+  const defaultClass = isDark ? 'task-dark' : 'task';
   if (isOnDrag) {
-    return 'task';
+    return defaultClass;
   }
 
   if (!isTaskDrag) {
-    return 'task';
+    return defaultClass;
   }
 
+  // if (isDragOver && side) {
+  //   return side > 0 ? 'task on-task-over_bottom' : 'task on-task-over_top';
+  // }
+  // return 'task';
   if (isDragOver && side) {
-    return side > 0 ? 'task on-task-over_bottom' : 'task on-task-over_top';
+    return side > 0 ? `${defaultClass} on-task-over_bottom` : `${defaultClass} on-task-over_top`;
   }
-  return 'task';
+  return defaultClass;
 };
 
 const Task = memo<ITaskProps>(({ id }) => {
@@ -141,10 +147,9 @@ const Task = memo<ITaskProps>(({ id }) => {
   }
 
   return (
-    // <div className={isDark ? 'task-dark' : 'task'}>
     <div
       ref={taskRef}
-      className={getTaskClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide)}
+      className={getTaskClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide, isDark)}
       draggable={true}
       onDragStart={(e) => {
         e.stopPropagation();
@@ -157,7 +162,7 @@ const Task = memo<ITaskProps>(({ id }) => {
       }}
       {...bindDrag}
     >
-      <header>
+      <header className="task-header">
         {taskData?.title}
         <button onClick={() => setIsEditing(true)}>
           <span className="material-symbols-outlined">more_horiz</span>

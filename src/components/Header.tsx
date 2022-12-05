@@ -12,7 +12,6 @@ import ErrorBoundary from '../common/ErrorBoundary';
 
 export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);
-  // const [value, setValue] = useState(false);
   const dispatch = useAppDispatch();
   const isDark = useAppSelector(selectIsDark);
   const [isNavExpanded, setIsNavExpanded] = useState(false);

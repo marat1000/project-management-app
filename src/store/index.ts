@@ -11,6 +11,10 @@ import columnSlice from './slices/columns/columnsSlice';
 import boardsSlice from './slices/boards/boardsSlice';
 import tasksSlice from './slices/tasks/tasksSlice';
 import dragsSlice from './slices/drags/dragsSlice';
+import ClientSocket from 'socket/clientSocket';
+import { socketMiddleware } from './middleware/socketMiddleware';
+
+export const socket = new ClientSocket();
 
 export const store = configureStore({
   reducer: {
@@ -29,7 +33,8 @@ export const store = configureStore({
       userDataFetching,
       userBoardsFetching,
       clearSession,
-      logOutWhenDelete
+      logOutWhenDelete,
+      socketMiddleware(socket)
     ),
 });
 

@@ -6,9 +6,9 @@ import { checkAuth } from 'store/slices/auth/authThunks';
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useFirstCheckAuth = (message: string) => {
+export const useFirstCheckAuth = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(checkAuth(message));
+    dispatch(checkAuth());
   }, [dispatch]);
 };

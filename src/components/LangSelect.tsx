@@ -1,7 +1,10 @@
 import React from 'react';
 import { memo } from 'react';
 import Select, { components, DropdownIndicatorProps, GroupBase } from 'react-select';
-import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { changeLang, ELang } from 'store/slices/settings/settingsSlice';
+import { langConfig } from 'language/langConfig';
 
 const DropdownIndicator = (
   props: JSX.IntrinsicAttributes & DropdownIndicatorProps<unknown, boolean, GroupBase<unknown>>
@@ -17,12 +20,15 @@ const DropdownIndicator = (
 type MyOption = { label: string; value: string };
 
 export const LangSelect = memo(() => {
-  const { t } = useTranslation();
+  const lang = useAppSelector(selectLanguage);
+  const dispatch = useAppDispatch();
+
+  const isDark = useAppSelector(selectIsDark);
+
   const options = [
-    { value: 'en', label: t(`en`) },
-    { value: 'ru', label: t(`ru`) },
+    { value: ELang.ENG, label: langConfig.eng[lang] },
+    { value: ELang.RUS, label: langConfig.ru[lang] },
   ];
-  const { i18n } = useTranslation();
 
   return (
     <Select
@@ -32,9 +38,9 @@ export const LangSelect = memo(() => {
         if (Array.isArray(selectedOption)) {
           throw new Error('Unexpected type passed to ReactSelect onChange handler');
         }
-        i18n.changeLanguage((selectedOption as MyOption).value);
+        dispatch(changeLang((selectedOption as MyOption).value as ELang));
       }}
-      value={i18n.language === `ru` ? options[1] : options[0]}
+      value={lang === ELang.ENG ? options[0] : options[1]}
       isRtl={true}
       options={options}
       components={{ DropdownIndicator, IndicatorSeparator: () => null }}
@@ -52,13 +58,13 @@ export const LangSelect = memo(() => {
         }),
         singleValue: (baseStyles, state) => ({
           ...baseStyles,
-          width: `35px`,
+          width: `40px`,
           fontFamily: 'Audi Type',
           fontStyle: `normal`,
           fontWeight: 400,
           fontSize: `18px`,
           lineHeight: `22px`,
-          color: `#000000`,
+          color: `${isDark ? '#D9D9D9' : '#000000'}`,
         }),
         option: (provided, state) => ({
           ...provided,
@@ -70,9 +76,10 @@ export const LangSelect = memo(() => {
 });
 
 const TriangleSVG = memo(() => {
+  const isDark = useAppSelector(selectIsDark);
   return (
-    <svg width="10" height="5" viewBox="0 0 10 5" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 4.5L0.833333 0.333333H9.16667L5 4.5Z" />
+    <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 4.5L0.833333 0.333333H9.16667L5 4.5Z" fill={isDark ? '#D9D9D9' : '#000000'} />
     </svg>
   );
 });

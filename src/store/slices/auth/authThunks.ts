@@ -7,7 +7,6 @@ type TRegisterProps = {
   name: string;
   login: string;
   password: string;
-  message: { thisLoginAlreadyExists: string; unknownError: string };
 };
 
 type TLoginProps = {
@@ -36,15 +35,15 @@ export const signIn = createAsyncThunk('auth/login', async ({ login, password }:
 
 export const signUp = createAsyncThunk(
   'auth/registration',
-  async ({ name, login, password, message }: TRegisterProps, thunkAPI) => {
-    const response = await AuthService.signUp(name, login, password, message);
+  async ({ name, login, password }: TRegisterProps, thunkAPI) => {
+    const response = await AuthService.signUp(name, login, password);
     if (response.status === 200) {
       return thunkAPI.dispatch(signIn({ login, password }));
     }
   }
 );
 
-export const checkAuth = createAsyncThunk('auth/check', async (message: string) => {
+export const checkAuth = createAsyncThunk('auth/check', async () => {
   // just try to fetch some data;
   // token will be will be taken from LS and placed to headers
   // if response will ok it means token works
@@ -55,7 +54,7 @@ export const checkAuth = createAsyncThunk('auth/check', async (message: string) 
     throw new Error();
   }
   // if is check token
-  const response = await AuthService.checkAuth(message);
+  const response = await AuthService.checkAuth();
   if (response) {
     const token = localStorage.getItem(ELSKeys.token)!;
     return jwtDecode<TDecodedJWT>(token);

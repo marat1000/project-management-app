@@ -19,7 +19,7 @@ export const EditTitleInput = memo<IEditInput>(
   ({
     initialValue = '',
     onChangeCb,
-    pattern = '',
+    pattern = EPattern.title,
     type = EInputTypes.text,
     submitHandler,
     cancelHandler,

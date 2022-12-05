@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import BoardService, { isUserHaveAccessToBoard } from 'api/services/board';
 import { RootState } from 'store';
 import { IBoardExtended, IBoard } from 'ts/interfaces';
+import { clearBoardData } from '../editBoard/editBoardSlice';
 import { toggleEditBoardModal } from '../modals/modalsSlice';
-import { useTranslation } from 'react-i18next';
 
 export interface ICreateBoardProps {
   title: string;
@@ -30,6 +30,9 @@ export const fetchUserBoards = createAsyncThunk<
   }
 >('boards/fetchUserBoards', async (_, { getState }) => {
   const { id } = getState().user;
+  if (!id) {
+    throw new Error();
+  }
   const response = await BoardService.loadUserBoards(id);
   return response;
 });
@@ -39,6 +42,7 @@ export const deleteBoard = createAsyncThunk(
   async (boardID: string, { dispatch }) => {
     const deleted = await BoardService.delete(boardID);
     dispatch(toggleEditBoardModal(false));
+    dispatch(clearBoardData());
     return deleted;
   }
 );
@@ -52,30 +56,40 @@ export const updateBoard = createAsyncThunk(
   }
 );
 
-export const loadBoard = createAsyncThunk<
-  IBoardExtended | null,
-  {
-    id: string | undefined;
-    message: { boardNotFound: string; unknownError: string; accessDenied: string };
-  },
-  { state: RootState }
->(
+export const loadBoardsSocket = createAsyncThunk<IBoardExtended[], string[], { state: RootState }>(
+  'columns/loadBoardsSocket',
+  async (boardsIds, { getState }) => {
+    const user = getState().user;
+    const response = await BoardService.loadBoards(boardsIds, user.id);
+    return response;
+  }
+);
+
+export const loadBoard = createAsyncThunk<IBoardExtended | null, string, { state: RootState }>(
   'boards/load',
-  async (
-    obj: {
-      id: string | undefined;
-      message: { boardNotFound: string; unknownError: string; accessDenied: string };
-    },
-    { getState }
-  ) => {
+  async (id: string, { getState }) => {
     const userId = getState().user.id;
-    const board = await BoardService.loadBoardData(obj);
+    const board = await BoardService.loadBoardData(id);
     if (!board) {
-      throw new Error(obj.message.boardNotFound);
+      throw new Error('boardNotFound');
     }
     if (!isUserHaveAccessToBoard(board, userId)) {
-      throw new Error(obj.message.accessDenied);
+      throw new Error('accessDenied');
     }
     return board;
+  }
+);
+
+export const fetchBoardUpdate = createAsyncThunk<IBoardExtended, string, { state: RootState }>(
+  'boards/fetchBoardUpdate',
+  async (id, { getState }) => {
+    const userId = getState().user.id;
+    const board = await BoardService.fetchBoardUpdate(id);
+    if (board) {
+      if (board.users.includes(userId)) {
+        return board;
+      }
+    }
+    throw new Error();
   }
 );

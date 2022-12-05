@@ -22,19 +22,23 @@ const getColumnClassName = (
   isOnDrag: boolean,
   isTaskDrag: boolean,
   isDragOver: boolean,
-  side: null | -1 | 1
+  side: null | -1 | 1,
+  isDark: boolean
 ) => {
+  const defaultClass = isDark ? 'column-dark' : 'column';
   if (isOnDrag) {
-    return 'column';
+    return defaultClass;
   }
   if (isTaskDrag) {
-    return isDragOver ? 'column on-task-over' : 'column';
+    return isDragOver ? `${defaultClass} on-task-over` : defaultClass;
   }
 
   if (isDragOver && side) {
-    return side > 0 ? 'column on-column-over_right' : 'column on-column-over_left';
+    return side > 0
+      ? `${defaultClass} on-column-over_right`
+      : `${defaultClass} on-column-over_left`;
   }
-  return 'column';
+  return defaultClass;
 };
 
 export const Column = memo(({ id }: { id: EntityId }) => {
@@ -144,7 +148,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
     //       </button>
     <div
       ref={columnRef}
-      className={getColumnClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide)}
+      className={getColumnClassName(isOnDrag, isTaskDrag, isDragOver, dragOverSide, isDark)}
       {...bindDrag}
     >
       <div

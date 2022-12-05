@@ -1,6 +1,12 @@
 import { createEntityAdapter, createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
 import { ITask } from 'ts/interfaces';
-import { addTask, deleteTask, editTask, fetchAllTasksOnBoard } from './tasksThunks';
+import {
+  addTask,
+  deleteTask,
+  editTask,
+  fetchAllTasksOnBoard,
+  loadTasksSocket,
+} from './tasksThunks';
 
 export const tasksAdapter = createEntityAdapter<ITask>({
   selectId: (task) => task._id,
@@ -28,6 +34,10 @@ const tasksSlice = createSlice({
 
       tasksAdapter.updateMany(state, updates);
     },
+
+    deleteTaskSocket: (state, action: PayloadAction<string>) => {
+      tasksAdapter.removeOne(state, action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -53,8 +63,12 @@ const tasksSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         const task = action.payload;
         tasksAdapter.removeOne(state, task._id);
+      })
+      .addCase(loadTasksSocket.fulfilled, (state, action) => {
+        const tasks = action.payload;
+        tasksAdapter.setMany(state, tasks);
       });
   },
 });
-export const { setTasksOrder } = tasksSlice.actions;
+export const { setTasksOrder, deleteTaskSocket } = tasksSlice.actions;
 export default tasksSlice.reducer;

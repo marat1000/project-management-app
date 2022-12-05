@@ -6,13 +6,15 @@
 .task {
     width: 100%;
     padding: 20px;
-    background-color: white;
+    background-color: #E9E9E9;
     border-radius: 10px;
 
     &.on-task-over_top{
+        padding-top: 15px;
         border-top: 5px solid $color-add;
     }
     &.on-task-over_bottom{
+        padding-top: 15px;
         border-bottom: 5px solid $color-add;
     }
 
@@ -21,9 +23,10 @@
         display: flex;
         justify-content: space-between;
         font-family: 'Audi Type Ext';
+        font-weight: 700;
         font-size: 18px;
         margin: 0;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
 
         button {
             border: none;
@@ -60,14 +63,24 @@
     background-color: #262626;
     border-radius: 10px;
 
+    &.on-task-over_top{
+        padding-top: 15px;
+        border-top: 5px solid $color-add;
+    }
+    &.on-task-over_bottom{
+        padding-bottom: 15px;
+        border-bottom: 5px solid $color-add;
+    }
+
     & > header {
         padding: 0;
         display: flex;
         justify-content: space-between;
         font-family: 'Audi Type Ext';
+        font-weight: 700;
         font-size: 18px;
         margin: 0;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
 
         button {
             border: none;

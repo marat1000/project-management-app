@@ -4,11 +4,14 @@ import {
   EInputTypes,
   EPattern,
 } from 'components/Input/InputWithErrorMessage';
+import Loader from 'components/Loader/Loader';
 import { Modal } from 'components/Modals/Modal/Modal';
-import React, { useRef, memo } from 'react';
+import { langConfig } from 'language/langConfig';
+import React, { useRef, memo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearEditProfileError } from 'store/slices/auth/authSlice';
 import { toggleEditProfileModal } from 'store/slices/modals/modalsSlice';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import {
   selectUserName,
   selectUserEditFlags,
@@ -16,11 +19,11 @@ import {
   selectUserLogin,
 } from 'store/slices/user/userSelectors';
 import { editUser, deleteUser } from 'store/slices/user/userThunks';
-import { useTranslation } from 'react-i18next';
 
 export const EditProfileModal = memo(() => {
-  const { t } = useTranslation();
+  const lang = useAppSelector(selectLanguage);
   const dispatch = useAppDispatch();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const closeModal = () => {
     dispatch(toggleEditProfileModal(false));
   };
@@ -60,30 +63,50 @@ export const EditProfileModal = memo(() => {
     dispatch(deleteUser(userID));
   };
 
+  const isDark = useAppSelector(selectIsDark);
+
   if (isLoading) {
     return (
-      <Modal close={closeModal} title={t(`editProfile`)}>
-        {t(`loading`)}
+      <Modal close={closeModal} title={langConfig.editProfile[lang]}>
+        <div style={{ padding: '20px', textAlign: 'center', color: `${isDark ? '#fff' : '#000'}` }}>
+          {langConfig.loading[lang]}
+        </div>
+        <Loader />
       </Modal>
     );
   }
 
   if (error) {
     return (
-      <Modal close={closeModal} title={t(`editProfile`)}>
+      <Modal close={closeModal} title={langConfig.editProfile[lang]}>
         {error}
       </Modal>
     );
   }
 
+  if (showConfirmModal) {
+    return (
+      <Modal close={() => setShowConfirmModal(false)} title={langConfig.deleteConfirm[lang]}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '25px' }}>
+          <Button color="add" onClick={deleteUserHandler}>
+            {langConfig.delete[lang]}
+          </Button>
+          <Button color="main" onClick={() => setShowConfirmModal(false)}>
+            {langConfig.cancel[lang]}
+          </Button>
+        </div>
+      </Modal>
+    );
+  }
+
   return (
-    <Modal close={closeModal} title={t(`editProfile`)}>
+    <Modal close={closeModal} title={langConfig.editProfile[lang]}>
       <div className="create-board-container">
         <InputWithErrorMessage
           initialValue={username}
           pattern={EPattern.name}
-          placeholder={String(t(`name`))}
-          errorMessage={t('nameError')}
+          placeholder={langConfig.name[lang]}
+          errorMessage={langConfig.nameError[lang]}
           type={EInputTypes.text}
           onChangeCb={clearError}
           ref={nameRef}
@@ -91,25 +114,25 @@ export const EditProfileModal = memo(() => {
         <InputWithErrorMessage
           initialValue={userLogin}
           pattern={EPattern.login}
-          placeholder={String(t(`login`))}
-          errorMessage={t('loginError')}
+          placeholder={langConfig.login[lang]}
+          errorMessage={langConfig.loginError[lang]}
           type={EInputTypes.text}
           onChangeCb={clearError}
           ref={loginRef}
         />
         <InputWithErrorMessage
           pattern={EPattern.password}
-          placeholder={String(t(`password`))}
-          errorMessage={t('passwordError')}
+          placeholder={langConfig.password[lang]}
+          errorMessage={langConfig.passwordError[lang]}
           type={EInputTypes.password}
           onChangeCb={clearError}
           ref={passwordRef}
         />
         <Button color="main" onClick={changeUserHandler}>
-          {t(`edit`)}
+          {langConfig.edit[lang]}
         </Button>
-        <Button color="add" onClick={deleteUserHandler}>
-          {t(`deleteUser`)}
+        <Button color="add" onClick={() => setShowConfirmModal(true)}>
+          {langConfig.deleteUser[lang]}
         </Button>
       </div>
     </Modal>

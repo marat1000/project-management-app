@@ -49,6 +49,13 @@ const editBoardSlice = createSlice({
       state.data.title = action.payload;
     },
 
+    clearBoardData: (state) => {
+      state.data.id = null;
+      state.data.users = [];
+      state.data.title = '';
+      state.data.description = '';
+    },
+
     setEditedBoardDescription: (state, action: PayloadAction<string>) => {
       state.data.description = action.payload;
     },
@@ -135,4 +142,5 @@ export const {
   removeEditedBoardUser,
   setEditedBoardTitle,
   setEditedBoardDescription,
+  clearBoardData,
 } = editBoardSlice.actions;

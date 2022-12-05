@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { selectBoardById } from 'store/slices/boards/boardsSelectors';
 import { startEditingBoard } from 'store/slices/editBoard/editBoardThunks';
 import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+import { selectUserId } from 'store/slices/user/userSelectors';
 import { ERoutes } from 'ts/enums';
 import dotsForLight from '../Svg/dots-dark.svg';
 import dotsForDark from '../Svg/dots.svg';
@@ -15,6 +16,7 @@ interface IBoardsItem {
 
 export const BoardsItem = memo<IBoardsItem>(({ id }) => {
   const boardData = useAppSelector(selectBoardById(id));
+  const userId = useAppSelector(selectUserId);
 
   const dispatch = useAppDispatch();
 
@@ -40,11 +42,14 @@ export const BoardsItem = memo<IBoardsItem>(({ id }) => {
         <Link to={`${ERoutes.boards}/${id}`}>
           <h3 className={titleClassName + '__title'}>{title}</h3>
         </Link>
-        <img
-          onClick={editBoard}
-          className={titleClassName + '__edit'}
-          src={isDark ? dotsForDark : dotsForLight}
-        />
+
+        {userId === boardData.owner && (
+          <img
+            onClick={editBoard}
+            className={titleClassName + '__edit'}
+            src={isDark ? dotsForDark : dotsForLight}
+          />
+        )}
       </header>
       <p className={titleClassName + '__description'}>{description}</p>
     </div>

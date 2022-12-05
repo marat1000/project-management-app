@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ISettingsType {
   theme: EThemes | string;
-  lang: ELang | string;
+  lang: ELang;
 }
 
 export enum EThemes {
@@ -11,14 +11,9 @@ export enum EThemes {
 }
 
 export enum ELang {
-  RUS = 'russian',
-  ENG = 'english',
+  RUS = 'ru',
+  ENG = 'eng',
 }
-
-type changeLangAction = {
-  type?: string;
-  payload: ELang;
-};
 
 type changeThemeAction = {
   type?: string;
@@ -27,7 +22,7 @@ type changeThemeAction = {
 
 const initialState: ISettingsType = {
   theme: localStorage.getItem('theme') || EThemes.LIGHT,
-  lang: localStorage.getItem('lang') || ELang.ENG,
+  lang: (localStorage.getItem('lang') as ELang) || ELang.ENG,
 };
 
 const settingsSlice = createSlice({
@@ -40,9 +35,8 @@ const settingsSlice = createSlice({
     toggleTheme: (state) => {
       state.theme = state.theme === EThemes.LIGHT ? EThemes.DARK : EThemes.LIGHT;
       localStorage.setItem('theme', state.theme);
-      console.log(localStorage.getItem('theme'));
     },
-    changeLang: (state, action: changeLangAction) => {
+    changeLang: (state, action: PayloadAction<ELang>) => {
       state.lang = action.payload;
     },
     changeTheme: (state, action: changeThemeAction) => {
