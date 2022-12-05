@@ -2,9 +2,10 @@ import { Button } from 'components/Button/Button';
 import Loader from 'components/Loader/Loader';
 import { Modal } from 'components/Modals/Modal/Modal';
 import { useInputWithCb } from 'hooks/hooks';
+import { langConfig } from 'language/langConfig';
 import React, { memo, SyntheticEvent, useRef, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { EInputTypes, EPattern } from './InputWithErrorMessage';
 
 export interface IEditInput {
@@ -32,6 +33,7 @@ export const EditTitleInput = memo<IEditInput>(
     const [isValid, setIsValid] = useState(true);
     const inputRef = useRef<HTMLInputElement>(null);
     const [isDelete, setIsDelete] = useState(false);
+    const lang = useAppSelector(selectLanguage);
 
     const input = useInputWithCb((e) => {
       onChangeCb && onChangeCb(e);
@@ -58,7 +60,7 @@ export const EditTitleInput = memo<IEditInput>(
     if (isDelete) {
       return (
         <>
-          <Modal close={() => setIsDelete(false)} title={'Delete column?'}>
+          <Modal close={() => setIsDelete(false)} title={langConfig.deleteColumn[lang]}>
             {isLoading ? (
               <Loader />
             ) : (
@@ -66,10 +68,10 @@ export const EditTitleInput = memo<IEditInput>(
                 style={{ display: 'flex', flexDirection: 'column', marginTop: '20px', gap: '15px' }}
               >
                 <Button onClick={deleteHandler} color="add" isLoading={isLoading}>
-                  Delete
+                  {langConfig.delete[lang]}
                 </Button>
                 <Button onClick={() => setIsDelete(false)} isLoading={isLoading}>
-                  Cancel
+                  {langConfig.cancel[lang]}
                 </Button>
               </div>
             )}
