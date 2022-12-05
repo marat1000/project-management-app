@@ -6,7 +6,7 @@ import {
 } from 'components/Input/InputWithErrorMessage';
 import { Modal } from 'components/Modals/Modal/Modal';
 import { langConfig } from 'language/langConfig';
-import React, { useRef, memo } from 'react';
+import React, { useRef, memo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { clearEditProfileError } from 'store/slices/auth/authSlice';
 import { toggleEditProfileModal } from 'store/slices/modals/modalsSlice';
@@ -22,6 +22,7 @@ import { editUser, deleteUser } from 'store/slices/user/userThunks';
 export const EditProfileModal = memo(() => {
   const lang = useAppSelector(selectLanguage);
   const dispatch = useAppDispatch();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const closeModal = () => {
     dispatch(toggleEditProfileModal(false));
   };
@@ -77,6 +78,21 @@ export const EditProfileModal = memo(() => {
     );
   }
 
+  if (showConfirmModal) {
+    return (
+      <Modal close={() => setShowConfirmModal(false)} title={langConfig.deleteConfirm[lang]}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '25px' }}>
+          <Button color="add" onClick={deleteUserHandler}>
+            {langConfig.delete[lang]}
+          </Button>
+          <Button color="main" onClick={() => setShowConfirmModal(false)}>
+            {langConfig.cancel[lang]}
+          </Button>
+        </div>
+      </Modal>
+    );
+  }
+
   return (
     <Modal close={closeModal} title={langConfig.editProfile[lang]}>
       <div className="create-board-container">
@@ -109,7 +125,7 @@ export const EditProfileModal = memo(() => {
         <Button color="main" onClick={changeUserHandler}>
           {langConfig.edit[lang]}
         </Button>
-        <Button color="add" onClick={deleteUserHandler}>
+        <Button color="add" onClick={() => setShowConfirmModal(true)}>
           {langConfig.deleteUser[lang]}
         </Button>
       </div>
