@@ -1,10 +1,14 @@
 .theme-switcher {
     display: flex;
     align-items: center;
-}
-
-.theme-switcher label {
     cursor: pointer;
+
+    @include vp--529 {
+        background-color: #C9C9C9;
+        padding: 10px 12px;
+        padding-right: 24px;
+        border-radius: 8px;
+    }
 }
 
 .theme-switcher__label {
@@ -41,4 +45,6 @@
 
 .theme-switcher svg {
     width: 22px;
+    height: 22px;
+    flex-shrink: 0;
 }

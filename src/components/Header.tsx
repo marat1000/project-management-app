@@ -14,6 +14,7 @@ export const Header = memo(() => {
   const isAuth = useAppSelector(selectAuthorizationFlag);
   const dispatch = useAppDispatch();
   const isDark = useAppSelector(selectIsDark);
+  const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [sticky, setSticky] = useState({ isSticky: false, offset: 0 });
   const headerRef = useRef<HTMLElement>(null);
 
@@ -46,32 +47,50 @@ export const Header = memo(() => {
   }, []);
   let titleName = 'header';
   if (isDark && sticky.isSticky) {
-    titleName = 'header-sticky-dark';
+    titleName = 'header header_sticky header-sticky-dark header-dark';
   } else if (isDark && !sticky.isSticky) {
-    titleName = 'header-dark';
+    titleName = 'header header-dark';
   } else if (!isDark && sticky.isSticky) {
-    titleName = 'header-sticky';
+    titleName = 'header header_sticky';
   }
 
   return (
     <header className={titleName} ref={headerRef}>
       <div className="container">
-        <div className={`header__wrapper`}>
-          <NavLink className={`header__logo logo`} to={ERoutes.welcome}>
+        <div className={`header__wrapper navigation`}>
+          <NavLink
+            onClick={() => setIsNavExpanded(false)}
+            className={`header__logo logo`}
+            to={ERoutes.welcome}
+          >
             <Logo color={isDark ? '#D9D9D9' : '#1C1B1F'} />
             <span>Boardello</span>
           </NavLink>
-          <ErrorBoundary>{isAuth && <Nav />}</ErrorBoundary>
-          <ErrorBoundary>
-            <LangSelect />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <ThemeSwitcher
-              isOn={isDark}
-              handleToggle={() => dispatch(toggleTheme())}
-              onColor="#EF476F"
-            />
-          </ErrorBoundary>
+          <button
+            className={isNavExpanded ? 'hamburger hamburger_expanded' : 'hamburger'}
+            onClick={() => {
+              setIsNavExpanded(!isNavExpanded);
+            }}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div className={isNavExpanded ? 'navigation-menu expanded' : 'navigation-menu'}>
+            <ErrorBoundary>
+              {isAuth && <Nav closeBurger={() => setIsNavExpanded(false)} />}
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <LangSelect />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <ThemeSwitcher
+                isOn={isDark}
+                handleToggle={() => dispatch(toggleTheme())}
+                onColor="#EF476F"
+              />
+            </ErrorBoundary>
+          </div>
         </div>
       </div>
     </header>

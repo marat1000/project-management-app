@@ -1,28 +1,46 @@
 .header {
+  position: relative;
   background-color: $color-default-white;
-  transition: background-color 1s ease;
+  transition: background-color, padding 1s ease;
   box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.15);
   color: $color-default-black;
+  z-index: 50;
 }
 
 .header-dark {
-  background-color: $color-default-white;
-  transition: background-color 1s ease;
-  background-color: #262626;
-  color: #D9D9D9
+  position: relative;
+  transition: background-color, padding 1s ease;
+  background-color: #2f2f2f;
+  color: #D9D9D9;
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.15);
 }
 
 .header_sticky {
   position: sticky;
   top: 0;
+  transition: background-color, padding 1s ease;
   width: 100%;
-  background-color: #C9C9C9;
-  color: inherit;
+  padding: 10px 0;
+  //color: inherit;
   /* animation: smoothScroll 1s forwards; */
 }
 
 .select__control {
   cursor: pointer !important;
+
+  @include vp--529 {
+    background-color: #C9C9C9 !important;
+    padding: 4px 9px !important;
+    border-radius: 8px !important;
+  }
+}
+
+.header-dark .select__single-value {
+  color: inherit;
+}
+
+.header-dark .select__dropdown-indicator svg {
+  fill: #D9D9D9 !important;
 }
 
 .header__wrapper {
@@ -53,6 +71,26 @@
       height: auto;
       fill: inherit;
       // color: inherit;
+    }
+
+    @include vp--799 {
+      margin-left: initial;
+    }
+  }
+
+  @include vp--949 {
+    margin-left: 30px;
+    margin-right: 30px;
+
+    .header__logo {
+      margin-right: 2%;
+    }
+  }
+
+  @include vp--799 {
+    .header__logo {
+      margin-right: auto;
+      margin-left: auto;
     }
   }
 

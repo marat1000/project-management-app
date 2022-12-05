@@ -1,7 +1,11 @@
+import { Button } from 'components/Button/Button';
+import Loader from 'components/Loader/Loader';
+import { Modal } from 'components/Modals/Modal/Modal';
 import { useInputWithCb } from 'hooks/hooks';
+import { langConfig } from 'language/langConfig';
 import React, { memo, SyntheticEvent, useRef, useState } from 'react';
 import { useAppSelector } from 'store/hooks';
-import { selectIsDark } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { EInputTypes, EPattern } from './InputWithErrorMessage';
 
 export interface IEditInput {
@@ -28,6 +32,8 @@ export const EditTitleInput = memo<IEditInput>(
   }) => {
     const [isValid, setIsValid] = useState(true);
     const inputRef = useRef<HTMLInputElement>(null);
+    const [isDelete, setIsDelete] = useState(false);
+    const lang = useAppSelector(selectLanguage);
 
     const input = useInputWithCb((e) => {
       onChangeCb && onChangeCb(e);
@@ -50,6 +56,30 @@ export const EditTitleInput = memo<IEditInput>(
     };
 
     const isDark = useAppSelector(selectIsDark);
+
+    if (isDelete) {
+      return (
+        <>
+          <Modal close={() => setIsDelete(false)} title={langConfig.deleteColumn[lang]}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <div
+                style={{ display: 'flex', flexDirection: 'column', marginTop: '20px', gap: '15px' }}
+              >
+                <Button onClick={deleteHandler} color="add" isLoading={isLoading}>
+                  {langConfig.delete[lang]}
+                </Button>
+                <Button onClick={() => setIsDelete(false)} isLoading={isLoading}>
+                  {langConfig.cancel[lang]}
+                </Button>
+              </div>
+            )}
+          </Modal>
+          <header>{initialValue}</header>
+        </>
+      );
+    }
 
     return (
       <div className="edit-input">
@@ -79,7 +109,7 @@ export const EditTitleInput = memo<IEditInput>(
           )}
         </div>
         {deleteHandler && (
-          <button className="delete" onClick={deleteHandler} disabled={isLoading}>
+          <button className="delete" onClick={() => setIsDelete(true)} disabled={isLoading}>
             <span className="material-symbols-outlined"> delete </span>
           </button>
         )}

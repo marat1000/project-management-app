@@ -17,3 +17,21 @@
     @content;
   }
 }
+
+@mixin vp--949 {
+  @media (max-width: $vp--950 - 1) {
+    @content;
+  }
+}
+
+@mixin vp--799 {
+  @media (max-width: $vp--800 - 1) {
+    @content;
+  }
+}
+
+@mixin vp--529 {
+  @media (max-width: $vp--530 - 1) {
+    @content;
+  }
+}

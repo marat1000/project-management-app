@@ -3,8 +3,10 @@
 }
 
 .footer__wrapper {
-    padding: 0 50px;
-    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
     align-items: center;
     background-color: #fff;
     font-family: 'Audi Type';
@@ -13,29 +15,39 @@
     font-size: 13px;
     transition: background-color 1s ease;
 
-    .footer__info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        line-height: 60px;
-    }
-
     .footer__rss-developers {
         display: flex;
-        width: 440px;
+        width: 45%;
         justify-content: space-between;
     }
 
-    .footer__info a {
+    a {
         display: flex;
         align-items: center;
         color: inherit;
+    }
+
+    @include vp--529 {
+        flex-direction: column;
+
+        .footer__rss {
+            margin-bottom: 25px;
+        }
+
+        .footer__rss-developers {
+            width: 80%;
+            margin-bottom: 25px;
+        }
     }
 }
 
 .footer__wrapper-dark {
     color: #D9D9D9;
     background-color: #262626;
+
+    //svg {
+    //    fill: #D9D9D9;
+    //}
 }
 
 .footer__rss {

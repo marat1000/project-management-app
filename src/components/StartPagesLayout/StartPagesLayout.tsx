@@ -13,9 +13,6 @@ export const StartPagesLayout = memo<IStartPagesLayout>(({ children }) => {
   const isDark = useAppSelector(selectIsDark);
   return (
     <div className="spl__container">
-      <header>
-        <Link to={ERoutes.welcome}>Boardello</Link>
-      </header>
       <SmoothCorners
         corners="22, 16"
         borderRadius="25px"

@@ -11,6 +11,7 @@
     cursor: pointer;
     transition: all 0.25s linear;
     text-transform: none;
+    max-width: 100%;
 
     &_main {
         background-color: $color-main;
