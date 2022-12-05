@@ -2,7 +2,7 @@ import React from 'react';
 import { memo } from 'react';
 import Select, { components, DropdownIndicatorProps, GroupBase } from 'react-select';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { selectLanguage } from 'store/slices/settings/settingsSelectors';
+import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSelectors';
 import { changeLang, ELang } from 'store/slices/settings/settingsSlice';
 import { langConfig } from 'language/langConfig';
 
@@ -22,6 +22,8 @@ type MyOption = { label: string; value: string };
 export const LangSelect = memo(() => {
   const lang = useAppSelector(selectLanguage);
   const dispatch = useAppDispatch();
+
+  const isDark = useAppSelector(selectIsDark);
 
   const options = [
     { value: ELang.ENG, label: langConfig.eng[lang] },
@@ -62,7 +64,7 @@ export const LangSelect = memo(() => {
           fontWeight: 400,
           fontSize: `18px`,
           lineHeight: `22px`,
-          color: `#000000`,
+          color: `${isDark ? '#D9D9D9' : '#000000'}`,
         }),
       }}
     ></Select>
@@ -70,9 +72,10 @@ export const LangSelect = memo(() => {
 });
 
 const TriangleSVG = memo(() => {
+  const isDark = useAppSelector(selectIsDark);
   return (
     <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 4.5L0.833333 0.333333H9.16667L5 4.5Z" fill="#000000" />
+      <path d="M5 4.5L0.833333 0.333333H9.16667L5 4.5Z" fill={isDark ? '#D9D9D9' : '#000000'} />
     </svg>
   );
 });
