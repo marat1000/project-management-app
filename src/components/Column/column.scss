@@ -28,7 +28,7 @@
         backdrop-filter: blur(7.5px);
         border-radius: 15px;
 
-        & header {
+        & > header {
             font-family: 'Audi Type Ext';
             padding-left: 18px;
             font-weight: 700;
@@ -40,7 +40,6 @@
         & > footer {
             display: flex;
             justify-content: space-between;
-            // padding: 0 14px;
             flex-wrap: wrap;
             margin-top: 10px;
             & > button {
@@ -59,41 +58,61 @@
 }
 
 .column-dark {
-    width: 265px;
-    flex-shrink: 0;
-    padding: 10px;
-    padding-top: 16px;
-    color: #D9D9D9;
-    background: rgba(47, 47, 47, 0.9);
-    // border: 1px solid #D9D9D9;
-    backdrop-filter: blur(7.5px);
-    border-radius: 15px;
-
-    & header {
-        font-family: 'Audi Type Ext';
-        padding-left: 18px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 20px;
-        margin-bottom: 10px;
+    &.on-column-over_left {
+        & > .column_container {
+            border-left: 10px solid $color-add;
+        }
+    }
+    &.on-column-over_right{
+        & > .column_container {
+            border-right: 10px solid $color-add;
+        }
     }
 
-    & > footer {
-        display: flex;
-        justify-content: space-between;
-        // padding: 0 14px;
-        flex-wrap: wrap;
-        margin-top: 10px;
-        & > button {
-            margin-left: 14px;
-            background-color: transparent;
-            border: none;
+    &.on-task-over {
+        & > .column_container {
+            background-color: #474747;
+        }
+    }
+
+    .column_container{
+        width: 265px;
+        flex-shrink: 0;
+        padding: 10px;
+        padding-top: 16px;
+        cursor: grab;
+    
+        background: rgba(47, 47, 47, 0.9);
+        border: 1px solid #474747;
+        backdrop-filter: blur(7.5px);
+        border-radius: 15px;
+
+        & header {
             font-family: 'Audi Type Ext';
-            color: inherit;
+            padding-left: 18px;
             font-weight: 700;
             font-size: 16px;
             line-height: 20px;
-            cursor: pointer;
+            margin-bottom: 10px;
+        }
+    
+        & > footer {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            & > button {
+                margin-left: 14px;
+                background-color: transparent;
+                border: none;
+                font-family: 'Audi Type Ext';
+                color: $color-light-text;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 20px;
+                cursor: pointer;
+            }
         }
     }
 }
+
