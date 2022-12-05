@@ -14,22 +14,13 @@ export default class ClientSocket {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  emit(eventName: string, data: any) {
+  emit<T>(eventName: string, data: T) {
     if (this.socket) {
       this.socket.emit(eventName, data);
     }
   }
 
-  onAny() {
-    if (this.socket) {
-      this.socket?.onAny((message, arg) => {
-        console.log('ANY:', message, arg);
-      });
-    }
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  on(eventName: string, func: (data: any) => void) {
+  on<T>(eventName: string, func: (data: T) => void) {
     if (this.socket) {
       this.socket.on(eventName, func);
     }
