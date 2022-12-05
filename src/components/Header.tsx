@@ -58,7 +58,11 @@ export const Header = memo(() => {
     <header className={titleName} ref={headerRef}>
       <div className="container">
         <div className={`header__wrapper navigation`}>
-          <NavLink className={`header__logo logo`} to={ERoutes.welcome}>
+          <NavLink
+            onClick={() => setIsNavExpanded(false)}
+            className={`header__logo logo`}
+            to={ERoutes.welcome}
+          >
             <Logo color={isDark ? '#D9D9D9' : '#1C1B1F'} />
             <span>Boardello</span>
           </NavLink>
@@ -73,7 +77,9 @@ export const Header = memo(() => {
             <span></span>
           </button>
           <div className={isNavExpanded ? 'navigation-menu expanded' : 'navigation-menu'}>
-            <ErrorBoundary>{isAuth && <Nav />}</ErrorBoundary>
+            <ErrorBoundary>
+              {isAuth && <Nav closeBurger={() => setIsNavExpanded(false)} />}
+            </ErrorBoundary>
             <ErrorBoundary>
               <LangSelect />
             </ErrorBoundary>

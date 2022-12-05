@@ -70,6 +70,7 @@ export const LangSelect = memo(() => {
           ...provided,
           color: isDark ? '#FFFFFF' : '#262626',
           backgroundColor: isDark ? '#262626' : '#FFFFFF',
+          cursor: 'pointer',
         }),
         menuList: (baseStyles) => ({
           ...baseStyles,

@@ -10,19 +10,22 @@ import { selectIsDark, selectLanguage } from 'store/slices/settings/settingsSele
 import ErrorBoundary from '../common/ErrorBoundary';
 import { langConfig } from 'language/langConfig';
 
-export const Nav = memo(() => {
+export const Nav = memo(({ closeBurger }: { closeBurger: () => void }) => {
   const dispatch = useAppDispatch();
   const lang = useAppSelector(selectLanguage);
   const isDark = useAppSelector(selectIsDark);
   const openEditProfileModal = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    closeBurger();
     dispatch(toggleEditProfileModal(true));
   };
   const openCreatingBoardModal = () => {
+    closeBurger();
     dispatch(toggleEditBoardModal(true));
   };
   const logout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    closeBurger();
     dispatch(logOut());
   };
 
