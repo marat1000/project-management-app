@@ -22,8 +22,10 @@ export const Header = memo(() => {
   const handleScroll = (elTopOffset: number, elHeight: number) => {
     if (window.scrollY > 0) {
       setSticky({ isSticky: true, offset: elHeight });
+      document.documentElement.style.height = `initial`;
     } else {
       setSticky({ isSticky: false, offset: 0 });
+      document.documentElement.style.height = `100vh`;
     }
   };
 
