@@ -64,7 +64,7 @@
 
 .header-dark {
   @include vp--529 {
-    a,
+    a:not(.logo),
     .select__control,
     .theme-switcher {
       background-color: #262626 !important;
