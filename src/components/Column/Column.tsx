@@ -174,7 +174,7 @@ export const Column = memo(({ id }: { id: EntityId }) => {
             isLoading={isEditPending}
           />
         ) : (
-          <header>{title}</header>
+          <header onClick={() => setIsEditing(true)}>{title}</header>
         )}
 
         <TasksList columnId={columnId} />
