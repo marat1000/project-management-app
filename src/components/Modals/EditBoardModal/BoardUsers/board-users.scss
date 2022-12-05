@@ -1,0 +1,94 @@
+.board-users {
+    &__container{
+        width: 100%;
+        position: relative;
+    }
+
+    &__match-list{
+        position: absolute;
+        width: 100%;
+        background-color: white;
+        margin-top: 5px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: #000;
+        box-shadow: 0px 0px 10px rgba(0,0,0, 0.3);
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 110px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          
+          /* Handle */
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            border: 2px white solid;
+            background-clip: padding-box;
+            background: $color-light-text;
+          }
+          
+          /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: $color-light-text;
+          }
+    }
+
+    &__match-item {
+        font-size: 20px;
+        display: flex;
+        align-items: baseline;
+        cursor: pointer;
+        justify-content: space-between;
+        padding: 5px;
+        border-radius: 10px;
+        line-height: 20px;
+
+        &:hover {
+            background-color: #dddddd;
+        }
+
+        & button {
+            background-color: transparent;
+            border: none;
+        }
+    }
+
+    &__list{
+        display: flex;
+        gap: 10px;
+        padding: 10px 5px;
+        flex-wrap: wrap;
+    }
+
+    &__item{
+        background-color: #dddddd;
+        color: $color-light-text;
+        padding: 5px 5px 5px 10px;
+        display: flex;
+        align-items: center;
+        border-radius: 25px;
+        gap: 10px;
+
+    & button {
+        border-radius: 10px;
+        padding: 0 3px;
+        border: none;
+        background-color: transparent;
+        color: $color-light-text;
+        cursor: pointer;
+        &:hover {
+            background-color: white;
+        }
+    }
+    }
+}

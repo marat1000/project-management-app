@@ -1,0 +1,95 @@
+.board-item{
+    width: 265px;
+    height: 160px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 4px 4px 18px rgba(0, 0, 0, 0.15);
+    transition: background-color 1s ease;
+
+    & header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    &__title{
+        margin: 0;
+        font-family: 'Audi Type Ext';
+        font-size: 18px;
+        line-height: 22px;
+        cursor: pointer;
+        color:#000;
+    }
+
+    &__description{
+        margin: 0;
+        font-family: 'Audi Type';
+        font-size: 12px;
+        line-height: 15px;
+        color: $color-light-text;
+        text-overflow: ellipsis;
+    }
+
+    &__edit {
+        cursor: pointer;
+        padding: 10px 3px 3px 10px;
+    }
+
+    &__plus {
+        line-height: 120px;
+        text-align: center;
+        font-size: 30px;
+        cursor: pointer;
+        // font-weight: bold;
+    }
+}
+
+
+.board-item-dark{
+    width: 265px;
+    height: 160px;
+    background-color: #262626;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 4px 4px 18px rgba(0, 0, 0, 0.15);
+    transition: background-color 1s ease;
+
+    & header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    &__title{
+        margin: 0;
+        font-family: 'Audi Type Ext';
+        font-size: 18px;
+        line-height: 22px;
+        cursor: pointer;
+        color: #D9D9D9;
+    }
+
+    &__description{
+        margin: 0;
+        font-family: 'Audi Type';
+        font-size: 12px;
+        line-height: 15px;
+        color: #D9D9D9;
+        text-overflow: ellipsis;
+    }
+
+    &__edit {
+        cursor: pointer;
+        padding: 10px 3px 3px 10px;
+    }
+
+    &__plus {
+        line-height: 120px;
+        text-align: center;
+        font-size: 30px;
+        cursor: pointer;
+        color: #797979;
+        // font-weight: bold;
+    }
+}

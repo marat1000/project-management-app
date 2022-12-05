@@ -1,0 +1,67 @@
+// Vendor
+//---------------------------------
+
+@import "vendor/normalize";
+
+// Global
+//---------------------------------
+
+@import "variables";
+@import "mixins";
+@import "function";
+@import "global/fonts";
+@import "global/scrollbar";
+@import "global/reboot";
+@import "global/utils";
+@import "global/container";
+
+// Blocks
+//---------------------------------
+
+@import "blocks/header";
+@import "blocks/footer";
+@import "blocks/logo";
+@import "blocks/nav";
+@import "blocks/theme-switcher";
+@import "../components/AuthContainer/auth-container.scss";
+@import "../components/Task/EditingTask/edit-task.scss";
+@import "../components/Column/column.scss";
+@import "../components/StartPagesLayout/start-pages-layout.scss";
+@import "../components/BoardItem/board-item.scss";
+@import "../components/Modals/EditBoardModal/BoardUsers/board-users.scss";
+@import "../components/Modals/Modal/modal.scss";
+@import "../components/Modals/EditBoardModal/edit-board-model.scss";
+@import "../components/Modals/EditProfileModal/edit-profile-modal.scss";
+@import "../components/Task/task.scss";
+@import "blocks/block";
+@import "blocks/error-404";
+
+// используйте это для отключения ховеров на тач устройствах
+// ! но не используйте это для текстовых полей ( input, textarea )
+// также для любых transition обязательно указывайте transition-property
+// transition: color $default-transition-settings, а не transition: $default-transition-settings
+
+/* @media (hover: hover), screen and (min-width: 0\0) {
+  &:hover,
+  &:focus {
+    color: red;
+  }
+} */
+
+// Fonts
+
+@import './fonts.scss';
+
+// UI
+
+@import './UI/button.scss';
+@import './UI/input.scss';
+@import './UI/edit-title-input.scss';
+@import './UI/loader.scss';
+
+
+// Pages
+
+@import '../pages/Welcome/welcome.scss';
+@import '../pages/Board/board.scss';
+@import '../pages/Main/main.scss';

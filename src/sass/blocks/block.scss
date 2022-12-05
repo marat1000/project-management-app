@@ -1,0 +1,15 @@
+.block{
+    &_transparent{
+        background: rgba($color: #fff, $alpha: 0.8);
+        background-color: rgba($color: #fff, $alpha: 0.8);
+        backdrop-filter: blur(10px);
+        transition: all 1s linear;
+    }
+
+    &_transparent-dark{
+        background: rgba($color: #474747, $alpha: 0.85);
+        background-color: rgba($color: #474747, $alpha: 0.85);
+        backdrop-filter: blur(10px);
+        transition: all 1s linear;
+    }
+}

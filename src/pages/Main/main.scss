@@ -1,0 +1,16 @@
+.main{
+    &__container {
+        max-width: 100%;
+    }
+
+    &__list {
+        padding: 70px 20px 20px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        @media screen and (max-width: 500px) {
+            justify-content: center;
+        }
+    }
+}
